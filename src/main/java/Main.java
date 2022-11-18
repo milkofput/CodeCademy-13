@@ -10,6 +10,8 @@
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hi");
+        while(true){
+            System.out.print("hehe");
+        }
     }
 }
