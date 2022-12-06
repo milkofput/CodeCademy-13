@@ -1,4 +1,4 @@
-package com.milko.codecademydemo.logic;
+package codecademy13.logic;
 
 import codecademy13.domain.ContentItem;
 import codecademy13.domain.Person;
