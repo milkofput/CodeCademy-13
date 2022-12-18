@@ -1,1 +1,4 @@
 /target/
+/G13Codecademy/build/
+/G13Codecademy/nbproject/private/
+/oldProject(maven)/target/
