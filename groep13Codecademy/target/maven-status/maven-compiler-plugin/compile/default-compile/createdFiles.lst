@@ -1,0 +1,6 @@
+com\groep13\codecademy\domain\Cursist.class
+com\groep13\codecademy\Main.class
+com\groep13\codecademy\domain\Geslacht.class
+com\groep13\codecademy\database\DB.class
+com\groep13\codecademy\database\CursistDB.class
+com\groep13\codecademy\gui\GUI.class
