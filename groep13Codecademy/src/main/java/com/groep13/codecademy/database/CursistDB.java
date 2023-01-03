@@ -30,7 +30,9 @@ public class CursistDB {
                         rs.getString("Naam"),
                         rs.getDate("GeboorteDatum").toLocalDate(),
                         Geslacht.fromString(rs.getString("Geslacht")),
-                        rs.getString("Adres"),
+                        rs.getString("Straat"),
+                        rs.getString("Huisnummer"),
+                        rs.getString("Postcode"),
                         rs.getString("Woonplaats"),
                         rs.getString("Land")          
                 ));
@@ -42,12 +44,14 @@ public class CursistDB {
     }
     
     public void addCursist(Cursist c) {
-        String addCursist = String.format("INSERT INTO Cursist VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')",
+        String addCursist = String.format("INSERT INTO Cursist VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')",
                 c.getEmailAdres(),
                 c.getNaam(),
                 c.getGeboortedatum().toString(),
                 c.getGeslacht().getGeslachtNaam(),
-                c.getAdres(),
+                c.getStraat(),
+                c.getHuisnr(),
+                c.getPostcode(),
                 c.getWoonplaats(),
                 c.getLand());
         DB.exec(addCursist);
@@ -59,11 +63,13 @@ public class CursistDB {
             + "Naam=\'%s\',"
             + "GeboorteDatum=\'%s\',"
             + "Geslacht=\'%s\',"
-            + "Adres=\'%s\',"
+            + "Straat=\'%s\',"
+            + "Huisnummer=\'%s\',"
+            + "Postcode=\'%s\',"
             + "Woonplaats=\'%s\',"
             + "Land=\'%s\'"              
             + "WHERE ID=%d", newC.getEmailAdres(),newC.getNaam(), newC.getGeboortedatum().toString(),newC.getGeslacht().getGeslachtNaam(),
-            newC.getAdres(),newC.getWoonplaats(),newC.getLand(),oldC.getId());
+            newC.getStraat(),newC.getHuisnr(),newC.getPostcode(),newC.getWoonplaats(),newC.getLand(),oldC.getId());
         DB.exec(updateCursist);
     }
     

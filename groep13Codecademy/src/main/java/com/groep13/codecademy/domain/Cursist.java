@@ -17,17 +17,21 @@ public class Cursist {
     private String naam;
     private LocalDate geboortedatum;
     private Geslacht geslacht;
-    private String adres;
+    private String straat;
+    private String huisnr;
+    private String postcode;
     private String woonplaats;
     private String land;
 
-    public Cursist(int id, String emailAdres, String naam, LocalDate geboortedatum, Geslacht geslacht, String adres, String woonplaats, String land) {
+    public Cursist(int id, String emailAdres, String naam, LocalDate geboortedatum, Geslacht geslacht, String straat, String huisnr, String postcode, String woonplaats, String land) {
         this.id = id;
         this.emailAdres = emailAdres;
         this.naam = naam;
         this.geboortedatum = geboortedatum;
         this.geslacht = geslacht;
-        this.adres = adres;
+        this.straat = straat;
+        this.huisnr = huisnr;
+        this.postcode = postcode;
         this.woonplaats = woonplaats;
         this.land = land;
     }
@@ -52,8 +56,16 @@ public class Cursist {
         return geslacht;
     }
 
-    public String getAdres() {
-        return adres;
+    public String getStraat() {
+        return straat;
+    }
+    
+    public String getHuisnr() {
+        return huisnr;
+    }
+    
+    public String getPostcode() {
+        return postcode;
     }
 
     public String getWoonplaats() {
@@ -64,11 +76,13 @@ public class Cursist {
         return land;
     }
     
-    
+    public String getWoonadres() {
+        return straat + " " + huisnr + " " + postcode + " " + woonplaats + " " + land;
+    }
     
     @Override
     public String toString() {
-        return "Cursist{" + "id=" + id + ", emailAdres=" + emailAdres + ", naam=" + naam + ", geboortedatum=" + geboortedatum + ", geslacht=" + geslacht + ", adres=" + adres + ", woonplaats=" + woonplaats + ", land=" + land + '}';
+        return "Cursist{" + "id=" + id + ", emailAdres=" + emailAdres + ", naam=" + naam + ", geboortedatum=" + geboortedatum + ", geslacht=" + geslacht + ", straat=" + straat + ", huisnr=" + huisnr + ", postcode= " + postcode + ", woonplaats=" + woonplaats + ", land=" + land + '}';
     }
     
     
