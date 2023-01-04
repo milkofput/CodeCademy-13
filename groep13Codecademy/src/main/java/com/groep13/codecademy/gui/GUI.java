@@ -37,6 +37,9 @@ import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
 
 /**
  *
@@ -350,7 +353,16 @@ public class GUI extends Application {
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             Cursus c = (Cursus) cursusTable.getSelectionModel().getSelectedItem();
-            cursusdb.deleteCursus(c);
+            boolean deleted = cursusdb.deleteCursus(c);
+            if (!deleted) {
+                Label deletionFailed = new Label("Deletion aborted, possible FK constraint");
+                Button ok = new Button("OK");
+                cursusButtons.getChildren().addAll(deletionFailed,ok);    
+                ok.setOnAction((event) -> {
+                    cursusButtons.getChildren().removeAll(deletionFailed,ok);
+                });
+            }
+            System.out.println(deleted);
             cursus.clear();
             cursus.addAll(cursusdb.getAllCursussen());
         });

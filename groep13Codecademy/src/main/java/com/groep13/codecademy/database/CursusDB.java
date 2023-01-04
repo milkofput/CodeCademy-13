@@ -50,14 +50,14 @@ public class CursusDB {
             + "CursusNaam=\'%s\',"
             + "Onderwerp=\'%s\',"
             + "IntroductieTekst=\'%s\',"
-            + "NiveauAanduiding=\'%s\',"              
+            + "NiveauAanduiding=\'%s\'"              
             + "WHERE ID=%d", newC.getNaam(),newC.getOnderwerp(), newC.getIntroductietekst(), newC.getNiveauaanduiding(), oldC.getId());
         DB.exec(updateCursus);
     }
     
-    public void deleteCursus(Cursus c) {
+    public boolean deleteCursus(Cursus c) {
         String removeCursus = String.format("DELETE FROM Cursus WHERE ID=%d",c.getId());
-        DB.exec(removeCursus);
+        return DB.exec(removeCursus);
     }
     
     public Cursus getCursusById(int id) {

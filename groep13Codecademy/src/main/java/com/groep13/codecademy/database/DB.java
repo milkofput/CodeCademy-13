@@ -30,15 +30,17 @@ public class DB {
         return null;
     }   
     
-    public static void exec(String SQL) {
+    public static boolean exec(String SQL) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
             stmt = con.createStatement();
-            stmt.execute(SQL);          
+            stmt.execute(SQL); 
+            return true;
         }
         catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     } 
 }
