@@ -17,6 +17,8 @@ import java.util.ArrayList;
  */
 public class CertificaatDB {
     
+    private final InschrijvingDB idb = new InschrijvingDB();
+    
     public ArrayList<Certificaat> getAllCertificaten() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Certificaat");
         ArrayList<Certificaat> allCertificaten = new ArrayList<>();
@@ -27,7 +29,7 @@ public class CertificaatDB {
                         rs.getInt("Cijfer"),
                         rs.getString("NaamMedewerker"),
                         rs.getInt("CertificaatNummer"),
-                        rs.getInt("InschrijvingID")                             
+                        idb.getInschrijvingById(rs.getInt("InschrijvingID"))                             
                 ));
             }
         } catch (SQLException ex) {
@@ -37,23 +39,21 @@ public class CertificaatDB {
     }
     
     public void addCertificaat(Certificaat c) {
-        String addCertificaat = String.format("INSERT INTO Certificaat VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')",
-                c.getId(),
+        String addCertificaat = String.format("INSERT INTO Certificaat VALUES (%d,\'%s\',%d,%d)",
                 c.getCijfer(),
                 c.getMedewerker(),
                 c.getNummer(),
-                c.getInschrijvingID());
+                c.getInschrijving().getId());
         DB.exec(addCertificaat);
     }
     
     public void updateCertificaat(Certificaat oldC, Certificaat newC) {
         String updateCertificaat = String.format("UPDATE Certificaat SET "
-            + "ID\'%s\',"
-            + "Cijfer=\'%s\',"
+            + "Cijfer=%d,"
             + "NaamMedewerker=\'%s\',"
-            + "CertificaatNummer=\'%s\',"  
-            + "InschrijvingID=\'%s\',"     
-            + "WHERE ID=%d", newC.getId(),newC.getCijfer(), newC.getMedewerker(),newC.getNummer(),newC.getInschrijvingID(),oldC.getId());
+            + "CertificaatNummer=%d,"  
+            + "InschrijvingID=%d',"     
+            + "WHERE ID=%d", newC.getCijfer(), newC.getMedewerker(), newC.getNummer(), newC.getInschrijving().getId(), oldC.getId());
         DB.exec(updateCertificaat);
     }
     

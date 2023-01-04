@@ -6,6 +6,7 @@
 package com.groep13.codecademy.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
@@ -82,10 +83,69 @@ public class Cursist {
     
     @Override
     public String toString() {
-        return "Cursist{" + "id=" + id + ", emailAdres=" + emailAdres + ", naam=" + naam + ", geboortedatum=" + geboortedatum + ", geslacht=" + geslacht + ", straat=" + straat + ", huisnr=" + huisnr + ", postcode= " + postcode + ", woonplaats=" + woonplaats + ", land=" + land + '}';
+        return emailAdres;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.emailAdres);
+        hash = 37 * hash + Objects.hashCode(this.naam);
+        hash = 37 * hash + Objects.hashCode(this.geboortedatum);
+        hash = 37 * hash + Objects.hashCode(this.geslacht);
+        hash = 37 * hash + Objects.hashCode(this.straat);
+        hash = 37 * hash + Objects.hashCode(this.huisnr);
+        hash = 37 * hash + Objects.hashCode(this.postcode);
+        hash = 37 * hash + Objects.hashCode(this.woonplaats);
+        hash = 37 * hash + Objects.hashCode(this.land);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cursist other = (Cursist) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.emailAdres, other.emailAdres)) {
+            return false;
+        }
+        if (!Objects.equals(this.naam, other.naam)) {
+            return false;
+        }
+        if (!Objects.equals(this.straat, other.straat)) {
+            return false;
+        }
+        if (!Objects.equals(this.huisnr, other.huisnr)) {
+            return false;
+        }
+        if (!Objects.equals(this.postcode, other.postcode)) {
+            return false;
+        }
+        if (!Objects.equals(this.woonplaats, other.woonplaats)) {
+            return false;
+        }
+        if (!Objects.equals(this.land, other.land)) {
+            return false;
+        }
+        if (!Objects.equals(this.geboortedatum, other.geboortedatum)) {
+            return false;
+        }
+        if (this.geslacht != other.geslacht) {
+            return false;
+        }
+        return true;
+    }
     
     
 }

@@ -15,14 +15,14 @@ public class Certificaat {
     private int cijfer;
     private String medewerker;
     private int nummer;
-    private int inschrijvingID;
+    private Inschrijving inschrijving;
 
-    public Certificaat(int id, int cijfer, String medewerker, int nummer, int inschrijvingID) {
+    public Certificaat(int id, int cijfer, String medewerker, int nummer, Inschrijving inschrijving) {
         this.id = id;
         this.cijfer = cijfer;
         this.medewerker = medewerker;
         this.nummer = nummer;
-        this.inschrijvingID = inschrijvingID;
+        this.inschrijving = inschrijving;
     }
 
     public int getId() {
@@ -41,8 +41,8 @@ public class Certificaat {
         return nummer;
     }
 
-    public int getInschrijvingID() {
-        return inschrijvingID;
+    public Inschrijving getInschrijving() {
+        return inschrijving;
     }
     
     

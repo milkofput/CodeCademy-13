@@ -77,5 +77,28 @@ public class CursistDB {
         String removeCursist = String.format("DELETE FROM Cursist WHERE ID=%d",c.getId());
         DB.exec(removeCursist);
     }
+    
+    public Cursist getCursistById(int id) {
+        String SQL = String.format("SELECT * FROM Cursist WHERE id = %d", id);
+        ResultSet rs = DB.execWithRS(SQL);
+        try {
+            while (rs.next()) {
+                return new Cursist(
+                        rs.getInt("ID"),
+                        rs.getString("EmailAdres"),
+                        rs.getString("Naam"),
+                        rs.getDate("GeboorteDatum").toLocalDate(),
+                        Geslacht.fromString(rs.getString("Geslacht")),
+                        rs.getString("Straat"),
+                        rs.getString("Huisnummer"),
+                        rs.getString("Postcode"),
+                        rs.getString("Woonplaats"),
+                        rs.getString("Land")          
+                );
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
+    }
 }
 

@@ -543,10 +543,10 @@ public class GUI extends Application {
         TableColumn cursistColumn = new TableColumn("CursistID");
         TableColumn datumColumn = new TableColumn("Datum");
         TableColumn voortgangColumn = new TableColumn("Voortgang");
-        cursusColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("CursusID"));
-        cursistColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("CursistID"));
-        datumColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("Datum")); 
-        voortgangColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("Voortgang"));
+        cursusColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursus"));
+        cursistColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursist"));
+        datumColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Datum")); 
+        voortgangColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Voortgang"));
         
         inschrijvingTable.setItems(inschrijving);
         inschrijvingTable.getColumns().addAll(cursusColumn, cursistColumn, datumColumn, voortgangColumn);
@@ -564,7 +564,9 @@ public class GUI extends Application {
         ComboBox cursusField = new ComboBox();
         cursusField.setItems(cursus);
         
-        TextField cursistField = new TextField("CursistID");
+        ComboBox cursistField = new ComboBox();
+        cursistField.setItems(cursist);
+        
         TextField jaarField = new TextField("Jaar");
         TextField maandField = new TextField("Maand");
         TextField dagField = new TextField("Dag");
@@ -575,9 +577,8 @@ public class GUI extends Application {
             Inschrijving newC = new Inschrijving(
                 0,
                 //Integer.parseInt(cursusField.getText()),
-                cursusField.getSelectedItem() ,
-                
-                Integer.parseInt(cursistField.getText()),
+                (Cursus) cursusField.getValue(),
+                (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
                 Integer.parseInt(voortgangField.getText())
             );
@@ -608,7 +609,9 @@ public class GUI extends Application {
         ComboBox cursusField = new ComboBox();
         cursusField.setItems(cursus);
         
-        TextField cursistField = new TextField(String.valueOf(c.getCursistID()));
+        ComboBox cursistField = new ComboBox();
+        cursistField.setItems(cursist);
+        
         TextField jaarField = new TextField(String.valueOf(c.getDatum().getYear()));
         TextField maandField = new TextField(String.valueOf(c.getDatum().getMonthValue()));
         TextField dagField = new TextField(String.valueOf(c.getDatum().getDayOfMonth()));
@@ -620,8 +623,8 @@ public class GUI extends Application {
             Inschrijving newC = new Inschrijving(
                 0,
                 //Integer.parseInt(cursusField.getText()),
-                cursusField,
-                Integer.parseInt(cursistField.getText()),
+                (Cursus) cursusField.getValue(),
+                (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
                 Integer.parseInt(voortgangField.getText())
             );
@@ -731,7 +734,8 @@ public class GUI extends Application {
         TextField cijferField = new TextField("Cijfer");
         TextField medewerkerField = new TextField("NaamMedewerker");
         TextField certificaatField = new TextField("CertificaatNummer");
-        TextField inschrijvingField = new TextField("InschrijvingID");
+        ComboBox inschrijvingField = new ComboBox();
+        inschrijvingField.setItems(inschrijving);
         Button create = new Button("Create");
 
         create.setOnAction((e) -> {
@@ -740,7 +744,7 @@ public class GUI extends Application {
                 Integer.parseInt(cijferField.getText()),
                 medewerkerField.getText(),
                 Integer.parseInt(certificaatField.getText()),
-                Integer.parseInt(inschrijvingField.getText())
+                (Inschrijving) inschrijvingField.getValue()
             );
             cerdb.addCertificaat(newC);
             certificaat.clear();
@@ -767,7 +771,8 @@ public class GUI extends Application {
         TextField cijferField = new TextField(String.valueOf(c.getCijfer()));
         TextField medewerkerField = new TextField(c.getMedewerker());
         TextField certificaatField = new TextField(String.valueOf(c.getNummer()));
-        TextField inschrijvingField = new TextField(String.valueOf(c.getInschrijvingID()));
+        ComboBox inschrijvingField = new ComboBox();
+        inschrijvingField.setItems(inschrijving);
         Button update = new Button("Update");
        
         
@@ -777,7 +782,7 @@ public class GUI extends Application {
                 Integer.parseInt(cijferField.getText()),
                 medewerkerField.getText(),
                 Integer.parseInt(certificaatField.getText()),
-                Integer.parseInt(inschrijvingField.getText())
+                (Inschrijving) inschrijvingField.getValue()
             );
             cerdb.updateCertificaat(c, newC);
             certificaat.clear();

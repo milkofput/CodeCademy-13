@@ -59,4 +59,23 @@ public class CursusDB {
         String removeCursus = String.format("DELETE FROM Cursus WHERE ID=%d",c.getId());
         DB.exec(removeCursus);
     }
+    
+    public Cursus getCursusById(int id) {
+        String SQL = String.format("SELECT * FROM Cursus WHERE id = %d", id);
+        ResultSet rs = DB.execWithRS(SQL);
+        try {
+            while (rs.next()) {
+                return new Cursus(
+                        rs.getInt("ID"),
+                        rs.getString("CursusNaam"),
+                        rs.getString("Onderwerp"),
+                        rs.getString("IntroductieTekst"),
+                        rs.getString("NiveauAanduiding")      
+                );
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
+    }
+    
 }
