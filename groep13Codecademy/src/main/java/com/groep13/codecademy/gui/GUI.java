@@ -151,6 +151,9 @@ public class GUI extends Application {
         //initCursistTable();
         layout.getChildren().add(cursistTable);
         HBox cursistButtons = new HBox();
+        
+        //Error label
+        Label errorLabel = new Label("");
                
         //Create
         Button create = new Button("Create");
@@ -166,7 +169,12 @@ public class GUI extends Application {
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             Cursist c = (Cursist) cursistTable.getSelectionModel().getSelectedItem();
-            cdb.deleteCursist(c);
+            boolean deleted = cdb.deleteCursist(c);
+            if (!deleted) {
+                errorLabel.setText("Deletion failed, possible FK constraint");
+            }   else    {
+                errorLabel.setText("");
+            }
             cursist.clear();
             cursist.addAll(cdb.getAllCursisten());
         });
@@ -338,6 +346,9 @@ public class GUI extends Application {
         
         layout.getChildren().add(cursusTable);
         HBox cursusButtons = new HBox();
+        
+        //Error label
+        Label errorLabel = new Label("");
                
         //Create
         Button create = new Button("Create");
@@ -355,12 +366,9 @@ public class GUI extends Application {
             Cursus c = (Cursus) cursusTable.getSelectionModel().getSelectedItem();
             boolean deleted = cursusdb.deleteCursus(c);
             if (!deleted) {
-                Label deletionFailed = new Label("Deletion aborted, possible FK constraint");
-                Button ok = new Button("OK");
-                cursusButtons.getChildren().addAll(deletionFailed,ok);    
-                ok.setOnAction((event) -> {
-                    cursusButtons.getChildren().removeAll(deletionFailed,ok);
-                });
+                errorLabel.setText("Deletion failed, possible FK constraint");
+            }   else    {
+                errorLabel.setText("");
             }
             System.out.println(deleted);
             cursus.clear();
@@ -383,7 +391,7 @@ public class GUI extends Application {
         returnButton.setOnAction((e) -> {
             window.hide();
         });
-        cursusButtons.getChildren().add(returnButton);           
+        cursusButtons.getChildren().addAll(returnButton,errorLabel);           
               
         //Buttons 
         layout.setSpacing(5);
@@ -499,6 +507,9 @@ public class GUI extends Application {
         
         layout.getChildren().add(inschrijvingTable);
         HBox buttons = new HBox();
+        
+        //Error label
+        Label errorLabel = new Label("");
                
         //Create
         Button create = new Button("Create");
@@ -514,7 +525,12 @@ public class GUI extends Application {
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             Inschrijving c = (Inschrijving) inschrijvingTable.getSelectionModel().getSelectedItem();
-            idb.deleteInschrijving(c);
+            boolean deleted = idb.deleteInschrijving(c);
+            if (!deleted) {
+                errorLabel.setText("Deletion failed, possible FK constraint");
+            }   else    {
+                errorLabel.setText("");
+            }
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
         });
@@ -670,6 +686,9 @@ public class GUI extends Application {
         
         layout.getChildren().add(certificaatTable);
         HBox buttons = new HBox();
+        
+        //Error label
+        Label errorLabel = new Label("");
                
         //Create
         Button create = new Button("Create");
@@ -685,7 +704,12 @@ public class GUI extends Application {
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             Certificaat c = (Certificaat) certificaatTable.getSelectionModel().getSelectedItem();
-            cerdb.deleteCertificaat(c);
+            boolean deleted = cerdb.deleteCertificaat(c);
+            if (!deleted) {
+                errorLabel.setText("Deletion failed, possible FK constraint");
+            }   else    {
+                errorLabel.setText("");
+            }
             certificaat.clear();
             certificaat.addAll(cerdb.getAllCertificaten());
         });

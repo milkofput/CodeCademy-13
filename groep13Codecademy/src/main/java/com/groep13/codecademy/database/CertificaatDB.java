@@ -57,8 +57,8 @@ public class CertificaatDB {
         DB.exec(updateCertificaat);
     }
     
-    public void deleteCertificaat(Certificaat c) {
+    public boolean deleteCertificaat(Certificaat c) {
         String removeCertificaat = String.format("DELETE FROM Certificaat WHERE ID=%d",c.getId());
-        DB.exec(removeCertificaat);
+        return DB.exec(removeCertificaat);
     }
 }

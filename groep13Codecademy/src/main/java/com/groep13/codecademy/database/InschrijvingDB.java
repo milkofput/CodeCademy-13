@@ -59,9 +59,9 @@ public class InschrijvingDB {
         DB.exec(updateInschrijving);
     }
     
-    public void deleteInschrijving(Inschrijving i) {
+    public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
-        DB.exec(removeInschrijving);
+        return DB.exec(removeInschrijving);
     }
     
     public Inschrijving getInschrijvingById(int id) {

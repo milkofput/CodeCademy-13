@@ -36,23 +36,23 @@ public class CursusDB {
         return allCursussen;
     }
     
-    public void addCursus(Cursus c) {
+    public boolean addCursus(Cursus c) {
         String addCursus = String.format("INSERT INTO Cursus VALUES (\'%s\',\'%s\',\'%s\',\'%s\')",
                 c.getNaam(),
                 c.getOnderwerp(),
                 c.getIntroductietekst(),
                 c.getNiveauaanduiding());
-        DB.exec(addCursus);
+        return DB.exec(addCursus);
     }
     
-    public void updateCursus(Cursus oldC, Cursus newC) {
+    public boolean updateCursus(Cursus oldC, Cursus newC) {
         String updateCursus = String.format("UPDATE Cursus SET "
             + "CursusNaam=\'%s\',"
             + "Onderwerp=\'%s\',"
             + "IntroductieTekst=\'%s\',"
             + "NiveauAanduiding=\'%s\'"              
             + "WHERE ID=%d", newC.getNaam(),newC.getOnderwerp(), newC.getIntroductietekst(), newC.getNiveauaanduiding(), oldC.getId());
-        DB.exec(updateCursus);
+        return DB.exec(updateCursus);
     }
     
     public boolean deleteCursus(Cursus c) {

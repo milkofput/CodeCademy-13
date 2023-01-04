@@ -73,9 +73,9 @@ public class CursistDB {
         DB.exec(updateCursist);
     }
     
-    public void deleteCursist(Cursist c) {
+    public boolean deleteCursist(Cursist c) {
         String removeCursist = String.format("DELETE FROM Cursist WHERE ID=%d",c.getId());
-        DB.exec(removeCursist);
+        return DB.exec(removeCursist);
     }
     
     public Cursist getCursistById(int id) {
