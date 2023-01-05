@@ -5,12 +5,13 @@
  */
 package com.groep13.codecademy.domain;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author nikki
  */
-public class Module {
-    private int id;
+public class Module extends ContentItem {
     private String titel;
     private int versie;
     private String beschrijving;
@@ -20,9 +21,8 @@ public class Module {
     private int cursusid;
     private int contentitemid;
 
-    public Module(int id, String titel, int versie, String beschrijving, String naamcontactpersoon, 
-            String emailcontactpersoon, int volgnummer, int cursusid, int contentitemid) {
-        this.id = id;
+    public Module(int id, int nummer, LocalDate publicatiedatum, String status, String titel, int versie, String beschrijving, String naamcontactpersoon, String emailcontactpersoon, int volgnummer, int cursusid) {
+        super(id, nummer, publicatiedatum, status);
         this.titel = titel;
         this.versie = versie;
         this.beschrijving = beschrijving;
@@ -30,11 +30,6 @@ public class Module {
         this.emailcontactpersoon = emailcontactpersoon;
         this.volgnummer = volgnummer;
         this.cursusid = cursusid;
-        this.contentitemid = contentitemid;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getTitel() {

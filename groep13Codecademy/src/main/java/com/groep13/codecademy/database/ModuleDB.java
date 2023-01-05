@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package com.groep13.codecademy.database;
+import com.groep13.codecademy.database.ContentItemDB;
+import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Module;
 
 import java.sql.ResultSet;
@@ -15,22 +17,29 @@ import java.util.ArrayList;
  * @author nikki
  */
 public class ModuleDB {
-    
+
+    private final ContentItemDB cdb = new ContentItemDB();
     public ArrayList<Module> getAllModules() {
-        ResultSet rs = DB.execWithRS("SELECT * FROM Module");
+        ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
+                " PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
+                " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
+                " FROM Module JOIN ContentItem\n" +
+                "ON Module.ContentItemID = ContentItem.ID");
         ArrayList<Module> allModules = new ArrayList<>();
         try {
             while (rs.next()) {
                 allModules.add(new Module(
                         rs.getInt("ID"),
+                        rs.getInt("ContentItemNummer"),
+                        rs.getDate("PublicatieDatum").toLocalDate(),
+                        rs.getString("Status"),
                         rs.getString("Titel"),
                         rs.getInt("Versie"),
                         rs.getString("Beschrijving"),
                         rs.getString("NaamContactpersoon"),
                         rs.getString("EmailContactpersoon"),
                         rs.getInt("Volgnummer"),
-                        rs.getInt("CursusID"),
-                        rs.getInt("ContentItemID")          
+                        rs.getInt("CursusID")
                 ));
             }
         } catch (SQLException ex) {
@@ -39,16 +48,17 @@ public class ModuleDB {
         return allModules;
     }
     
-    public void addModule(Module c) {
+    public void addModule(Module m) {
+        int id = cdb.addContentItemAndReturnId(m);
         String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
-                c.getTitel(),
-                c.getVersie(),
-                c.getBeschrijving(),
-                c.getNaamcontactpersoon(),
-                c.getEmailcontactpersoon(),
-                c.getVolgnummer(),
-                c.getCursusid(),
-                c.getContentitemid()
+                m.getTitel(),
+                m.getVersie(),
+                m.getBeschrijving(),
+                m.getNaamcontactpersoon(),
+                m.getEmailcontactpersoon(),
+                m.getVolgnummer(),
+                m.getCursusid(),
+                id
                 );
         DB.exec(addModule);
     }

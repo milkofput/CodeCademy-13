@@ -11,12 +11,13 @@ import java.time.LocalDate;
  *
  * @author nikki
  */
-public class ContentItem {
+public abstract class ContentItem {
     
     private int id;
     private int nummer;
     private LocalDate publicatiedatum;
     private String status; // concept, actief, gearchiveerd
+    //TODO: enum
 
     public ContentItem(int id, int nummer, LocalDate publicatiedatum, String status) {
         this.id = id;

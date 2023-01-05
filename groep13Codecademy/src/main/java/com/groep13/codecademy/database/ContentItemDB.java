@@ -6,6 +6,8 @@
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.ContentItem;
+import com.groep13.codecademy.domain.Module;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,29 +18,28 @@ import java.util.ArrayList;
  */
 public class ContentItemDB {
     public ArrayList<ContentItem> getAllContentItems() {
-        ResultSet rs = DB.execWithRS("SELECT * FROM ContentItem");
-        ArrayList<ContentItem> allContentItems = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                allContentItems.add(new ContentItem(
-                        rs.getInt("ID"),
-                        rs.getInt("ContentItemNummer"),
-                        rs.getDate("PublicatieDatum").toLocalDate(),
-                        rs.getString("Status")   
-                ));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return allContentItems;
+        //GET ALL MODULES AND WEBCASTS
+        return null;
     }
     
-    public void addContentItem(ContentItem c) {
+    public int addContentItemAndReturnId(ContentItem c) {
         String addContentItem = String.format("INSERT INTO ContentItem VALUES (%d,\'%s\',\'%s\')",
                 c.getNummer(),
                 c.getPublicatiedatum().toString(),
                 c.getStatus()               
                 );
         DB.exec(addContentItem);
+        String getId = String.format("SELECT ID FROM ContentItem WHERE ContentItemNummer = %d",
+                c.getNummer()
+        );
+        ResultSet rs = DB.execWithRS(getId);
+        try {
+            while (rs.next()) {
+                return rs.getInt("ID");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return -1;
     }
 }
