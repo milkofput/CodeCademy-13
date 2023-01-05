@@ -22,24 +22,24 @@ public class ContentItemDB {
         return null;
     }
     
-    public int addContentItemAndReturnId(ContentItem c) {
-        String addContentItem = String.format("INSERT INTO ContentItem VALUES (%d,\'%s\',\'%s\')",
-                c.getNummer(),
-                c.getPublicatiedatum().toString(),
-                c.getStatus()               
-                );
-        DB.exec(addContentItem);
-        String getId = String.format("SELECT ID FROM ContentItem WHERE ContentItemNummer = %d",
-                c.getNummer()
-        );
-        ResultSet rs = DB.execWithRS(getId);
-        try {
-            while (rs.next()) {
-                return rs.getInt("ID");
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return -1;
-    }
+//    public int addContentItemAndReturnId(ContentItem c) {
+//        String addContentItem = String.format("INSERT INTO ContentItem VALUES (%d,\'%s\',\'%s\')",
+//                c.getNummer(),
+//                c.getPublicatiedatum().toString(),
+//                c.getStatus()
+//                );
+//        DB.exec(addContentItem);
+//        String getId = String.format("SELECT ID FROM ContentItem WHERE ContentItemNummer = %d",
+//                c.getNummer()
+//        );
+//        ResultSet rs = DB.execWithRS(getId);
+//        try {
+//            while (rs.next()) {
+//                return rs.getInt("ID");
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        return -1;
+//    }
 }

@@ -29,7 +29,7 @@ public class Main {
     public static void main(String[] args) {
         
         //addContentItems();
-        addModules();
+        //addModules();
         
         //addWebcasts();
         
@@ -71,25 +71,25 @@ public class Main {
 //        cidb.addContentItem(webcJavaGUIs);
     }
     
-    public static void addModules(){
-
-        Module javaBasis = new Module(
-            0,
-            1,
-            LocalDate.of(2023,05,01),
-            "Actief",
-            "javaBasis",
-            1,
-            "Introduction to JAVA",
-            "Henk van der Linden",
-            "h.vanderlinden@codecademy.com",
-            1,
-            1
-        );
-
-        mdb.addModule(javaBasis);
-
-    }
+//    public static void addModules(){
+//
+//        Module javaBasis = new Module(
+//            0,
+//            1,
+//            LocalDate.of(2023,05,01),
+//            "Actief",
+//            "javaBasis",
+//            1,
+//            "Introduction to JAVA",
+//            "Henk van der Linden",
+//            "h.vanderlinden@codecademy.com",
+//            1,
+//            1
+//        );
+//
+//        mdb.addModule(javaBasis);
+//
+//    }
     
     public void addWebcasts(){
         // to do

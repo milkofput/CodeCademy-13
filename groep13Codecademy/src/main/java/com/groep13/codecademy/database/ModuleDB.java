@@ -11,6 +11,7 @@ import com.groep13.codecademy.domain.Module;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,20 +48,28 @@ public class ModuleDB {
         }
         return allModules;
     }
-    
-    public void addModule(Module m) {
-        int id = cdb.addContentItemAndReturnId(m);
-        String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
-                m.getTitel(),
-                m.getVersie(),
-                m.getBeschrijving(),
-                m.getNaamcontactpersoon(),
-                m.getEmailcontactpersoon(),
-                m.getVolgnummer(),
-                m.getCursusid(),
-                id
-                );
-        DB.exec(addModule);
+
+    public ArrayList<Module> getAllModulesWithoutCursus() {
+        ArrayList<Module> allModules = getAllModules()
+                .stream()
+                .filter(m -> m.getCursusid() == 0)
+                .collect(Collectors.toCollection(ArrayList::new));
+        return allModules;
     }
+    
+//    public void addModule(Module m) {
+//        int id = cdb.addContentItemAndReturnId(m);
+//        String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
+//                m.getTitel(),
+//                m.getVersie(),
+//                m.getBeschrijving(),
+//                m.getNaamcontactpersoon(),
+//                m.getEmailcontactpersoon(),
+//                m.getVolgnummer(),
+//                m.getCursusid(),
+//                id
+//                );
+//        DB.exec(addModule);
+//    }
 
 }
