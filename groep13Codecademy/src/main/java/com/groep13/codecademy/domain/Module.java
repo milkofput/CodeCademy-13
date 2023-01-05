@@ -12,15 +12,16 @@ package com.groep13.codecademy.domain;
 public class Module {
     private int id;
     private String titel;
-    private String versie;
+    private int versie;
     private String beschrijving;
     private String naamcontactpersoon;
     private String emailcontactpersoon;
-    private String volgnummer;
-    private String cursusid;
-    private String contentitemid;
+    private int volgnummer;
+    private int cursusid;
+    private int contentitemid;
 
-    public Module(int id, String titel, String versie, String beschrijving, String naamcontactpersoon, String emailcontactpersoon, String volgnummer, String cursusid, String contentitemid) {
+    public Module(int id, String titel, int versie, String beschrijving, String naamcontactpersoon, 
+            String emailcontactpersoon, int volgnummer, int cursusid, int contentitemid) {
         this.id = id;
         this.titel = titel;
         this.versie = versie;
@@ -40,7 +41,7 @@ public class Module {
         return titel;
     }
 
-    public String getVersie() {
+    public int getVersie() {
         return versie;
     }
 
@@ -56,15 +57,15 @@ public class Module {
         return emailcontactpersoon;
     }
 
-    public String getVolgnummer() {
+    public int getVolgnummer() {
         return volgnummer;
     }
 
-    public String getCursusid() {
+    public int getCursusid() {
         return cursusid;
     }
 
-    public String getContentitemid() {
+    public int getContentitemid() {
         return contentitemid;
     }
  

@@ -1,5 +1,6 @@
 com\groep13\codecademy\Main.class
 com\groep13\codecademy\domain\Module.class
+com\groep13\codecademy\database\ContentItemDB.class
 com\groep13\codecademy\database\DB.class
 com\groep13\codecademy\domain\Cursist.class
 com\groep13\codecademy\domain\Cursus.class
@@ -8,6 +9,8 @@ com\groep13\codecademy\database\CertificaatDB.class
 com\groep13\codecademy\database\InschrijvingDB.class
 com\groep13\codecademy\domain\Geslacht.class
 com\groep13\codecademy\database\CursusDB.class
+com\groep13\codecademy\database\ModuleDB.class
 com\groep13\codecademy\gui\GUI.class
+com\groep13\codecademy\domain\ContentItem.class
 com\groep13\codecademy\domain\Certificaat.class
 com\groep13\codecademy\database\CursistDB.class
