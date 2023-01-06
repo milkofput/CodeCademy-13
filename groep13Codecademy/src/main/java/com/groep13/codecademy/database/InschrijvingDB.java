@@ -40,6 +40,7 @@ public class InschrijvingDB {
         return allInschrijvingen;
     }
     
+    //Zorg dat alle modules in bekijkt toegevoegd zijn!
     public void addInschrijving(Inschrijving c) {
         String addInschrijving = String.format("INSERT INTO Inschrijving VALUES (%d,%d,\'%s\',%d)",
                 c.getCursus().getId(),
@@ -49,6 +50,7 @@ public class InschrijvingDB {
         DB.exec(addInschrijving);
     }
     
+    //Zorg dat modules in bekijkt ook geupdate worden! (ON UPDATE CASCADE?)
     public void updateInschrijving(Inschrijving oldI, Inschrijving newI) {
         String updateInschrijving = String.format("UPDATE Inschrijving SET "
             + "CursusID=%d,"
@@ -59,6 +61,7 @@ public class InschrijvingDB {
         DB.exec(updateInschrijving);
     }
     
+    //Zorg dat alle modules in bekijkt ook verwijderd worden!
     public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
         return DB.exec(removeInschrijving);
