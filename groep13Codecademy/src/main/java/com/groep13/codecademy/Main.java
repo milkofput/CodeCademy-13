@@ -7,13 +7,9 @@ package com.groep13.codecademy;
 
 import com.groep13.codecademy.database.ContentItemDB;
 import com.groep13.codecademy.database.ModuleDB;
-import com.groep13.codecademy.domain.ContentItem;
-import com.groep13.codecademy.domain.Module;
+import com.groep13.codecademy.database.StatistiekDB;
 import com.groep13.codecademy.gui.GUI;
-import java.time.LocalDate;
-import java.time.Month;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 
 /**
  *
@@ -32,6 +28,9 @@ public class Main {
         //addModules();
         
         //addWebcasts();
+        
+        StatistiekDB sdb = new StatistiekDB();
+        System.out.println(sdb.aanbevolenCursussenBijCursus(1));
         
         Application.launch(GUI.class);
     }

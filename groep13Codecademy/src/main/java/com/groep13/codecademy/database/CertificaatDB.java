@@ -61,4 +61,22 @@ public class CertificaatDB {
         String removeCertificaat = String.format("DELETE FROM Certificaat WHERE ID=%d",c.getId());
         return DB.exec(removeCertificaat);
     }
+    
+    public Certificaat getCertificaatByID(int cid) {
+        ResultSet rs = DB.execWithRS(String.format("SELECT * FROM Certificaat WHERE ID=%d", cid));
+        try {
+            while (rs.next()) {
+                return (new Certificaat(
+                        rs.getInt("ID"),
+                        rs.getInt("Cijfer"),
+                        rs.getString("NaamMedewerker"),
+                        rs.getInt("CertificaatNummer"),
+                        idb.getInschrijvingById(rs.getInt("InschrijvingID"))                             
+                ));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
 }
