@@ -7,6 +7,8 @@ package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Inschrijving;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,19 @@ import java.util.ArrayList;
 public class BekijktDB {
     
     private final CursusDB cursusdb = new CursusDB();
+    
+    public double getContentItemProgress(int contentItemId, int cursistId) {
+        ResultSet rs = DB.execWithRS(String.format("SELECT Voortgang\n" +
+            "FROM Bekijkt\n" +
+            "WHERE ContentItemID = %d AND CursistID = %d;", contentItemId, cursistId));
+        try {
+            while (rs.next()) {
+                return rs.getDouble("Voortgang");
+            }
+        } catch (SQLException ex) {
+        }
+        return 0.0;
+    }
     
     public void generateBekijktForInschrijving(Inschrijving i) {
         ArrayList<Module> modules = cursusdb.getCursusModulesByCursusId(i.getCursus().getId());
