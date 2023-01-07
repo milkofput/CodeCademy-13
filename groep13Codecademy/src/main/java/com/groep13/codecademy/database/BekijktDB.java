@@ -32,35 +32,35 @@ public class BekijktDB {
         return 0.0;
     }
     
-    public void generateBekijktForInschrijving(Inschrijving i) {
-        ArrayList<Module> modules = cursusdb.getCursusModulesByCursusId(i.getCursus().getId());
-        
-        for (Module module:modules) {
-            String addBekijkt = String.format("INSERT INTO Bekijkt (Datum, Voortgang, CursistId, ContentItemId) VALUES (\'%s\',%d,%d,%d)",
-                    i.getDatum(),
-                    0,
-                    i.getCursist().getId(),
-                    module.getId()
-                    );
-            System.out.println(module.getId());
-            DB.exec(addBekijkt); 
-        }
-    }
+//    public void generateBekijktForInschrijving(Inschrijving i) {
+//        ArrayList<Module> modules = cursusdb.getCursusModulesByCursusId(i.getCursus().getId());
+//        
+//        for (Module module:modules) {
+//            String addBekijkt = String.format("INSERT INTO Bekijkt (Datum, Voortgang, CursistId, ContentItemId) VALUES (\'%s\',%d,%d,%d)",
+//                    i.getDatum(),
+//                    0,
+//                    i.getCursist().getId(),
+//                    module.getId()
+//                    );
+//            System.out.println(module.getId());
+//            DB.exec(addBekijkt); 
+//        }
+//    }
     
-    public void deleteBekijktForInschrijving(Inschrijving i) {
-        ArrayList<Module> modules = cursusdb.getCursusModulesByCursusId(i.getCursus().getId());
-        
-        for (Module module:modules) {
-            String addBekijkt = String.format("DELETE FROM Bekijkt\n" +
-                    "WHERE Datum = '%s' AND\n" +
-                    "CursistID = %d AND\n" +
-                    "ContentItemID = %d;",
-                    i.getDatum(),
-                    i.getCursist().getId(),
-                    module.getId()
-                    );
-            System.out.println(module.getId());
-            DB.exec(addBekijkt); 
-        }
-    }
+//    public void deleteBekijktForInschrijving(Inschrijving i) {
+//        ArrayList<Module> modules = cursusdb.getCursusModulesByCursusId(i.getCursus().getId());
+//        
+//        for (Module module:modules) {
+//            String addBekijkt = String.format("DELETE FROM Bekijkt\n" +
+//                    "WHERE Datum = '%s' AND\n" +
+//                    "CursistID = %d AND\n" +
+//                    "ContentItemID = %d;",
+//                    i.getDatum(),
+//                    i.getCursist().getId(),
+//                    module.getId()
+//                    );
+//            System.out.println(module.getId());
+//            DB.exec(addBekijkt); 
+//        }
+//    }
 }
