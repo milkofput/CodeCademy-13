@@ -7,6 +7,7 @@ package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Geslacht;
+import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Inschrijving;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ public class InschrijvingDB {
     
     private final CursistDB cursistdb = new CursistDB();
     private final CursusDB cursusdb = new CursusDB();
+    private final BekijktDB bekijktdb = new BekijktDB();
     
     public ArrayList<Inschrijving> getAllInschrijvingen() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Inschrijving");
@@ -30,8 +32,7 @@ public class InschrijvingDB {
                         rs.getInt("ID"),
                         cursusdb.getCursusById(rs.getInt("CursusID")),
                         cursistdb.getCursistById(rs.getInt("CursistID")),
-                        rs.getDate("Datum").toLocalDate(),
-                        rs.getInt("Voortgang")                             
+                        rs.getDate("Datum").toLocalDate()                           
                 ));
             }
         } catch (SQLException ex) {
@@ -40,30 +41,37 @@ public class InschrijvingDB {
         return allInschrijvingen;
     }
     
-    //Zorg dat alle modules in bekijkt toegevoegd zijn!
-    public void addInschrijving(Inschrijving c) {
-        String addInschrijving = String.format("INSERT INTO Inschrijving VALUES (%d,%d,\'%s\',%d)",
-                c.getCursus().getId(),
-                c.getCursist().getId(),
-                c.getDatum().toString(),
-                c.getVoortgang());
+    //Zorg dat alle modules in bekijkt toegevoegd zijn! (werkt voor nu) (misschien insert overwrite?)
+    public void addInschrijving(Inschrijving i) {
+        String addInschrijving = String.format("INSERT INTO Inschrijving VALUES (%d,%d,\'%s\')",
+                i.getCursus().getId(),
+                i.getCursist().getId(),
+                i.getDatum().toString());
         DB.exec(addInschrijving);
+        //"Bekijkt toevoegpoging"
+        bekijktdb.generateBekijktForInschrijving(i);
+        
+        
     }
     
-    //Zorg dat modules in bekijkt ook geupdate worden! (ON UPDATE CASCADE?)
+    //Zorg dat modules in bekijkt ook geupdate worden! (werkt nog niet)
     public void updateInschrijving(Inschrijving oldI, Inschrijving newI) {
         String updateInschrijving = String.format("UPDATE Inschrijving SET "
             + "CursusID=%d,"
             + "CursistID=%d,"
-            + "Datum=\'%s\',"
-            + "Voortgang=%d,"              
-            + "WHERE ID=%d", newI.getCursus().getId(),newI.getCursist().getId(), newI.getDatum().toString(),newI.getVoortgang(),oldI.getId());
+            + "Datum=\'%s\',"              
+            + "WHERE ID=%d", newI.getCursus().getId(),newI.getCursist().getId(), newI.getDatum().toString(),oldI.getId());
         DB.exec(updateInschrijving);
+        
+        bekijktdb.deleteBekijktForInschrijving(oldI);
+        bekijktdb.generateBekijktForInschrijving(newI);
+        
     }
     
-    //Zorg dat alle modules in bekijkt ook verwijderd worden!
+    //Zorg dat alle modules in bekijkt ook verwijderd worden! (werkt nog niet)
     public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
+        bekijktdb.deleteBekijktForInschrijving(i);
         return DB.exec(removeInschrijving);
     }
     
@@ -76,8 +84,7 @@ public class InschrijvingDB {
                         rs.getInt("ID"),
                         cursusdb.getCursusById(rs.getInt("CursusID")),
                         cursistdb.getCursistById(rs.getInt("CursistID")),
-                        rs.getDate("Datum").toLocalDate(),
-                        rs.getInt("Voortgang")                             
+                        rs.getDate("Datum").toLocalDate()                            
                 );
             }
         } catch (SQLException ex) {

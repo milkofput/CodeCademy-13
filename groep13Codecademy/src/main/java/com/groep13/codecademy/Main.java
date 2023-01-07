@@ -6,8 +6,10 @@
 package com.groep13.codecademy;
 
 import com.groep13.codecademy.database.ContentItemDB;
+import com.groep13.codecademy.database.InschrijvingDB;
 import com.groep13.codecademy.database.ModuleDB;
 import com.groep13.codecademy.database.StatistiekDB;
+import com.groep13.codecademy.domain.Inschrijving;
 import com.groep13.codecademy.gui.GUI;
 import javafx.application.Application;
 
@@ -19,6 +21,7 @@ public class Main {
     
     private static ContentItemDB cidb = new ContentItemDB();   
     private static ModuleDB mdb = new ModuleDB();
+    private static InschrijvingDB idb = new InschrijvingDB();
     
     //private static WebcastDB mdb = new WebcastDB();  
         
@@ -29,9 +32,8 @@ public class Main {
         
         //addWebcasts();
         
-        StatistiekDB sdb = new StatistiekDB();
-        System.out.println(sdb.aanbevolenCursussenBijCursus(1));
-        
+        StatistiekDB sdb = new StatistiekDB();   
+           
         Application.launch(GUI.class);
     }
     

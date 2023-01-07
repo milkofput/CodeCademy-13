@@ -18,14 +18,12 @@ public class Inschrijving {
     private Cursus cursus;
     private Cursist cursist;
     private LocalDate datum;
-    private int voortgang;
 
-    public Inschrijving(int id, Cursus cursus, Cursist cursist, LocalDate datum, int voortgang) {
+    public Inschrijving(int id, Cursus cursus, Cursist cursist, LocalDate datum) {
         this.id = id;
         this.cursus = cursus;
         this.cursist = cursist;
         this.datum = datum;
-        this.voortgang = voortgang;
     }
 
     public int getId() {
@@ -44,10 +42,6 @@ public class Inschrijving {
         return datum;
     }
 
-    public int getVoortgang() {
-        return voortgang;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
@@ -55,7 +49,6 @@ public class Inschrijving {
         hash = 59 * hash + Objects.hashCode(this.cursus);
         hash = 59 * hash + Objects.hashCode(this.cursist);
         hash = 59 * hash + Objects.hashCode(this.datum);
-        hash = 59 * hash + this.voortgang;
         return hash;
     }
 
@@ -72,9 +65,6 @@ public class Inschrijving {
         }
         final Inschrijving other = (Inschrijving) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (this.voortgang != other.voortgang) {
             return false;
         }
         if (!Objects.equals(this.cursus, other.cursus)) {

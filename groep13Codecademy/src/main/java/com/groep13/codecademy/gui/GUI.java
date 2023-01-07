@@ -598,7 +598,6 @@ public class GUI extends Application {
         TextField jaarField = new TextField("Jaar");
         TextField maandField = new TextField("Maand");
         TextField dagField = new TextField("Dag");
-        TextField voortgangField = new TextField("Voortgang");
         Button create = new Button("Create");
 
         create.setOnAction((e) -> {
@@ -607,8 +606,7 @@ public class GUI extends Application {
                 //Integer.parseInt(cursusField.getText()),
                 (Cursus) cursusField.getValue(),
                 (Cursist) cursistField.getValue(),
-                LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
-                Integer.parseInt(voortgangField.getText())
+                LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
             );
             idb.addInschrijving(newC);
             inschrijving.clear();
@@ -616,7 +614,7 @@ public class GUI extends Application {
             window.hide();
         });
 
-        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,voortgangField,create);
+        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,create);
 
         Scene createInschrijving = new Scene(layout);
         window.setScene(createInschrijving);
@@ -643,7 +641,6 @@ public class GUI extends Application {
         TextField jaarField = new TextField(String.valueOf(c.getDatum().getYear()));
         TextField maandField = new TextField(String.valueOf(c.getDatum().getMonthValue()));
         TextField dagField = new TextField(String.valueOf(c.getDatum().getDayOfMonth()));
-        TextField voortgangField = new TextField(String.valueOf(c.getVoortgang()));
         Button update = new Button("Update");
 
         
@@ -653,8 +650,7 @@ public class GUI extends Application {
                 //Integer.parseInt(cursusField.getText()),
                 (Cursus) cursusField.getValue(),
                 (Cursist) cursistField.getValue(),
-                LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
-                Integer.parseInt(voortgangField.getText())
+                LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
             );
             idb.updateInschrijving(c, newC);
             inschrijving.clear();
@@ -663,7 +659,7 @@ public class GUI extends Application {
         });
         
         
-        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,voortgangField,update);
+        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,update);
 
         Scene editCursist = new Scene(layout);
         window.setScene(editCursist);

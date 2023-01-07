@@ -19,7 +19,6 @@ public class Module extends ContentItem {
     private String emailcontactpersoon;
     private int volgnummer;
     private int cursusid;
-    private int contentitemid;
 
     public Module(int id, int nummer, LocalDate publicatiedatum, String status, String titel, int versie, String beschrijving, String naamcontactpersoon, String emailcontactpersoon, int volgnummer, int cursusid) {
         super(id, nummer, publicatiedatum, status);
@@ -60,10 +59,4 @@ public class Module extends ContentItem {
         return cursusid;
     }
 
-    public int getContentitemid() {
-        return contentitemid;
-    }
- 
-    
-    
 }
