@@ -37,6 +37,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Popup;
@@ -159,8 +160,8 @@ public class GUI extends Application {
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createCursist();
-            createWindow.setWidth(500);
-            createWindow.setHeight(350);
+            createWindow.setWidth(700);
+            createWindow.setHeight(400);
             createWindow.show();
         });
         cursistButtons.getChildren().addAll(create);
@@ -236,24 +237,59 @@ public class GUI extends Application {
     
     private Stage createCursist() {
         Stage window = new Stage();
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
-        layout.setMinHeight(300);
-        layout.setMinWidth(600);
+        layout.setHgap(10);
+        layout.setVgap(5);
+        //layout.setMinHeight(300);
+        //layout.setMinWidth(600);
 
+        Label cursistLabel = new Label("Create Cursist:");
+        layout.add(cursistLabel, 0, 0);
+        
+        Label emailLabel = new Label("Email");
+        layout.add(emailLabel, 0, 1);
         TextField emailField = new TextField("Email");
+        layout.add(emailField, 1, 1);
+        Label naamLabel = new Label("Naam");
+        layout.add(naamLabel, 0, 2);
         TextField naamField = new TextField("Naam");
+        layout.add(naamField, 1, 2);
+        Label jaarLabel = new Label("Geboortedatum (jjjj-mm-dd)");
+        layout.add(jaarLabel, 0, 3);
         TextField jaarField = new TextField("Geboortejaar");
+        layout.add(jaarField, 1,3);
         TextField maandField = new TextField("Geboortemaand");
+        layout.add(maandField,2,3);
         TextField dagField = new TextField("Geboortedag");
+        layout.add(dagField,3,3);
+        
+        Label geslachtLabel = new Label("Geslacht");
+        layout.add(geslachtLabel,0,4);
         TextField geslachtField = new TextField("Geslacht");
+        layout.add(geslachtField,1,4);
+        
+        Label straatLabel = new Label("Straat en huisnummer");
+        layout.add(straatLabel,0,5);
         TextField straatField = new TextField("Straat");
+        layout.add(straatField,1,5);
         TextField huisnrField = new TextField("Huisnummer");
+        layout.add(huisnrField,2,5);
+              
+        Label postcodeLabel = new Label("Postcode en woonplaats");
+        layout.add(postcodeLabel,0,6);
         TextField postcodeField = new TextField("Postcode");
+        layout.add(postcodeField,1,6);     
         TextField woonplaatsField = new TextField("Woonplaats");
+        layout.add(woonplaatsField,2,6);
+        
+        Label landLabel = new Label("Land");
+        layout.add(landLabel,0,7);
         TextField landField = new TextField("Land");
+        layout.add(landField,1,7);
+        
         Button create = new Button("Create");
+        layout.add(create,0,8);
 
         create.setOnAction((e) -> {
             Cursist newC = new Cursist(
@@ -274,7 +310,6 @@ public class GUI extends Application {
             window.hide();
         });
 
-        layout.getChildren().addAll(emailField,naamField,jaarField,maandField,dagField,geslachtField,straatField,huisnrField,postcodeField,woonplaatsField,landField,create);
 
         Scene createCursist = new Scene(layout);
         window.setScene(createCursist);
@@ -284,24 +319,60 @@ public class GUI extends Application {
     
     private Stage editCursist(Cursist c) {
         Stage window = new Stage();
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
-        layout.setMinHeight(200);
-        layout.setMinWidth(600);
+        layout.setHgap(10);
+        layout.setVgap(5);
+        //layout.setMinHeight(300);
+        //layout.setMinWidth(600);
 
+        Label cursistLabel = new Label("Create Cursist:");
+        layout.add(cursistLabel, 0, 0);
+        
+        Label emailLabel = new Label("Email");
+        layout.add(emailLabel, 0, 1);
         TextField emailField = new TextField(c.getEmailAdres());
+        layout.add(emailField, 1, 1);
+        Label naamLabel = new Label("Naam");
+        layout.add(naamLabel, 0, 2);
         TextField naamField = new TextField(c.getNaam());
+        layout.add(naamField, 1, 2);
+        Label jaarLabel = new Label("Geboortedatum (jjjj-mm-dd)");
+        layout.add(jaarLabel, 0, 3);
         TextField jaarField = new TextField(String.valueOf(c.getGeboortedatum().getYear()));
+        layout.add(jaarField, 1,3);
         TextField maandField = new TextField(String.valueOf(c.getGeboortedatum().getMonthValue()));
+        layout.add(maandField,2,3);
         TextField dagField = new TextField(String.valueOf(c.getGeboortedatum().getDayOfMonth()));
+        layout.add(dagField,3,3);
+        
+        Label geslachtLabel = new Label("Geslacht");
+        layout.add(geslachtLabel,0,4);
         TextField geslachtField = new TextField(c.getGeslacht().getGeslachtNaam());
+        layout.add(geslachtField,1,4);
+        
+        Label straatLabel = new Label("Straat en huisnummer");
+        layout.add(straatLabel,0,5);
         TextField straatField = new TextField(c.getStraat());
+        layout.add(straatField,1,5);
         TextField huisnrField = new TextField(c.getHuisnr());
+        layout.add(huisnrField,2,5);
+              
+        Label postcodeLabel = new Label("Postcode en woonplaats");
+        layout.add(postcodeLabel,0,6);
         TextField postcodeField = new TextField(c.getPostcode());
+        layout.add(postcodeField,1,6);     
         TextField woonplaatsField = new TextField(c.getWoonplaats());
+        layout.add(woonplaatsField,2,6);
+        
+        Label landLabel = new Label("Land");
+        layout.add(landLabel,0,7);
         TextField landField = new TextField(c.getLand());
+        layout.add(landField,1,7);
+        
         Button update = new Button("Update");
+        layout.add(update,0,8);
+                
 
         update.setOnAction((e) -> {
             Cursist newC = new Cursist(
@@ -321,8 +392,6 @@ public class GUI extends Application {
             cursist.addAll(cdb.getAllCursisten());
             window.hide();
         });
-
-        layout.getChildren().addAll(emailField,naamField,jaarField,maandField,dagField,geslachtField,straatField,huisnrField,postcodeField,woonplaatsField,landField,update);
 
         Scene editCursist = new Scene(layout);
         window.setScene(editCursist);
@@ -422,17 +491,33 @@ public class GUI extends Application {
         
     private Stage createCursus() {
         Stage window = new Stage();
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
+        layout.setHgap(10);
+        layout.setVgap(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
 
+        Label cursusLabel = new Label("Create Cursus:");
+        layout.add(cursusLabel, 0, 0);
+        Label naamLabel = new Label("Naam");
+        layout.add(naamLabel, 0, 1);
         TextField naamField = new TextField("Naam");
+        layout.add(naamField, 1, 1);
+        Label owLabel = new Label("Onderwerp");
+        layout.add(owLabel, 0, 2);
         TextField owField = new TextField("Onderwerp");
+        layout.add(owField, 1, 2);
+        Label introLabel = new Label("Introductie Tekst");
+        layout.add(introLabel, 0, 3);
         TextField introField = new TextField("Introductie Tekst");
+        layout.add(introField, 1, 3);
+        Label niveauLabel = new Label("Niveau Aanduiding");
+        layout.add(niveauLabel, 0, 4);
         TextField niveauField = new TextField("Niveau Aanduiding");
+        layout.add(niveauField, 1, 4);
         Button create = new Button("Create");
+        layout.add(create, 0, 5);
 
         create.setOnAction((e) -> {
             Cursus newC = new Cursus(
@@ -448,27 +533,45 @@ public class GUI extends Application {
             window.hide();
         });
 
-        layout.getChildren().addAll(naamField,owField,introField,niveauField,create);
+        //layout.getChildren().addAll(naamField,owField,introField,niveauField,create);       
+        
 
-        Scene createCursist = new Scene(layout);
-        window.setScene(createCursist);
+        Scene createCursus = new Scene(layout);
+        window.setScene(createCursus);
         return window;
     
     }
     
     private Stage editCursus(Cursus c) {
         Stage window = new Stage();
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
-        layout.setMinHeight(200);
+        layout.setHgap(10);
+        layout.setVgap(5);
+        layout.setMinHeight(300);
         layout.setMinWidth(600);
 
+        Label cursusLabel = new Label("Update Cursus:");
+        layout.add(cursusLabel, 0, 0);
+        Label naamLabel = new Label("Naam");
+        layout.add(naamLabel, 0, 1);
         TextField naamField = new TextField(c.getNaam());
+        layout.add(naamField, 1, 1);
+        Label owLabel = new Label("Onderwerp");
+        layout.add(owLabel, 0, 2);
         TextField owField = new TextField(c.getOnderwerp());
+        layout.add(owField, 1, 2);
+        Label introLabel = new Label("Introductie Tekst");
+        layout.add(introLabel, 0, 3);
         TextField introField = new TextField(c.getIntroductietekst());
+        layout.add(introField, 1, 3);
+        Label niveauLabel = new Label("Niveau Aanduiding");
+        layout.add(niveauLabel, 0, 4);
         TextField niveauField = new TextField(c.getNiveauaanduiding());
+        layout.add(niveauField, 1, 4);
         Button update = new Button("Update");
+        layout.add(update, 0, 5);
+               
 
         update.setOnAction((e) -> {
             Cursus newC = new Cursus(
@@ -484,7 +587,7 @@ public class GUI extends Application {
             window.hide();
         });
 
-        layout.getChildren().addAll(naamField,owField,introField,niveauField,update);
+        //layout.getChildren().addAll(naamField,owField,introField,niveauField,update);
 
         Scene editCursus = new Scene(layout);
         window.setScene(editCursus);
