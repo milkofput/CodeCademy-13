@@ -79,36 +79,5 @@ public class CursusDB {
         return null;
     }
     
-    //public Module(int id, int nummer, LocalDate publicatiedatum, String status,
-    //String titel, int versie, String beschrijving, String naamcontactpersoon,
-    //String emailcontactpersoon, int volgnummer, int cursusid) {
-//    public ArrayList<Module> getCursusModulesByCursusId(int cursusId) {
-//        ArrayList<Module> modules = new ArrayList<>();
-//        String SQL = String.format("SELECT *\n" +
-//            "FROM Cursus JOIN Module\n" +
-//            "ON Cursus.ID = Module.CursusID\n" +
-//            "JOIN ContentItem ON Module.ContentItemID = ContentItem.ID\n" +
-//            "WHERE Cursus.ID = %d;", cursusId);
-//        ResultSet rs = DB.execWithRS(SQL);
-//        try {
-//            while (rs.next()) {
-//                modules.add(new Module(
-//                        rs.getInt("ContentItemID"),
-//                        rs.getInt("ContentItemNummer"),
-//                        rs.getDate("PublicatieDatum").toLocalDate(),
-//                        rs.getString("Status"),
-//                        rs.getString("Titel"),
-//                        rs.getInt("Versie"),
-//                        rs.getString("Beschrijving"),
-//                        rs.getString("NaamContactpersoon"),
-//                        rs.getString("EmailContactpersoon"),
-//                        rs.getInt("Volgnummer"),
-//                        rs.getInt("CursusID")    
-//                ));
-//            }
-//        } catch (SQLException ex) {
-//        }
-//        return modules;
-//    }
     
 }
