@@ -44,16 +44,13 @@ public class StatistiekDB {
         }
         return 0;
     }
-    // SELECT SUM(Voortgang) /
-    //((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=1) * (SELECT Count(*) FROM Module WHERE Module.CursusID = 1))
-    //FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID
-    //JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID
-    //WHERE Cursus.ID=1;
+
     public double gemiddeldeVoortgangPerCursus(Cursus c) {
-        String SQL = String.format("SELECT AVG(Bekijkt.Voortgang) AS GemVoortgang\n" +
-            "FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
-            "JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "WHERE Cursus.ID=%d", c.getId());
+        String SQL = String.format("(SELECT SUM(Voortgang) /\n" +
+            "    ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d) * (SELECT Count(*) FROM Module WHERE Module.CursusID = %d))) AS GemVoortgang\n" +
+            "    FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
+            "    JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
+            "    WHERE Cursus.ID=%d;", c.getId(),c.getId(),c.getId());
         ResultSet rs = DB.execWithRS(SQL);
         try {
             while (rs.next()) {
@@ -66,10 +63,11 @@ public class StatistiekDB {
     }
     
     public double gemiddeldeVoortgangPerCursusByID(int cID) {
-        String SQL = String.format("SELECT AVG(Bekijkt.Voortgang) AS GemVoortgang\n" +
-            "FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
-            "JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "WHERE Cursus.ID=%d", cID);
+        String SQL = String.format("(SELECT SUM(Voortgang) /\n" +
+            "    ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d) * (SELECT Count(*) FROM Module WHERE Module.CursusID = %d))) AS GemVoortgang\n" +
+            "    FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
+            "    JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
+            "    WHERE Cursus.ID=%d;", cID,cID,cID);
         ResultSet rs = DB.execWithRS(SQL);
         try {
             while (rs.next()) {

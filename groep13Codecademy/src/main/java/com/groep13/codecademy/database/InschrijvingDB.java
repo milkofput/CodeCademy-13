@@ -49,7 +49,7 @@ public class InschrijvingDB {
                 i.getDatum().toString());
         DB.exec(addInschrijving);
         //"Bekijkt toevoegpoging"
-        bekijktdb.generateBekijktForInschrijving(i);
+        //bekijktdb.generateBekijktForInschrijving(i);
         
         
     }
@@ -63,15 +63,15 @@ public class InschrijvingDB {
             + "WHERE ID=%d", newI.getCursus().getId(),newI.getCursist().getId(), newI.getDatum().toString(),oldI.getId());
         DB.exec(updateInschrijving);
         
-        bekijktdb.deleteBekijktForInschrijving(oldI);
-        bekijktdb.generateBekijktForInschrijving(newI);
+        //bekijktdb.deleteBekijktForInschrijving(oldI);
+        //bekijktdb.generateBekijktForInschrijving(newI);
         
     }
     
     //Zorg dat alle modules in bekijkt ook verwijderd worden! (werkt nog niet)
     public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
-        bekijktdb.deleteBekijktForInschrijving(i);
+        //bekijktdb.deleteBekijktForInschrijving(i);
         return DB.exec(removeInschrijving);
     }
     
