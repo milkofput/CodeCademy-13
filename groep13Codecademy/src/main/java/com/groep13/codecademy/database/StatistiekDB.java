@@ -8,6 +8,7 @@ package com.groep13.codecademy.database;
 import com.groep13.codecademy.domain.Certificaat;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
+import com.groep13.codecademy.domain.Module;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class StatistiekDB {
     
     private final CertificaatDB certdb = new CertificaatDB();
     private final CursusDB cursusdb = new CursusDB();
+    private final ModuleDB moduledb = new ModuleDB();
+    private final BekijktDB bekijktdb = new BekijktDB();
+    
     public double percentageBehaaldeCursussenPerGeslacht(Geslacht g) {
         String SQL = String.format("SELECT\n" +
             "	1.00 * (SELECT COUNT(*)\n" +
@@ -81,19 +85,10 @@ public class StatistiekDB {
     
     // Hashmap als <ContentItemID, Percentage>
     public HashMap<Integer, Double> voortgangPerModuleVanCursusEnCursist(int cursusID, int cursistID) {
+        ArrayList<Module> cmodules = moduledb.getCourseModules(cursusID);
         HashMap<Integer, Double> voortgang = new HashMap<>();
-        String SQL = String.format("SELECT CursusNaam, Module.ContentItemID, Module.Titel, Module.Versie, Voortgang\n" +
-            "FROM Cursist JOIN Bekijkt ON Cursist.ID = Bekijkt.CursistID\n" +
-            "JOIN Module ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "JOIN Cursus ON Module.CursusID = Cursus.ID\n" +
-            "WHERE Module.CursusID = %d AND Cursist.ID = %d;", cursusID, cursistID);
-        ResultSet rs = DB.execWithRS(SQL);
-        try {
-            while (rs.next()) {
-                voortgang.put(rs.getInt("ContentItemID"), rs.getDouble("Voortgang"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+        for(Module module:cmodules) {
+            voortgang.put(module.getId(), bekijktdb.getContentItemProgress(module.getId(), cursistID));
         }
         return voortgang;
     }

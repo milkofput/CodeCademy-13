@@ -57,6 +57,14 @@ public class ModuleDB {
         return allModules;
     }
     
+    public ArrayList<Module> getCourseModules(int cId) {
+        ArrayList<Module> allModules = getAllModules()
+                .stream()
+                .filter(m -> m.getCursusid() == cId)
+                .collect(Collectors.toCollection(ArrayList::new));
+        return allModules;
+    }
+    
 //    public void addModule(Module m) {
 //        int id = cdb.addContentItemAndReturnId(m);
 //        String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
