@@ -44,7 +44,11 @@ public class StatistiekDB {
         }
         return 0;
     }
-    
+    // SELECT SUM(Voortgang) /
+    //((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=1) * (SELECT Count(*) FROM Module WHERE Module.CursusID = 1))
+    //FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID
+    //JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID
+    //WHERE Cursus.ID=1;
     public double gemiddeldeVoortgangPerCursus(Cursus c) {
         String SQL = String.format("SELECT AVG(Bekijkt.Voortgang) AS GemVoortgang\n" +
             "FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
