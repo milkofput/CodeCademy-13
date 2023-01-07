@@ -6,6 +6,7 @@
 package com.groep13.codecademy.gui;
 
 import com.groep13.codecademy.database.CertificaatDB;
+import com.groep13.codecademy.database.ContentItemDB;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -23,11 +24,16 @@ import javafx.stage.Stage;
 import com.groep13.codecademy.database.CursistDB;
 import com.groep13.codecademy.database.CursusDB;
 import com.groep13.codecademy.database.InschrijvingDB;
+import com.groep13.codecademy.database.ModuleDB;
+import com.groep13.codecademy.database.StatistiekDB;
+import com.groep13.codecademy.database.WebcastDB;
 import com.groep13.codecademy.domain.Certificaat;
+import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Inschrijving;
+import com.groep13.codecademy.domain.Webcast;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
@@ -50,11 +56,11 @@ public class GUI extends Application {
     
     private static CursistDB cdb = new CursistDB();
     private static TableView cursistTable = new TableView();
-    private static ObservableList<Cursist> cursist;
+    private static ObservableList<Cursist> cursist;   
     
     private static CursusDB cursusdb = new CursusDB();
     private static TableView cursusTable = new TableView();
-    private static ObservableList<Cursus> cursus;
+    private static ObservableList<Cursus> cursus;   
     
     private static InschrijvingDB idb = new InschrijvingDB();
     private static TableView inschrijvingTable = new TableView();
@@ -63,6 +69,11 @@ public class GUI extends Application {
     private static CertificaatDB cerdb = new CertificaatDB();
     private static TableView certificaatTable = new TableView();
     private static ObservableList<Certificaat> certificaat;
+    
+    private static StatistiekDB sdb = new StatistiekDB();
+    private static TableView certificatenCursistTable = new TableView();
+    private static ObservableList<Certificaat> certificatenCursist;
+
    
     @Override
     public void start(Stage stage) throws SQLException {
@@ -71,6 +82,10 @@ public class GUI extends Application {
         initCursusTable();
         initInschrijvingTable();
         initCertificaatTable();
+        
+        // for all cursisten initcertificatencursittable want hij mag t maar 1x initen anders komt dat ding 1000 x
+        
+
         
         BorderPane mainLayout = new BorderPane();       
         mainLayout.setMinHeight(300);
@@ -191,6 +206,16 @@ public class GUI extends Application {
         });
         cursistButtons.getChildren().add(update);
         
+        //View 
+        Button viewCertificaten = new Button("View Certificaten");
+        viewCertificaten.setOnAction((e) -> {
+            Stage viewWindow = viewCertificatenCursist((Cursist)cursistTable.getSelectionModel().getSelectedItem());
+            viewWindow.setWidth(700);
+            viewWindow.setHeight(400);
+            viewWindow.show();
+        });
+        cursistButtons.getChildren().add(viewCertificaten);
+        
         //Return
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
@@ -226,7 +251,7 @@ public class GUI extends Application {
         datumColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("geboortedatum")); 
         geslachtColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("geslacht"));
         straatColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("straat"));
-        huisnummerColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("huisnummer"));
+        huisnummerColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("huisnr")); //niet veranderen aub?
         postcodeColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("postcode"));
         woonplaatsColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("woonplaats"));
         landColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("land"));
@@ -235,14 +260,30 @@ public class GUI extends Application {
         cursistTable.getColumns().addAll(emailColumn,naamColumn,datumColumn,geslachtColumn,straatColumn,huisnummerColumn,postcodeColumn,woonplaatsColumn,landColumn);
     } 
     
+    private void initCertificatenCursistTable(Cursist c) throws SQLException {
+               
+        // nog niet volledige informatie
+        
+        certificatenCursist = FXCollections.observableArrayList(sdb.certificatenVanCursist(c.getId()));
+        TableColumn nummerColumn = new TableColumn("Certificaat nummer");
+        TableColumn cijferColumn = new TableColumn("Cijfer");
+        TableColumn mwColumn = new TableColumn("Medewerker");
+
+        nummerColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("nummer"));
+        cijferColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("cijfer"));
+        mwColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("medewerker")); 
+
+        
+        certificatenCursistTable.setItems(certificatenCursist);
+        certificatenCursistTable.getColumns().addAll(nummerColumn,cijferColumn,mwColumn);
+    } 
+    
     private Stage createCursist() {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
-        //layout.setMinHeight(300);
-        //layout.setMinWidth(600);
 
         Label cursistLabel = new Label("Create Cursist:");
         layout.add(cursistLabel, 0, 0);
@@ -317,14 +358,45 @@ public class GUI extends Application {
     
     }
     
+    private Stage viewCertificatenCursist(Cursist c) {
+        Stage window = new Stage();
+        VBox layout = new VBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setSpacing(10);
+        
+        Label cursistNaam = new Label("Certificaten behaald door: " + c.getNaam());
+        layout.getChildren().add(cursistNaam);
+        
+        // init moet naar de start methode!!!!!
+        try {
+            //statistieken
+            initCertificatenCursistTable(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        layout.getChildren().add(certificatenCursistTable);
+        
+        
+        Button returnButton = new Button("Return");
+        layout.getChildren().add(returnButton);
+        
+        returnButton.setOnAction((e) -> {           
+            window.hide();
+        });
+        
+        Scene viewCertificatenCursist = new Scene(layout);
+        window.setScene(viewCertificatenCursist);
+        return window;
+    }
+    
     private Stage editCursist(Cursist c) {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
-        //layout.setMinHeight(300);
-        //layout.setMinWidth(600);
 
         Label cursistLabel = new Label("Create Cursist:");
         layout.add(cursistLabel, 0, 0);

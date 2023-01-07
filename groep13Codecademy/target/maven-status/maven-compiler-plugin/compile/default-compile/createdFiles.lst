@@ -1,4 +1,5 @@
 com\groep13\codecademy\Main.class
+com\groep13\codecademy\database\WebcastDB.class
 com\groep13\codecademy\domain\Module.class
 com\groep13\codecademy\database\ContentItemDB.class
 com\groep13\codecademy\database\DB.class
