@@ -183,15 +183,14 @@ public class GUI extends Application {
         Label cursusLabel = new Label("Selecteer module: ");        
         ComboBox moduleField = new ComboBox();
         moduleField.setItems(module);
-
-        
-        int cursistId = ((Cursist) cursistField.getValue()).getId();
-        int moduleId = ((Module) moduleField.getValue()).getId();       
-        
+     
         Label voortgangModuleOutput = new Label();
                
         Button viewVoortgangModule = new Button("View Voortgang");
         viewVoortgangModule.setOnAction((e) -> {          
+            int moduleId = ((Module) moduleField.getValue()).getId();
+            int cursistId = ((Cursist) cursistField.getValue()).getId();
+            
             voortgangModuleOutput.setText(bdb.getContentItemProgress(moduleId, cursistId) + "%");
         });
         
