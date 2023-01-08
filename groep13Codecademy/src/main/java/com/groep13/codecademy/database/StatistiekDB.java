@@ -6,6 +6,7 @@
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Certificaat;
+import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Module;
@@ -46,6 +47,10 @@ public class StatistiekDB {
         } catch (SQLException ex) {
             Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return 0;
+    }
+    
+    public double voortgangModuleVanCursist(Cursist c, Module m){
         return 0;
     }
 

@@ -59,4 +59,8 @@ public class Module extends ContentItem {
         return cursusid;
     }
 
+    @Override
+    public String toString() {
+        return titel;
+    }
 }

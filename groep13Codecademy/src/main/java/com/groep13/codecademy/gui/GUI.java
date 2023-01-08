@@ -5,6 +5,7 @@
  */
 package com.groep13.codecademy.gui;
 
+import com.groep13.codecademy.database.BekijktDB;
 import com.groep13.codecademy.database.CertificaatDB;
 import com.groep13.codecademy.database.ContentItemDB;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Inschrijving;
 import com.groep13.codecademy.domain.Webcast;
+import com.groep13.codecademy.domain.Module;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.function.Predicate;
@@ -73,8 +75,10 @@ public class GUI extends Application {
     private static ObservableList<Certificaat> certificaat;
     
     private static StatistiekDB sdb = new StatistiekDB();
-    private static TableView certificatenCursistTable = new TableView();
-    private static ObservableList<Certificaat> certificatenCursist;
+    private static BekijktDB bdb = new BekijktDB();
+    
+    private static ModuleDB mdb = new ModuleDB();
+    private static ObservableList<Module> module;
 
    
     @Override
@@ -85,15 +89,13 @@ public class GUI extends Application {
         initInschrijvingTable();
         initCertificaatTable();
         
-        // for all cursisten initcertificatencursittable want hij mag t maar 1x initen anders komt dat ding 1000 x
-        
-
+        module = FXCollections.observableArrayList(mdb.getAllModules());
         
         BorderPane mainLayout = new BorderPane();       
         mainLayout.setMinHeight(300);
         mainLayout.setMinWidth(600);
         
-        Label firstLabel = new Label("label");
+        Label firstLabel = new Label("Main menu");
         Button cursistButton = new Button("Cursisten");
         Button cursusButton = new Button("Cursussen");
         Button inschrijvingButton = new Button("Inschrijvingen");
@@ -173,6 +175,38 @@ public class GUI extends Application {
         //Error label
         Label errorLabel = new Label("");
                
+        //View voortgang in een module
+        HBox voortgangModule = new HBox();
+        Label cursistLabel = new Label("Selecteer cursist: ");
+        ComboBox cursistField = new ComboBox();
+        cursistField.setItems(cursist);       
+        Label cursusLabel = new Label("Selecteer module: ");        
+        ComboBox moduleField = new ComboBox();
+        moduleField.setItems(module);
+
+        
+        int cursistId = ((Cursist) cursistField.getValue()).getId();
+        int moduleId = ((Module) moduleField.getValue()).getId();       
+        
+        Label voortgangModuleOutput = new Label();
+               
+        Button viewVoortgangModule = new Button("View Voortgang");
+        viewVoortgangModule.setOnAction((e) -> {          
+            voortgangModuleOutput.setText(bdb.getContentItemProgress(moduleId, cursistId) + "%");
+        });
+        
+        voortgangModule.getChildren().addAll(cursistLabel, cursistField, cursusLabel, moduleField, viewVoortgangModule, voortgangModuleOutput);      
+        layout.getChildren().add(voortgangModule);
+
+        
+        
+        
+        
+        //View voortgang in een webcast
+        
+        
+        
+        
         //Create
         Button create = new Button("Create");
         create.setOnAction((e) -> {
@@ -206,17 +240,7 @@ public class GUI extends Application {
             deleteWindow.setHeight(350);
             deleteWindow.show();
         });
-        cursistButtons.getChildren().add(update);
-        
-        //View 
-        Button viewCertificaten = new Button("View Certificaten");
-        viewCertificaten.setOnAction((e) -> {
-            Stage viewWindow = viewCertificatenCursist((Cursist)cursistTable.getSelectionModel().getSelectedItem());
-            viewWindow.setWidth(700);
-            viewWindow.setHeight(400);
-            viewWindow.show();
-        });
-        cursistButtons.getChildren().add(viewCertificaten);
+        cursistButtons.getChildren().add(update);       
         
         //Return
         Button returnButton = new Button("Return");
@@ -260,24 +284,6 @@ public class GUI extends Application {
         
         cursistTable.setItems(cursist);
         cursistTable.getColumns().addAll(emailColumn,naamColumn,datumColumn,geslachtColumn,straatColumn,huisnummerColumn,postcodeColumn,woonplaatsColumn,landColumn);
-    } 
-    
-    private void initCertificatenCursistTable(Cursist c) throws SQLException {
-               
-        // nog niet volledige informatie
-        
-        certificatenCursist = FXCollections.observableArrayList(sdb.certificatenVanCursist(c.getId()));
-        TableColumn nummerColumn = new TableColumn("Certificaat nummer");
-        TableColumn cijferColumn = new TableColumn("Cijfer");
-        TableColumn mwColumn = new TableColumn("Medewerker");
-
-        nummerColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("nummer"));
-        cijferColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("cijfer"));
-        mwColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("medewerker")); 
-
-        
-        certificatenCursistTable.setItems(certificatenCursist);
-        certificatenCursistTable.getColumns().addAll(nummerColumn,cijferColumn,mwColumn);
     } 
     
     private Stage createCursist() {
@@ -358,40 +364,7 @@ public class GUI extends Application {
         window.setScene(createCursist);
         return window;
     
-    }
-    
-    private Stage viewCertificatenCursist(Cursist c) {
-        Stage window = new Stage();
-        VBox layout = new VBox();             
-        layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(10);
-        
-        Label cursistNaam = new Label("Certificaten behaald door: " + c.getNaam());
-        layout.getChildren().add(cursistNaam);
-        
-        // init moet naar de start methode!!!!!
-        try {
-            //statistieken
-            initCertificatenCursistTable(c);
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        layout.getChildren().add(certificatenCursistTable);
-        
-        
-        Button returnButton = new Button("Return");
-        layout.getChildren().add(returnButton);
-        
-        returnButton.setOnAction((e) -> {           
-            window.hide();
-        });
-        
-        Scene viewCertificatenCursist = new Scene(layout);
-        window.setScene(viewCertificatenCursist);
-        return window;
-    }
+    }   
     
     private Stage editCursist(Cursist c) {
         Stage window = new Stage();
