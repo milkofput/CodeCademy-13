@@ -36,8 +36,10 @@ import com.groep13.codecademy.domain.Inschrijving;
 import com.groep13.codecademy.domain.Webcast;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
@@ -920,14 +922,14 @@ public class GUI extends Application {
         TableColumn cijferColumn = new TableColumn("Cijfer");
         TableColumn medewerkerColumn = new TableColumn("Medewerker");
         TableColumn certificaatColumn = new TableColumn("CertificaatNummer");
-        TableColumn inschrijvingColumn = new TableColumn("InschrijvingID");
-        cijferColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("Cijfer"));
-        medewerkerColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("NaamMedewerker"));
-        certificaatColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("CertificaatNummer")); 
-        inschrijvingColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("InschrijvingID"));
+        TableColumn inschrijvingColumn = new TableColumn("Inschrijving");
+        cijferColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("cijfer"));
+        medewerkerColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("medewerker"));
+        certificaatColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("nummer")); 
+        inschrijvingColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("inschrijving"));
         
         certificaatTable.setItems(certificaat);
-        certificaatTable.getColumns().addAll(cijferColumn, medewerkerColumn, certificaatColumn, inschrijvingColumn);
+        certificaatTable.getColumns().addAll(inschrijvingColumn, cijferColumn, medewerkerColumn, certificaatColumn);
     }    
     
     private Stage createCertificaat() {

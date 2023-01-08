@@ -79,4 +79,9 @@ public class Inschrijving {
         return true;
     }
     
+    @Override
+    public String toString() {
+        return "Cursist: " + cursist.getNaam() + ", cursus: " + cursus.getNaam();
+    }
+    
 }
