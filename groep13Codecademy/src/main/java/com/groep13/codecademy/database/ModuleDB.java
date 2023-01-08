@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package com.groep13.codecademy.database;
+
 import com.groep13.codecademy.database.ContentItemDB;
 import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Module;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,10 +22,11 @@ public class ModuleDB {
     private final ContentItemDB cdb = new ContentItemDB();
     public ArrayList<Module> getAllModules() {
         ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
-                " PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
+                " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
                 " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
                 " FROM Module JOIN ContentItem\n" +
                 "ON Module.ContentItemID = ContentItem.ID");
+        // pubdatum veranderd naar ci.pubdatum
         ArrayList<Module> allModules = new ArrayList<>();
         try {
             while (rs.next()) {

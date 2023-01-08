@@ -79,6 +79,9 @@ public class GUI extends Application {
     
     private static ModuleDB mdb = new ModuleDB();
     private static ObservableList<Module> module;
+    
+    private static WebcastDB wdb = new WebcastDB();
+    private static ObservableList<Webcast> webcast;
 
    
     @Override
@@ -90,6 +93,7 @@ public class GUI extends Application {
         initCertificaatTable();
         
         module = FXCollections.observableArrayList(mdb.getAllModules());
+        webcast = FXCollections.observableArrayList(wdb.getAllWebcasts());
         
         BorderPane mainLayout = new BorderPane();       
         mainLayout.setMinHeight(300);
@@ -177,13 +181,13 @@ public class GUI extends Application {
                
         //View voortgang in een module
         HBox voortgangModule = new HBox();
+        Label voortgangModuleLabel = new Label("View voortgang van een cursist in een module:");
         Label cursistLabel = new Label("Selecteer cursist: ");
         ComboBox cursistField = new ComboBox();
         cursistField.setItems(cursist);       
         Label cursusLabel = new Label("Selecteer module: ");        
         ComboBox moduleField = new ComboBox();
         moduleField.setItems(module);
-     
         Label voortgangModuleOutput = new Label();
                
         Button viewVoortgangModule = new Button("View Voortgang");
@@ -195,14 +199,31 @@ public class GUI extends Application {
         });
         
         voortgangModule.getChildren().addAll(cursistLabel, cursistField, cursusLabel, moduleField, viewVoortgangModule, voortgangModuleOutput);      
-        layout.getChildren().add(voortgangModule);
+        layout.getChildren().addAll(voortgangModuleLabel, voortgangModule);
 
-        
-        
-        
+               
         
         //View voortgang in een webcast
+        HBox voortgangWebcast = new HBox();
+        Label voortgangWebcastLabel = new Label("View voortgang van een cursist in een webcast:");
+        Label webcastCursistLabel = new Label("Selecteer cursist: ");
+        ComboBox webcastCursistField = new ComboBox();
+        webcastCursistField.setItems(cursist);       
+        Label webcastLabel = new Label("Selecteer webcast: ");        
+        ComboBox webcastField = new ComboBox();
+        webcastField.setItems(webcast);
+        Label voortgangWebcastOutput = new Label();
+               
+        Button viewVoortgangWebcast = new Button("View Voortgang");
+        viewVoortgangWebcast.setOnAction((e) -> {          
+            int webcastId = ((Webcast) webcastField.getValue()).getId();
+            int cursistId = ((Cursist) cursistField.getValue()).getId();
+            
+            voortgangWebcastOutput.setText(bdb.getContentItemProgress(webcastId, cursistId) + "%");
+        });
         
+        voortgangWebcast.getChildren().addAll(webcastCursistLabel, webcastCursistField, webcastLabel, webcastField, viewVoortgangWebcast, voortgangWebcastOutput);      
+        layout.getChildren().addAll(voortgangWebcastLabel, voortgangWebcast);
         
         
         
