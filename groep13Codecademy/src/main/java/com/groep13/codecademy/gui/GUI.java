@@ -188,21 +188,17 @@ public class GUI extends Application {
         Label cursusLabel = new Label("Selecteer module: ");        
         ComboBox moduleField = new ComboBox();
         moduleField.setItems(module);
-        Label voortgangModuleOutput = new Label();
-               
+        Label voortgangModuleOutput = new Label();              
         Button viewVoortgangModule = new Button("View Voortgang");
         viewVoortgangModule.setOnAction((e) -> {          
             int moduleId = ((Module) moduleField.getValue()).getId();
             int cursistId = ((Cursist) cursistField.getValue()).getId();
             
             voortgangModuleOutput.setText(bdb.getContentItemProgress(moduleId, cursistId) + "%");
-        });
-        
+        });       
         voortgangModule.getChildren().addAll(cursistLabel, cursistField, cursusLabel, moduleField, viewVoortgangModule, voortgangModuleOutput);      
         layout.getChildren().addAll(voortgangModuleLabel, voortgangModule);
-
-               
-        
+                      
         //View voortgang in een webcast
         HBox voortgangWebcast = new HBox();
         Label voortgangWebcastLabel = new Label("View voortgang van een cursist in een webcast:");
@@ -212,18 +208,32 @@ public class GUI extends Application {
         Label webcastLabel = new Label("Selecteer webcast: ");        
         ComboBox webcastField = new ComboBox();
         webcastField.setItems(webcast);
-        Label voortgangWebcastOutput = new Label();
-               
+        Label voortgangWebcastOutput = new Label();              
         Button viewVoortgangWebcast = new Button("View Voortgang");
         viewVoortgangWebcast.setOnAction((e) -> {          
             int webcastId = ((Webcast) webcastField.getValue()).getId();
-            int cursistId = ((Cursist) cursistField.getValue()).getId();
-            
+            int cursistId = ((Cursist) cursistField.getValue()).getId();            
             voortgangWebcastOutput.setText(bdb.getContentItemProgress(webcastId, cursistId) + "%");
-        });
-        
+        });       
         voortgangWebcast.getChildren().addAll(webcastCursistLabel, webcastCursistField, webcastLabel, webcastField, viewVoortgangWebcast, voortgangWebcastOutput);      
         layout.getChildren().addAll(voortgangWebcastLabel, voortgangWebcast);
+        
+        //View certificaten behaald door cursist
+        Label certificatenLabel = new Label("View behaalde certificaten van een cursist:");
+        HBox certificatenBehaald = new HBox();
+        Label certificaatCursistLabel = new Label("Selecteer cursist: ");
+        ComboBox certificaatCursistField = new ComboBox();
+        certificaatCursistField.setItems(cursist); 
+        
+        Label certificatenOutput = new Label();
+        
+        Button viewCertificaten = new Button("View Certificaten");
+        viewCertificaten.setOnAction((e) -> {          
+            int cursistId = ((Cursist) certificaatCursistField.getValue()).getId();            
+            certificatenOutput.setText(sdb.certificatenVanCursist(cursistId).toString() + "");
+        });
+        certificatenBehaald.getChildren().addAll(certificaatCursistLabel, certificaatCursistField, viewCertificaten);
+        layout.getChildren().addAll(certificatenLabel, certificatenBehaald, certificatenOutput);
         
         
         

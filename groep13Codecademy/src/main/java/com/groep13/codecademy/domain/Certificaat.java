@@ -45,5 +45,9 @@ public class Certificaat {
         return inschrijving;
     }
     
+    @Override
+    public String toString() {
+        return "Cursus: " + inschrijving.getCursus().getNaam() + ", Cijfer: " + cijfer + ", Medewerker: " + medewerker + ", Nummer: " + nummer + "\n" ;
+    }
     
 }

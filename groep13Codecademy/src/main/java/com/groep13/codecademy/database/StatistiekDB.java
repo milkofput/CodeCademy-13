@@ -107,7 +107,7 @@ public class StatistiekDB {
         ResultSet rs = DB.execWithRS(SQL);
         try {
             while (rs.next()) {
-                certificaten.add(certdb.getCertificaatByID(cursistID));
+                certificaten.add(certdb.getCertificaatByID(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
