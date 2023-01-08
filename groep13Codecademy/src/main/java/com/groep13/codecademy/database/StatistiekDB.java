@@ -27,7 +27,7 @@ public class StatistiekDB {
     private final ModuleDB moduledb = new ModuleDB();
     private final BekijktDB bekijktdb = new BekijktDB();
     
-    public double percentageBehaaldeCursussenPerGeslacht(Geslacht g) {
+    public double percentageBehaaldeCursussenPerGeslacht(String g) {
         String SQL = String.format("SELECT\n" +
             "	1.00 * (SELECT COUNT(*)\n" +
             "	FROM Cursist JOIN Inschrijving ON Cursist.ID = Inschrijving.CursistID\n" +

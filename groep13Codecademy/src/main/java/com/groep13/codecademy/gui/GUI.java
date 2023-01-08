@@ -272,8 +272,8 @@ public class GUI extends Application {
         TableColumn mwColumn = new TableColumn("Medewerker");
 
         nummerColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("nummer"));
-        cijferColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("cijfer"));
-        mwColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("medewerker")); 
+        cijferColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("cijfer"));
+        mwColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("medewerker")); 
 
         
         certificatenCursistTable.setItems(certificatenCursist);
@@ -488,6 +488,11 @@ public class GUI extends Application {
         layout.setMinWidth(600);
         
         layout.getChildren().add(cursusTable);
+        
+        Label percentageBehaaldMannen = new Label("Percentage voltooide cursussen mannen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Man") + "%");
+        Label percentageBehaaldVrouwen = new Label("Percentage voltooide cursussen vrouwen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Vrouw") + "%");
+        layout.getChildren().addAll(percentageBehaaldMannen, percentageBehaaldVrouwen);
+        
         HBox cursusButtons = new HBox();
         
         //Error label
