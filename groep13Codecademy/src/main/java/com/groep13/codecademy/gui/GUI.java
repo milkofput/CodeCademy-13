@@ -36,6 +36,7 @@ import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Inschrijving;
 import com.groep13.codecademy.domain.Webcast;
 import com.groep13.codecademy.domain.Module;
+import com.groep13.codecademy.domain.Niveau;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.function.Predicate;
@@ -354,7 +355,8 @@ public class GUI extends Application {
         
         Label geslachtLabel = new Label("Geslacht");
         layout.add(geslachtLabel,0,4);
-        TextField geslachtField = new TextField("Geslacht");
+        ComboBox geslachtField = new ComboBox();
+        geslachtField.getItems().addAll("Man","Vrouw","Anders");
         layout.add(geslachtField,1,4);
         
         Label straatLabel = new Label("Straat en huisnummer");
@@ -385,7 +387,7 @@ public class GUI extends Application {
                 emailField.getText(),
                 naamField.getText(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
-                Geslacht.fromString(geslachtField.getText()),
+                Geslacht.fromString((String)geslachtField.getValue()),
                 straatField.getText(),
                 huisnrField.getText(),
                 postcodeField.getText(),
@@ -412,7 +414,7 @@ public class GUI extends Application {
         layout.setHgap(10);
         layout.setVgap(5);
 
-        Label cursistLabel = new Label("Create Cursist:");
+        Label cursistLabel = new Label("Update Cursist:");
         layout.add(cursistLabel, 0, 0);
         
         Label emailLabel = new Label("Email");
@@ -432,9 +434,10 @@ public class GUI extends Application {
         TextField dagField = new TextField(String.valueOf(c.getGeboortedatum().getDayOfMonth()));
         layout.add(dagField,3,3);
         
-        Label geslachtLabel = new Label("Geslacht");
+        Label geslachtLabel = new Label("Geslacht (" + c.getGeslacht() + ")");
         layout.add(geslachtLabel,0,4);
-        TextField geslachtField = new TextField(c.getGeslacht().getGeslachtNaam());
+        ComboBox geslachtField = new ComboBox();
+        geslachtField.getItems().addAll("Man","Vrouw","Anders");
         layout.add(geslachtField,1,4);
         
         Label straatLabel = new Label("Straat en huisnummer");
@@ -466,7 +469,7 @@ public class GUI extends Application {
                 emailField.getText(),
                 naamField.getText(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText())),
-                Geslacht.fromString(geslachtField.getText()),
+                Geslacht.fromString((String)geslachtField.getValue()),
                 straatField.getText(),
                 huisnrField.getText(),
                 postcodeField.getText(),
@@ -608,9 +611,10 @@ public class GUI extends Application {
         layout.add(introLabel, 0, 3);
         TextField introField = new TextField("Introductie Tekst");
         layout.add(introField, 1, 3);
-        Label niveauLabel = new Label("Niveau Aanduiding");
+        Label niveauLabel = new Label("Niveau");
         layout.add(niveauLabel, 0, 4);
-        TextField niveauField = new TextField("Niveau Aanduiding");
+        ComboBox niveauField = new ComboBox();
+        niveauField.getItems().addAll("Beginner","Gevorderd","Expert");
         layout.add(niveauField, 1, 4);
         Button create = new Button("Create");
         layout.add(create, 0, 5);
@@ -621,7 +625,7 @@ public class GUI extends Application {
                 naamField.getText(),
                 owField.getText(),
                 introField.getText(),
-                niveauField.getText()
+                Niveau.fromString((String)niveauField.getValue())
             );
             cursusdb.addCursus(newC);
             cursus.clear();
@@ -661,9 +665,10 @@ public class GUI extends Application {
         layout.add(introLabel, 0, 3);
         TextField introField = new TextField(c.getIntroductietekst());
         layout.add(introField, 1, 3);
-        Label niveauLabel = new Label("Niveau Aanduiding");
+        Label niveauLabel = new Label("Niveau (" + c.getNiveauaanduiding().getNiveauNaam() + ")");
         layout.add(niveauLabel, 0, 4);
-        TextField niveauField = new TextField(c.getNiveauaanduiding());
+        ComboBox niveauField = new ComboBox();
+        niveauField.getItems().addAll("Beginner","Gevorderd","Expert");
         layout.add(niveauField, 1, 4);
         Button update = new Button("Update");
         layout.add(update, 0, 5);
@@ -675,7 +680,7 @@ public class GUI extends Application {
                 naamField.getText(),
                 owField.getText(),
                 introField.getText(),
-                niveauField.getText()
+                Niveau.fromString((String)niveauField.getValue())
             );
             cursusdb.updateCursus(c, newC);
             cursus.clear();

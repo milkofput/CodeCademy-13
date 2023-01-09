@@ -9,6 +9,7 @@ import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Module;
+import com.groep13.codecademy.domain.Niveau;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CursusDB {
                         rs.getString("CursusNaam"),
                         rs.getString("Onderwerp"),
                         rs.getString("IntroductieTekst"),
-                        rs.getString("NiveauAanduiding")      
+                        Niveau.fromString(rs.getString("NiveauAanduiding"))      
                 ));
             }
         } catch (SQLException ex) {
@@ -42,7 +43,7 @@ public class CursusDB {
                 c.getNaam(),
                 c.getOnderwerp(),
                 c.getIntroductietekst(),
-                c.getNiveauaanduiding());
+                c.getNiveauaanduiding().getNiveauNaam());
         return DB.exec(addCursus);
     }
     
@@ -52,7 +53,7 @@ public class CursusDB {
             + "Onderwerp=\'%s\',"
             + "IntroductieTekst=\'%s\',"
             + "NiveauAanduiding=\'%s\'"              
-            + "WHERE ID=%d", newC.getNaam(),newC.getOnderwerp(), newC.getIntroductietekst(), newC.getNiveauaanduiding(), oldC.getId());
+            + "WHERE ID=%d", newC.getNaam(),newC.getOnderwerp(), newC.getIntroductietekst(), newC.getNiveauaanduiding().getNiveauNaam(), oldC.getId());
         return DB.exec(updateCursus);
     }
     
@@ -71,7 +72,7 @@ public class CursusDB {
                         rs.getString("CursusNaam"),
                         rs.getString("Onderwerp"),
                         rs.getString("IntroductieTekst"),
-                        rs.getString("NiveauAanduiding")      
+                        Niveau.fromString(rs.getString("NiveauAanduiding"))      
                 );
             }
         } catch (SQLException ex) {

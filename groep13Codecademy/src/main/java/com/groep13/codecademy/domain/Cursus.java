@@ -18,9 +18,9 @@ public class Cursus {
     private String naam;
     private String onderwerp;
     private String introductietekst;
-    private String niveauaanduiding;
+    private Niveau niveauaanduiding;
 
-    public Cursus(int id, String naam, String onderwerp, String introductietekst, String niveauaanduiding) {
+    public Cursus(int id, String naam, String onderwerp, String introductietekst, Niveau niveauaanduiding) {
         this.id = id;
         this.naam = naam;
         this.onderwerp = onderwerp;
@@ -44,7 +44,7 @@ public class Cursus {
         return introductietekst;
     }
 
-    public String getNiveauaanduiding() {
+    public Niveau getNiveauaanduiding() {
         return niveauaanduiding;
     }
 
