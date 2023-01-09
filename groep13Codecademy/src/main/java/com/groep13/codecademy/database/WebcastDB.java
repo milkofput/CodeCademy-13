@@ -48,5 +48,16 @@ public class WebcastDB {
         }
         return allWebcasts;
     }
+    
+    public Webcast getWebcastById(int id) {
+        ArrayList<Webcast> allWebcasts = getAllWebcasts()
+                .stream()
+                .filter(w -> w.getId() == id)
+                .collect(Collectors.toCollection(ArrayList::new));
+        for (Webcast webcast:allWebcasts) {
+            if (webcast.getId()==id) return webcast;
+        }
+        return null;
+    }
 
 }

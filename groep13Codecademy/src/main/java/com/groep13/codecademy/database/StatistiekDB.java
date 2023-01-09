@@ -10,6 +10,7 @@ import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Module;
+import com.groep13.codecademy.domain.Webcast;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class StatistiekDB {
     private final CursusDB cursusdb = new CursusDB();
     private final ModuleDB moduledb = new ModuleDB();
     private final BekijktDB bekijktdb = new BekijktDB();
+    private final WebcastDB webcastdb = new WebcastDB();
     
     public double percentageBehaaldeCursussenPerGeslacht(String g) {
         String SQL = String.format("SELECT\n" +
@@ -115,9 +117,21 @@ public class StatistiekDB {
         return certificaten;
     }
     
-//    public ArrayList<Webcast> topDrieWebcasts() {
-//        
-//    }
+    public ArrayList<Webcast> topDrieWebcasts() {
+        ArrayList<Webcast> webcasts = new ArrayList<>();
+        String SQL = String.format("SELECT TOP 3 Webcast.ContentItemID, COUNT(*) as Amt\n" +
+            "FROM Bekijkt JOIN Webcast ON Bekijkt.ContentItemID = Webcast.ContentItemID\n" +
+            "GROUP BY Webcast.ContentItemID;");
+        ResultSet rs = DB.execWithRS(SQL);
+        try {
+            while (rs.next()) {
+                webcasts.add(webcastdb.getWebcastById(rs.getInt("ContentItemID")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return webcasts;
+    }
     
     public ArrayList<Cursus> topDrieCursussenMetMeesteCertificaten() {
         ArrayList<Cursus> cursussen = new ArrayList<>();

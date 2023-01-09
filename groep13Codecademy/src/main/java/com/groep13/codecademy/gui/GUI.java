@@ -39,6 +39,8 @@ import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Niveau;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import static java.time.LocalDate.now;
+import java.time.LocalTime;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,9 +107,10 @@ public class GUI extends Application {
         Button cursusButton = new Button("Cursussen");
         Button inschrijvingButton = new Button("Inschrijvingen");
         Button certificaatButton = new Button("Certificaten");
+        Button topThreeButton = new Button("Top 3's");
         
         HBox nav = new HBox();
-        nav.getChildren().addAll(cursistButton, cursusButton, inschrijvingButton, certificaatButton);
+        nav.getChildren().addAll(cursistButton, cursusButton, inschrijvingButton, certificaatButton, topThreeButton);
         nav.setAlignment(Pos.CENTER);
               
         mainLayout.setTop(firstLabel);
@@ -156,6 +159,12 @@ public class GUI extends Application {
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }          
+        });
+        
+        topThreeButton.setOnAction((e) -> {
+            Stage window;
+            window = topThreeScene();
+            window.show();        
         });
 
         
@@ -1045,6 +1054,44 @@ public class GUI extends Application {
 
     }
     
+    //Top 3's overview:
+    
+    private Stage topThreeScene() {
+          
+        Stage window = new Stage();
+        VBox layout = new VBox();
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setSpacing(5);
+        layout.setMinHeight(200);
+        layout.setMinWidth(600);
+        
+        HBox hbox = new HBox();
+        
+        //Top 3 webcasts
+        Label topThreeWebcasts = new Label("Top 3 webcasts: " + sdb.topDrieWebcasts());
+        layout.getChildren().addAll(topThreeWebcasts);
+        
+        //Top 3 cursus met meeste certificaat
+        Label topThreeCursus = new Label("Top 3 cursussen met meeste certificaten: " + sdb.topDrieCursussenMetMeesteCertificaten());
+        layout.getChildren().add(topThreeCursus);
+             
+        //Return
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction((e) -> {
+            window.hide();
+        });
+        hbox.getChildren().add(returnButton);           
+              
+        //Buttons 
+        layout.setSpacing(5);
+        layout.setPadding(new Insets(5,5,5,5));
+        hbox.setSpacing(5);
+        layout.getChildren().add(hbox);
+                       
+        Scene topThreeScene = new Scene(layout);
+        window.setScene(topThreeScene);
+        return window; 
+    }
     
       
 }
