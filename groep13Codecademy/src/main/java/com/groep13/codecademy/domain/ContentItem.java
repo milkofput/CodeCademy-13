@@ -16,10 +16,10 @@ public abstract class ContentItem {
     private int id;
     private int nummer;
     private LocalDate publicatiedatum;
-    private String status; // concept, actief, gearchiveerd
+    private Status status; // concept, actief, gearchiveerd
     //TODO: enum
 
-    public ContentItem(int id, int nummer, LocalDate publicatiedatum, String status) {
+    public ContentItem(int id, int nummer, LocalDate publicatiedatum, Status status) {
         this.id = id;
         this.nummer = nummer;
         this.publicatiedatum = publicatiedatum;
@@ -38,7 +38,7 @@ public abstract class ContentItem {
         return publicatiedatum;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 

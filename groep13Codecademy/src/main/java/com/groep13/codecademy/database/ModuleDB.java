@@ -8,6 +8,7 @@ package com.groep13.codecademy.database;
 import com.groep13.codecademy.database.ContentItemDB;
 import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Module;
+import com.groep13.codecademy.domain.Status;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class ModuleDB {
                         rs.getInt("ID"),
                         rs.getInt("ContentItemNummer"),
                         rs.getDate("PublicatieDatum").toLocalDate(),
-                        rs.getString("Status"),
+                        Status.fromString(rs.getString("Status")),
                         rs.getString("Titel"),
                         rs.getInt("Versie"),
                         rs.getString("Beschrijving"),

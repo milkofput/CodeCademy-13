@@ -27,7 +27,7 @@ public enum Geslacht {
         if (s.equals("Man")) return Geslacht.MAN;
         if (s.equals("Vrouw")) return Geslacht.VROUW;
         if (s.equals("Anders")) return Geslacht.ANDERS;
-        return null;
+        return Geslacht.ANDERS;
     }
     
 }

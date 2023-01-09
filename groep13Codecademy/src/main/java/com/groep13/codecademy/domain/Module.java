@@ -20,7 +20,7 @@ public class Module extends ContentItem {
     private int volgnummer;
     private int cursusid;
 
-    public Module(int id, int nummer, LocalDate publicatiedatum, String status, String titel, int versie, String beschrijving, String naamcontactpersoon, String emailcontactpersoon, int volgnummer, int cursusid) {
+    public Module(int id, int nummer, LocalDate publicatiedatum, Status status, String titel, int versie, String beschrijving, String naamcontactpersoon, String emailcontactpersoon, int volgnummer, int cursusid) {
         super(id, nummer, publicatiedatum, status);
         this.titel = titel;
         this.versie = versie;

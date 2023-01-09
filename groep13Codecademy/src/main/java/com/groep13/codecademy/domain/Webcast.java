@@ -20,7 +20,7 @@ public class Webcast extends ContentItem {
     private Time tijdsduur;
     private String url;
 
-    public Webcast(int id, int nummer, LocalDate publicatiedatum, String status, String titel, String beschrijving, String naamSpreker, String organisatie, Time tijdsduur, String url) {
+    public Webcast(int id, int nummer, LocalDate publicatiedatum, Status status, String titel, String beschrijving, String naamSpreker, String organisatie, Time tijdsduur, String url) {
         super(id, nummer, publicatiedatum, status);
         this.titel = titel;
         this.beschrijving = beschrijving;

@@ -116,6 +116,7 @@ public class GUI extends Application {
         cursistButton.setOnAction((e) -> {
             Stage window;
             try {
+                refreshCursistTable();
                 window = cursistScene();
                 window.show();
             } catch (SQLException ex) {
@@ -126,6 +127,7 @@ public class GUI extends Application {
         cursusButton.setOnAction((e) -> {
             Stage window;
             try {
+                refreshCursusTable();
                 window = cursusScene();
                 window.show();
             } catch (SQLException ex) {
@@ -136,6 +138,7 @@ public class GUI extends Application {
         inschrijvingButton.setOnAction((e) -> {
             Stage window;
             try {
+                refreshInschrijvingTable();
                 window = inschrijvingScene();
                 window.show();
             } catch (SQLException ex) {
@@ -146,6 +149,7 @@ public class GUI extends Application {
         certificaatButton.setOnAction((e) -> {
             Stage window;
             try {
+                refreshCertificaatTable();
                 window = certificaatScene();
                 window.show();
             } catch (SQLException ex) {
@@ -212,7 +216,7 @@ public class GUI extends Application {
         Button viewVoortgangWebcast = new Button("View Voortgang");
         viewVoortgangWebcast.setOnAction((e) -> {          
             int webcastId = ((Webcast) webcastField.getValue()).getId();
-            int cursistId = ((Cursist) cursistField.getValue()).getId();            
+            int cursistId = ((Cursist) webcastCursistField.getValue()).getId();            
             voortgangWebcastOutput.setText(bdb.getContentItemProgress(webcastId, cursistId) + "%");
         });       
         voortgangWebcast.getChildren().addAll(webcastCursistLabel, webcastCursistField, webcastLabel, webcastField, viewVoortgangWebcast, voortgangWebcastOutput);      
@@ -315,6 +319,11 @@ public class GUI extends Application {
         cursistTable.setItems(cursist);
         cursistTable.getColumns().addAll(emailColumn,naamColumn,datumColumn,geslachtColumn,straatColumn,huisnummerColumn,postcodeColumn,woonplaatsColumn,landColumn);
     } 
+    
+    private void refreshCursistTable() {
+        cursist.clear();
+        cursist.addAll(cdb.getAllCursisten());
+    }
     
     private Stage createCursist() {
         Stage window = new Stage();
@@ -570,6 +579,11 @@ public class GUI extends Application {
         cursusTable.setItems(cursus);
         cursusTable.getColumns().addAll(naamColumn,introColumn,owColumn,niveauColumn);
     }
+    
+    private void refreshCursusTable() {
+        cursus.clear();
+        cursus.addAll(cursusdb.getAllCursussen());
+    }
         
     private Stage createCursus() {
         Stage window = new Stage();
@@ -755,15 +769,18 @@ public class GUI extends Application {
         TableColumn cursusColumn = new TableColumn("CursusID");
         TableColumn cursistColumn = new TableColumn("CursistID");
         TableColumn datumColumn = new TableColumn("Datum");
-        TableColumn voortgangColumn = new TableColumn("Voortgang");
         cursusColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursus"));
         cursistColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursist"));
         datumColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Datum")); 
-        voortgangColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Voortgang"));
         
         inschrijvingTable.setItems(inschrijving);
-        inschrijvingTable.getColumns().addAll(cursusColumn, cursistColumn, datumColumn, voortgangColumn);
+        inschrijvingTable.getColumns().addAll(cursusColumn, cursistColumn, datumColumn);
     }    
+    
+    private void refreshInschrijvingTable() {
+        inschrijving.clear();
+        inschrijving.addAll(idb.getAllInschrijvingen());
+    }
     
     private Stage createInschrijving() {
         Stage window = new Stage();
@@ -807,7 +824,7 @@ public class GUI extends Application {
     
     }
     
-    private Stage editInschrijving(Inschrijving c) {
+    private Stage editInschrijving(Inschrijving i) {
         Stage window = new Stage();
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
@@ -816,16 +833,17 @@ public class GUI extends Application {
         layout.setMinWidth(600);
 
         //TextField cursusField = new TextField(String.valueOf(c.getCursusID()));
-        
+        Label cursusFieldLabel = new Label("Current value: " + i.getCursus().toString());
         ComboBox cursusField = new ComboBox();
         cursusField.setItems(cursus);
         
+        Label cursistFieldLabel = new Label("Current value: " + i.getCursist().toString());
         ComboBox cursistField = new ComboBox();
         cursistField.setItems(cursist);
         
-        TextField jaarField = new TextField(String.valueOf(c.getDatum().getYear()));
-        TextField maandField = new TextField(String.valueOf(c.getDatum().getMonthValue()));
-        TextField dagField = new TextField(String.valueOf(c.getDatum().getDayOfMonth()));
+        TextField jaarField = new TextField(String.valueOf(i.getDatum().getYear()));
+        TextField maandField = new TextField(String.valueOf(i.getDatum().getMonthValue()));
+        TextField dagField = new TextField(String.valueOf(i.getDatum().getDayOfMonth()));
         Button update = new Button("Update");
 
         
@@ -837,14 +855,14 @@ public class GUI extends Application {
                 (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
             );
-            idb.updateInschrijving(c, newC);
+            idb.updateInschrijving(i, newC);
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
             window.hide();
         });
         
         
-        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,update);
+        layout.getChildren().addAll(cursusFieldLabel, cursusField, cursistFieldLabel, cursistField,jaarField,maandField,dagField,update);
 
         Scene editCursist = new Scene(layout);
         window.setScene(editCursist);
@@ -940,6 +958,11 @@ public class GUI extends Application {
         certificaatTable.getColumns().addAll(inschrijvingColumn, cijferColumn, medewerkerColumn, certificaatColumn);
     }    
     
+    private void refreshCertificaatTable() {
+        certificaat.clear();
+        certificaat.addAll(cerdb.getAllCertificaten());
+    }
+    
     private Stage createCertificaat() {
         Stage window = new Stage();
         VBox layout = new VBox();
@@ -988,6 +1011,7 @@ public class GUI extends Application {
         TextField cijferField = new TextField(String.valueOf(c.getCijfer()));
         TextField medewerkerField = new TextField(c.getMedewerker());
         TextField certificaatField = new TextField(String.valueOf(c.getNummer()));
+        Label inschrijvingFieldLabel = new Label("Current value: " + c.getInschrijving().toString());
         ComboBox inschrijvingField = new ComboBox();
         inschrijvingField.setItems(inschrijving);
         Button update = new Button("Update");
@@ -1008,7 +1032,7 @@ public class GUI extends Application {
         });
         
         
-        layout.getChildren().addAll(cijferField, medewerkerField, certificaatField, inschrijvingField,update);
+        layout.getChildren().addAll(cijferField, medewerkerField, certificaatField, inschrijvingFieldLabel ,inschrijvingField,update);
 
         Scene editCertificaat = new Scene(layout);
         window.setScene(editCertificaat);
