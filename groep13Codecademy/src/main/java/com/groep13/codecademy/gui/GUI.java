@@ -559,15 +559,25 @@ public class GUI extends Application {
         });
         cursusButtons.getChildren().add(update);
         
-        //Update
-        Button updateModules = new Button("Update Modules");
-        updateModules.setOnAction((e) -> {
-            Stage updateModulesWindow = editCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
-            updateModulesWindow.setWidth(500);
-            updateModulesWindow.setHeight(350);
-            updateModulesWindow.show();
+        //add modules
+        Button addModules = new Button("Add Modules");
+        addModules.setOnAction((e) -> {
+            Stage addModulesWindow = addCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+            addModulesWindow.setWidth(500);
+            addModulesWindow.setHeight(350);
+            addModulesWindow.show();
         });
-        cursusButtons.getChildren().add(updateModules);
+        cursusButtons.getChildren().add(addModules);
+        
+        //Update
+        Button removeModules = new Button("Update Modules");
+        removeModules.setOnAction((e) -> {
+            Stage removeModulesWindow = removeCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+            removeModulesWindow.setWidth(500);
+            removeModulesWindow.setHeight(350);
+            removeModulesWindow.show();
+        });
+        cursusButtons.getChildren().add(removeModules);
         
         //Return
         Button returnButton = new Button("Return");
@@ -662,7 +672,38 @@ public class GUI extends Application {
     
     }
     
-    private Stage editCursusModules(Cursus c) {
+    private Stage addCursusModules(Cursus c) {
+        Stage window = new Stage();
+        ScrollPane scroll = new ScrollPane();
+        VBox layout = new VBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setMinHeight(300);
+        layout.setMinWidth(600);
+
+        VBox pm = new VBox();
+        Label possibleModules = new Label("Beschikbare modules: ");
+        ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
+        layout.getChildren().add(possibleModules);
+        for (Module module:possibleModulesList) {
+            HBox h = new HBox();
+            Label l = new Label(module.toString());
+            Button attach = new Button("Attach");
+            attach.setOnAction((e) -> {
+                mdb.moduleSetCursus(module.getId(), c.getId());
+                pm.getChildren().removeAll(h);
+            });           
+            h.getChildren().addAll(l,attach);
+            pm.getChildren().add(h);
+        }      
+        layout.getChildren().add(pm);
+        
+        scroll.setContent(layout);
+        Scene editCursusModules = new Scene(scroll);
+        window.setScene(editCursusModules);
+        return window;
+    }
+    
+    private Stage removeCursusModules(Cursus c) {
         Stage window = new Stage();
         ScrollPane scroll = new ScrollPane();
         VBox layout = new VBox();             
@@ -678,23 +719,14 @@ public class GUI extends Application {
             HBox h = new HBox();
             Label l = new Label(module.toString());
             Button detach = new Button("Detach");
+            detach.setOnAction((e) -> {
+                mdb.moduleClearCursus(module.getId());
+                cm.getChildren().removeAll(h);
+            }); 
             h.getChildren().addAll(l,detach);
             cm.getChildren().add(h);
         }
         layout.getChildren().add(cm);
-        
-        VBox pm = new VBox();
-        Label possibleModules = new Label("Beschikbare modules: ");
-        ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
-        layout.getChildren().add(possibleModules);
-        for (Module module:possibleModulesList) {
-            HBox h = new HBox();
-            Label l = new Label(module.toString());
-            Button attach = new Button("Attach");
-            h.getChildren().addAll(l,attach);
-            pm.getChildren().add(h);
-        }      
-        layout.getChildren().add(pm);
         
         scroll.setContent(layout);
         Scene editCursusModules = new Scene(scroll);

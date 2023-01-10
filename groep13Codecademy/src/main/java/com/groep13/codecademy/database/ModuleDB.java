@@ -67,6 +67,18 @@ public class ModuleDB {
         return allModules;
     }
     
+    public boolean moduleClearCursus(int moduleId) {
+        String SQL = String.format("UPDATE Module SET CursusID = NULL WHERE ContentItemID = %d", moduleId);
+        return DB.exec(SQL);
+    }
+    
+    public boolean moduleSetCursus(int moduleId, int cId) {
+        String SQL = String.format("UPDATE Module SET CursusID = %d WHERE ContentItemID = %d", cId, moduleId);
+        return DB.exec(SQL);
+    }
+    
+    
+    
 //    public void addModule(Module m) {
 //        int id = cdb.addContentItemAndReturnId(m);
 //        String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
