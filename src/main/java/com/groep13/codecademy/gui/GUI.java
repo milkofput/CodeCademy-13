@@ -92,8 +92,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
         //title bar
-        stage.setTitle("codecademy door: Nikki Stam 000000000000, Milko Put 0000000000, Jelle de Kok 2202704");
-        stage.getIcons().add(new Image("https://seeklogo.com/images/C/codecademy-logo-2A19B928CF-seeklogo.com.png"));
+        setTitle(stage);
         
         initCursistTable();
         initCursusTable();
@@ -178,6 +177,11 @@ public class GUI extends Application {
         stage.show();
 
     }
+    
+    public void setTitle(Stage stage){
+        stage.setTitle("Codecademy_ door: Nikki Stam 2145898, Milko Put 2210552, Jelle de Kok 2202704");
+        stage.getIcons().add(new Image("https://seeklogo.com/images/C/codecademy-logo-2A19B928CF-seeklogo.com.png"));
+    }
        
 
     // CURSISTEN -----------------------------------------------------------------------------
@@ -185,6 +189,7 @@ public class GUI extends Application {
     private Stage cursistScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -342,6 +347,7 @@ public class GUI extends Application {
     
     private Stage createCursist() {
         Stage window = new Stage();
+        setTitle(window);
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
@@ -423,6 +429,7 @@ public class GUI extends Application {
     
     private Stage editCursist(Cursist c) {
         Stage window = new Stage();
+        setTitle(window);
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
@@ -510,6 +517,7 @@ public class GUI extends Application {
     private Stage cursusScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -624,6 +632,7 @@ public class GUI extends Application {
         
     private Stage createCursus() {
         Stage window = new Stage();
+        setTitle(window);
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
@@ -678,6 +687,7 @@ public class GUI extends Application {
     
     private Stage addCursusModules(Cursus c) {
         Stage window = new Stage();
+        setTitle(window);
         ScrollPane scroll = new ScrollPane();
         VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
@@ -709,6 +719,7 @@ public class GUI extends Application {
     
     private Stage removeCursusModules(Cursus c) {
         Stage window = new Stage();
+        setTitle(window);
         ScrollPane scroll = new ScrollPane();
         VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
@@ -740,6 +751,7 @@ public class GUI extends Application {
     
     private Stage editCursus(Cursus c) {
         Stage window = new Stage();
+        setTitle(window);
         GridPane layout = new GridPane();             
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
@@ -799,6 +811,7 @@ public class GUI extends Application {
     private Stage inschrijvingScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -885,6 +898,7 @@ public class GUI extends Application {
     
     private Stage createInschrijving() {
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -927,6 +941,7 @@ public class GUI extends Application {
     
     private Stage editInschrijving(Inschrijving i) {
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -978,6 +993,7 @@ public class GUI extends Application {
     private Stage certificaatScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -1066,6 +1082,7 @@ public class GUI extends Application {
     
     private Stage createCertificaat() {
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -1103,6 +1120,7 @@ public class GUI extends Application {
     
     private Stage editCertificaat(Certificaat c) {
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
@@ -1146,6 +1164,7 @@ public class GUI extends Application {
     private Stage topThreeScene() {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
