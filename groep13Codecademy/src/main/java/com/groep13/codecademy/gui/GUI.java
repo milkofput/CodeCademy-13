@@ -551,12 +551,22 @@ public class GUI extends Application {
         //Update
         Button update = new Button("Update");
         update.setOnAction((e) -> {
-            Stage deleteWindow = editCursus((Cursus)cursusTable.getSelectionModel().getSelectedItem());
-            deleteWindow.setWidth(500);
-            deleteWindow.setHeight(350);
-            deleteWindow.show();
+            Stage updateWindow = editCursus((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+            updateWindow.setWidth(500);
+            updateWindow.setHeight(350);
+            updateWindow.show();
         });
         cursusButtons.getChildren().add(update);
+        
+        //Update
+        Button updateModules = new Button("Update Modules");
+        updateModules.setOnAction((e) -> {
+            Stage updateModulesWindow = editCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+            updateModulesWindow.setWidth(500);
+            updateModulesWindow.setHeight(350);
+            updateModulesWindow.show();
+        });
+        cursusButtons.getChildren().add(updateModules);
         
         //Return
         Button returnButton = new Button("Return");
@@ -649,6 +659,20 @@ public class GUI extends Application {
         window.setScene(createCursus);
         return window;
     
+    }
+    
+    private Stage editCursusModules(Cursus c) {
+        Stage window = new Stage();
+        GridPane layout = new GridPane();             
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setHgap(10);
+        layout.setVgap(5);
+        layout.setMinHeight(300);
+        layout.setMinWidth(600);
+        
+        Scene editCursusModules = new Scene(layout);
+        window.setScene(editCursusModules);
+        return window;
     }
     
     private Stage editCursus(Cursus c) {
