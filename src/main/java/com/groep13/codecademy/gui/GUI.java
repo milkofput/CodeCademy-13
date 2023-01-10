@@ -50,6 +50,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -90,6 +91,9 @@ public class GUI extends Application {
    
     @Override
     public void start(Stage stage) throws SQLException {
+        //title bar
+        stage.setTitle("codecademy door: Nikki Stam 000000000000, Milko Put 0000000000, Jelle de Kok 2202704");
+        stage.getIcons().add(new Image("https://seeklogo.com/images/C/codecademy-logo-2A19B928CF-seeklogo.com.png"));
         
         initCursistTable();
         initCursusTable();
