@@ -49,6 +49,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -663,14 +664,40 @@ public class GUI extends Application {
     
     private Stage editCursusModules(Cursus c) {
         Stage window = new Stage();
-        GridPane layout = new GridPane();             
+        ScrollPane scroll = new ScrollPane();
+        VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setHgap(10);
-        layout.setVgap(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
         
-        Scene editCursusModules = new Scene(layout);
+        VBox cm = new VBox();
+        Label courseModules = new Label("Modules cursus: ");
+        ArrayList<Module> courseModulesList = mdb.getCourseModules(c.getId());
+        layout.getChildren().add(courseModules);
+        for (Module module:courseModulesList) {
+            HBox h = new HBox();
+            Label l = new Label(module.toString());
+            Button detach = new Button("Detach");
+            h.getChildren().addAll(l,detach);
+            cm.getChildren().add(h);
+        }
+        layout.getChildren().add(cm);
+        
+        VBox pm = new VBox();
+        Label possibleModules = new Label("Beschikbare modules: ");
+        ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
+        layout.getChildren().add(possibleModules);
+        for (Module module:possibleModulesList) {
+            HBox h = new HBox();
+            Label l = new Label(module.toString());
+            Button attach = new Button("Attach");
+            h.getChildren().addAll(l,attach);
+            pm.getChildren().add(h);
+        }      
+        layout.getChildren().add(pm);
+        
+        scroll.setContent(layout);
+        Scene editCursusModules = new Scene(scroll);
         window.setScene(editCursusModules);
         return window;
     }
