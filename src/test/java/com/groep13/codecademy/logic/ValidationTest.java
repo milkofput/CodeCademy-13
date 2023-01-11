@@ -56,7 +56,7 @@ public class ValidationTest {
         //arange
         email = null;
         //act
-        boolean awnser = Validation.isValidEmail(email);
+        boolean awnser = isValidEmail(email);
         //assert
         assertEquals(false, awnser);
     }
@@ -65,10 +65,32 @@ public class ValidationTest {
      * @requires email.matches("@." )
      * @signals (IllegalArgumentExeption) !email.matches("@") || !email.matches(".")
      * }
+     */
+    @Test
+    public void testIsValidEmailmissesDot(/*@non_null@*/ String email) {
+        //arange
+        email = "emai@emailDOTcom";
+        //act
+        boolean awnser = isValidEmail(email);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
      * @subcontract email has forbidden icons{
      * @requires !email.matches("[]{}!#$%€^&*()_+=/\|><?")
      * @signals (IllegalArgumentExeption) email.matches("[]{}!#$%€^&*()_+=/\|><?")
      * }
+     */
+    @Test
+    public void testIsValidEmailHasHashtag(/*@non_null@*/ String email) {
+        //arange
+        email = "#email@email.com";
+        //act
+        boolean awnser = isValidEmail(email);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
      * @subcontract valid email{
      * @requires email.matches(% + "@" + % + "." + %) && !email.isempty() && !email.matches("[]{}!#$%€^&*()_+=/\|><?")
      * @ensures \result = an email that isn't null and has a @ and a .
@@ -78,10 +100,11 @@ public class ValidationTest {
     @Test
     public void testIsValidEmail(/*@non_null@*/ String email) {
         //arange
-        
+        email = "email@email.com";
         //act
-        
+        boolean awnser = isValidEmail(email);
         //assert
+        assertEquals(true, awnser);
     }
 
     /**
