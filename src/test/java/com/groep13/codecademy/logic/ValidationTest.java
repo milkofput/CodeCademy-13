@@ -55,7 +55,7 @@ public class ValidationTest {
     @Test
     public void testIsValidEmailmissesDot() {
         //arange
-        String email = "emai@emailDOTcom";
+        String email = "email@emailDOTcom";
         //act
         boolean awnser = val.isValidEmail(email);
         //assert
@@ -94,17 +94,51 @@ public class ValidationTest {
     }
 
     /**
-     * @desc checks if the postcode is valid
+     * @desc checks if the postcode is valid returns true if this is the case
+     * @subcontract postcode is null{
+     * @requires !postcode.isEmpty()
+     * @signals (NullPointerExeption) !email.isEmpty() 
+     * }
      */
     @Test
-    public void testIsValidPostcode() {
+    public void testIsValidPostcodeIsNull() {
         //arange
-        
+        String postcode = null;
         //act
-        
+        boolean awnser = val.isValidPostcode(postcode);
         //assert
+        assertEquals(false, awnser);
     }
-
+    /**
+     * @subcontract postcode isn't six digits{
+     * @requires postcode.length() == 6
+     * @signals (IllegalArgumentExeption) postcode.length() != 6
+     * }
+     */
+    @Test
+    public void testIsValidPostcodeIsNotSixDigits() {
+        //arange
+        String postcode = "1234567";
+        //act
+        boolean awnser = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract postcode starts with a zero{
+     * @requires !postcode.startsWith("0")
+     * @signals (IllegalArgumentExeption) postcode.startsWith("0")
+     * }
+     */
+        @Test
+    public void testIsValidPostcodeStartsWithZero() {
+        //arange
+        String postcode = "0123GG";
+        //act
+        boolean awnser = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, awnser);
+    }
     /**
      * @desc checks if the URL is valid
      */

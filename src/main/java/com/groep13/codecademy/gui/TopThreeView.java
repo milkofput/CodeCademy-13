@@ -18,13 +18,14 @@ import javafx.stage.Stage;
  *
  * @author milko
  */
-public class TopThreeView {
+public class TopThreeView extends View{
     
     private final StatistiekDB sdb = new StatistiekDB();
     
     public Stage getScene() {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);

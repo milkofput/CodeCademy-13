@@ -36,7 +36,7 @@ import java.util.Map;
  *
  * @author milko
  */
-public class CursusView {
+public class CursusView extends View{
     
         
     private final CursusDB cursusdb = new CursusDB();
@@ -64,6 +64,7 @@ public class CursusView {
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);

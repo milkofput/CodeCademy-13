@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  *
  * @author milko
  */
-public class CertificaatView {  
+public class CertificaatView extends View{  
     
     private final CertificaatDB cerdb = new CertificaatDB();
     private final TableView certificaatTable = new TableView();
@@ -54,6 +54,7 @@ public class CertificaatView {
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);

@@ -33,7 +33,7 @@ import javafx.stage.Stage;
  *
  * @author milko
  */
-public class InschrijvingView {
+public class InschrijvingView extends View{
       
     private final InschrijvingDB idb = new InschrijvingDB();
     private final TableView inschrijvingTable = new TableView();
@@ -57,6 +57,7 @@ public class InschrijvingView {
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);

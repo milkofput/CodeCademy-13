@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  *
  * @author milko
  */
-public class CursistView {
+public class CursistView extends View{
     
     private final CursistDB cdb = new CursistDB();
     private final TableView cursistTable = new TableView();
@@ -74,6 +74,7 @@ public class CursistView {
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
+        setTitle(window);
         VBox layout = new VBox();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
