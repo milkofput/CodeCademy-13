@@ -104,7 +104,7 @@ public class GUI extends Application {
         
         BorderPane mainLayout = new BorderPane();       
         mainLayout.setMinHeight(300);
-        mainLayout.setMinWidth(600);
+        mainLayout.setMinWidth(650);
         
         Label firstLabel = new Label("Main menu");
         Button cursistButton = new Button("Cursisten");
@@ -194,7 +194,7 @@ public class GUI extends Application {
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
         layout.setMinHeight(200);
-        layout.setMinWidth(600);
+        layout.setMinWidth(1000);
         
         //initCursistTable();
         layout.getChildren().add(cursistTable);
@@ -290,8 +290,8 @@ public class GUI extends Application {
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             Stage deleteWindow = editCursist((Cursist)cursistTable.getSelectionModel().getSelectedItem());
-            deleteWindow.setWidth(500);
-            deleteWindow.setHeight(350);
+            deleteWindow.setWidth(700);
+            deleteWindow.setHeight(400);
             deleteWindow.show();
         });
         cursistButtons.getChildren().add(update);       
@@ -695,7 +695,7 @@ public class GUI extends Application {
         layout.setMinWidth(600);
 
         VBox pm = new VBox();
-        Label possibleModules = new Label("Beschikbare modules: ");
+        Label possibleModules = new Label("Beschikbare modules voor de cursus " + c.getNaam() + ": ");
         ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
         layout.getChildren().add(possibleModules);
         for (Module module:possibleModulesList) {
@@ -727,7 +727,7 @@ public class GUI extends Application {
         layout.setMinWidth(600);
         
         VBox cm = new VBox();
-        Label courseModules = new Label("Modules cursus: ");
+        Label courseModules = new Label("Modules in de cursus " + c.getNaam() + ": ");
         ArrayList<Module> courseModulesList = mdb.getCourseModules(c.getId());
         layout.getChildren().add(courseModules);
         for (Module module:courseModulesList) {
@@ -828,8 +828,8 @@ public class GUI extends Application {
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createInschrijving();
-            createWindow.setWidth(500);
-            createWindow.setHeight(350);
+            createWindow.setWidth(700);
+            createWindow.setHeight(200);
             createWindow.show();
         });
         buttons.getChildren().addAll(create);
@@ -853,8 +853,8 @@ public class GUI extends Application {
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             Stage deleteWindow = editInschrijving((Inschrijving)inschrijvingTable.getSelectionModel().getSelectedItem());
-            deleteWindow.setWidth(500);
-            deleteWindow.setHeight(350);
+            deleteWindow.setWidth(750);
+            deleteWindow.setHeight(200);
             deleteWindow.show();
         });
         buttons.getChildren().add(update);
@@ -899,28 +899,44 @@ public class GUI extends Application {
     private Stage createInschrijving() {
         Stage window = new Stage();
         setTitle(window);
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
-        layout.setMinHeight(300);
-        layout.setMinWidth(600);
+        layout.setHgap(10);
+        layout.setVgap(5);
+        // dit doet volgens mij niks:
+        //layout.setMinHeight(300);
+        //layout.setMinWidth(900);
 
-        //TextField cursusField = new TextField("CursusID");
+        Label inschrijvingLabel = new Label("Create Inschrijving:");
+        layout.add(inschrijvingLabel, 0, 0);
+        
+        Label cursusLabel = new Label("Cursus:");
+        layout.add(cursusLabel, 0, 1);
         ComboBox cursusField = new ComboBox();
         cursusField.setItems(cursus);
+        layout.add(cursusField, 1, 1);
         
+        Label cursistLabel = new Label("Cursist:");
+        layout.add(cursistLabel, 0, 2);
         ComboBox cursistField = new ComboBox();
         cursistField.setItems(cursist);
+        layout.add(cursistField, 1,2 );
         
+        Label datumLabel = new Label("Datum (jjjj-mm-dd)");
+        layout.add(datumLabel, 0, 3);
         TextField jaarField = new TextField("Jaar");
+        layout.add(jaarField, 1,3);
         TextField maandField = new TextField("Maand");
+        layout.add(maandField,2,3);
         TextField dagField = new TextField("Dag");
+        layout.add(dagField,3,3);
+
         Button create = new Button("Create");
+        layout.add(create, 0,4);
 
         create.setOnAction((e) -> {
             Inschrijving newC = new Inschrijving(
                 0,
-                //Integer.parseInt(cursusField.getText()),
                 (Cursus) cursusField.getValue(),
                 (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
@@ -931,8 +947,6 @@ public class GUI extends Application {
             window.hide();
         });
 
-        layout.getChildren().addAll(cursusField,cursistField,jaarField,maandField,dagField,create);
-
         Scene createInschrijving = new Scene(layout);
         window.setScene(createInschrijving);
         return window;
@@ -942,26 +956,43 @@ public class GUI extends Application {
     private Stage editInschrijving(Inschrijving i) {
         Stage window = new Stage();
         setTitle(window);
-        VBox layout = new VBox();
+        GridPane layout = new GridPane();
         layout.setPadding(new Insets(8,8,8,8));
-        layout.setSpacing(5);
-        layout.setMinHeight(200);
-        layout.setMinWidth(600);
+        layout.setHgap(10);
+        layout.setVgap(5);
+        
+//        layout.setMinHeight(200);
+//        layout.setMinWidth(600);
 
-        //TextField cursusField = new TextField(String.valueOf(c.getCursusID()));
-        Label cursusFieldLabel = new Label("Current value: " + i.getCursus().toString());
+        
+        
+        Label inschrijvingLabel = new Label("Create Inschrijving:");
+        layout.add(inschrijvingLabel, 0, 0);
+        
+        Label cursusLabel = new Label("Cursus (" + i.getCursus().toString() + "):");
+        layout.add(cursusLabel, 0, 1);
         ComboBox cursusField = new ComboBox();
         cursusField.setItems(cursus);
+        layout.add(cursusField, 1, 1);
         
-        Label cursistFieldLabel = new Label("Current value: " + i.getCursist().toString());
+        Label cursistLabel = new Label("Cursist ("+ i.getCursist().toString() + "):");
+        layout.add(cursistLabel, 0, 2);
         ComboBox cursistField = new ComboBox();
         cursistField.setItems(cursist);
+        layout.add(cursistField, 1,2 );
         
-        TextField jaarField = new TextField(String.valueOf(i.getDatum().getYear()));
-        TextField maandField = new TextField(String.valueOf(i.getDatum().getMonthValue()));
-        TextField dagField = new TextField(String.valueOf(i.getDatum().getDayOfMonth()));
-        Button update = new Button("Update");
+        Label datumLabel = new Label("Datum (" + i.getDatum().getYear() + "-" + i.getDatum().getMonthValue() + "-" + i.getDatum().getDayOfMonth() + ")");
+        layout.add(datumLabel, 0, 3);
+        TextField jaarField = new TextField("Jaar");
+        layout.add(jaarField, 1,3);
+        TextField maandField = new TextField("Maand");
+        layout.add(maandField,2,3);
+        TextField dagField = new TextField("Dag");
+        layout.add(dagField,3,3);
 
+        Button update = new Button("Update");
+        layout.add(update, 0,4);
+        
         
         update.setOnAction((e) -> {
             Inschrijving newC = new Inschrijving(
@@ -977,8 +1008,6 @@ public class GUI extends Application {
             window.hide();
         });
         
-        
-        layout.getChildren().addAll(cursusFieldLabel, cursusField, cursistFieldLabel, cursistField,jaarField,maandField,dagField,update);
 
         Scene editCursist = new Scene(layout);
         window.setScene(editCursist);
