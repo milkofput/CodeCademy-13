@@ -55,22 +55,23 @@ public class StatistiekDB {
     public double voortgangModuleVanCursist(Cursist c, Module m){
         return 0;
     }
-
-    public double gemiddeldeVoortgangPerCursus(Cursus c) {
-        String SQL = String.format("(SELECT SUM(Voortgang) /\n" +
-            "    ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d) * (SELECT Count(*) FROM Module WHERE Module.CursusID = %d))) AS GemVoortgang\n" +
-            "    FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
-            "    JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "    WHERE Cursus.ID=%d;", c.getId(),c.getId(),c.getId());
+    
+    //HashMap<ContentItemID, GemiddeldeVoortgang>
+    public HashMap<Integer, Double> gemiddeldeVoortgangPerModulePerCursus(Cursus c) {
+        HashMap<Integer, Double> voortgang = new HashMap<>();
+        String SQL = String.format("SELECT Module.ContentItemID, SUM(Voortgang) / ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d)) AS GemVoortgang\n" +
+            "FROM Module JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
+            "WHERE Module.CursusID = %d\n" +
+            "GROUP BY Module.ContentItemId;", c.getId(),c.getId());
         ResultSet rs = DB.execWithRS(SQL);
         try {
             while (rs.next()) {
-                return rs.getDouble("GemVoortgang");
+                voortgang.put(rs.getInt("ContentItemID"),rs.getDouble("GemVoortgang"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return voortgang;
     }
     
     public double gemiddeldeVoortgangPerCursusByID(int cID) {

@@ -29,6 +29,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.groep13.codecademy.domain.Module;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -135,6 +137,16 @@ public class CursusView {
         });
         cursusButtons.getChildren().add(removeModules);
         
+        //Update
+        Button gemvoortgang = new Button("Voortgang per module");
+        gemvoortgang.setOnAction((e) -> {
+            Stage voortgangModulesWindow = gemiddeldeCursusVoortgang((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+            voortgangModulesWindow.setWidth(500);
+            voortgangModulesWindow.setHeight(350);
+            voortgangModulesWindow.show();
+        });
+        cursusButtons.getChildren().add(gemvoortgang);
+        
         //Return
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
@@ -153,13 +165,29 @@ public class CursusView {
         return window; 
     }
     
-    public void initCursusTable() throws SQLException {
-        
-    }
-    
     public void refreshCursusTable() {
         cursus.clear();
         cursus.addAll(cursusdb.getAllCursussen());
+    }
+    
+    public Stage gemiddeldeCursusVoortgang(Cursus c) {
+        Stage window = new Stage();
+        HBox layout = new HBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setMinHeight(300);
+        layout.setMinWidth(600);
+        HashMap<Integer,Double> voortgang = sdb.gemiddeldeVoortgangPerModulePerCursus(c);
+        for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
+            HBox h = new HBox();
+            Label module = new Label(mdb.getModuleById(entry.getKey()).toString());
+            Label voortganglabel = new Label(entry.getValue().toString() + "%");
+            h.getChildren().addAll(module,voortganglabel);
+            layout.getChildren().add(h);
+        }
+
+        Scene editCursus = new Scene(layout);
+        window.setScene(editCursus);
+        return window;
     }
         
     public Stage createCursus() {

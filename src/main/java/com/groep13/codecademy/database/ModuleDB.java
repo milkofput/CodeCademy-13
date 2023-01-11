@@ -50,6 +50,34 @@ public class ModuleDB {
         }
         return allModules;
     }
+    
+    public Module getModuleById(int id) {
+        ResultSet rs = DB.execWithRS(String.format("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
+                " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
+                " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
+                " FROM Module JOIN ContentItem\n" +
+                "ON Module.ContentItemID = ContentItem.ID WHERE ContentItem.ID = %d",id));
+        try {
+            while (rs.next()) {
+                return new Module(
+                        rs.getInt("ID"),
+                        rs.getInt("ContentItemNummer"),
+                        rs.getDate("PublicatieDatum").toLocalDate(),
+                        Status.fromString(rs.getString("Status")),
+                        rs.getString("Titel"),
+                        rs.getInt("Versie"),
+                        rs.getString("Beschrijving"),
+                        rs.getString("NaamContactpersoon"),
+                        rs.getString("EmailContactpersoon"),
+                        rs.getInt("Volgnummer"),
+                        rs.getInt("CursusID")
+                );
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
 
     public ArrayList<Module> getAllModulesWithoutCursus() {
         ArrayList<Module> allModules = getAllModules()
