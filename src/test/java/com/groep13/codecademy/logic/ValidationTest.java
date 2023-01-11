@@ -44,6 +44,7 @@ public class ValidationTest {
 
     /**
      * @desc checks if the given email is valid
+     * 
      */
     @Test
     public void testIsValidEmail() {
@@ -55,7 +56,7 @@ public class ValidationTest {
     }
 
     /**
-     * Test of isValidPostcode method, of class Validation.
+     * @desc checks if the postcode is valid
      */
     @Test
     public void testIsValidPostcode() {
@@ -67,7 +68,7 @@ public class ValidationTest {
     }
 
     /**
-     * Test of isValidURL method, of class Validation.
+     * @desc checks if the URL is valid
      */
     @Test
     public void testIsValidURL() {
@@ -79,7 +80,7 @@ public class ValidationTest {
     }
 
     /**
-     * Test of isValidDate method, of class Validation.
+     * @desc checks if the test has a valid date
      */
     @Test
     public void testIsValidDate() {
@@ -91,7 +92,7 @@ public class ValidationTest {
     }
 
     /**
-     * Test of isValidPercentage method, of class Validation.
+     * @desc check if the test has a valid percentage
      */
     @Test
     public void testIsValidPercentage() {
@@ -103,7 +104,7 @@ public class ValidationTest {
     }
 
     /**
-     * Test of isValidCijfer method, of class Validation.
+     * @desc check if the test has a valid number
      */
     @Test
     public void testIsValidCijfer() {
