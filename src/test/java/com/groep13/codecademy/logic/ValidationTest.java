@@ -5,6 +5,7 @@
  */
 package com.groep13.codecademy.logic;
 
+import com.groep13.codecademy.logic.Validation;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,11 +44,39 @@ public class ValidationTest {
     }
 
     /**
-     * @desc checks if the given email is valid
+     * @desc checks if the given email is valid returns true it that is the case
+     * 
+     * @subcontract email is null{
+     * @requires !email.isEmpty 
+     * @signals (nullPointerExeption) email.isEmpty()
+     * }
+     */
+    @Test
+    public void testIsValidEmailNotNull(/*@non_null@*/ String email) {
+        //arange
+        email = null;
+        //act
+        boolean awnser = Validation.isValidEmail(email);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract email doesn't have a @ or a .{ 
+     * @requires email.matches("@." )
+     * @signals (IllegalArgumentExeption) !email.matches("@") || !email.matches(".")
+     * }
+     * @subcontract email has forbidden icons{
+     * @requires !email.matches("[]{}!#$%€^&*()_+=/\|><?")
+     * @signals (IllegalArgumentExeption) email.matches("[]{}!#$%€^&*()_+=/\|><?")
+     * }
+     * @subcontract valid email{
+     * @requires email.matches(% + "@" + % + "." + %) && !email.isempty() && !email.matches("[]{}!#$%€^&*()_+=/\|><?")
+     * @ensures \result = an email that isn't null and has a @ and a .
+     * }
      * 
      */
     @Test
-    public void testIsValidEmail() {
+    public void testIsValidEmail(/*@non_null@*/ String email) {
         //arange
         
         //act
