@@ -18,25 +18,11 @@ import static org.junit.Assert.*;
  * @author jelle
  */
 public class ValidationTest {
-    private int amountTests;
-    public ValidationTest() {
-        amountTests = 0;
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-        System.out.println("starting tests");
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        
-    }
+    private Validation val;
     
     @Before
     public void setUp() {
-        amountTests++;
-        System.out.println("test Nr: " + amountTests);
+        val = new Validation();
     }
     
     @After
@@ -52,11 +38,11 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidEmailNotNull(/*@non_null@*/ String email) {
+    public void testIsValidEmailNotNull() {
         //arange
-        email = null;
+        String email = null;
         //act
-        boolean awnser = isValidEmail(email);
+        boolean awnser = val.isValidEmail(email);
         //assert
         assertEquals(false, awnser);
     }
@@ -67,11 +53,11 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidEmailmissesDot(/*@non_null@*/ String email) {
+    public void testIsValidEmailmissesDot() {
         //arange
-        email = "emai@emailDOTcom";
+        String email = "emai@emailDOTcom";
         //act
-        boolean awnser = isValidEmail(email);
+        boolean awnser = val.isValidEmail(email);
         //assert
         assertEquals(false, awnser);
     }
@@ -82,11 +68,11 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidEmailHasHashtag(/*@non_null@*/ String email) {
+    public void testIsValidEmailHasHashtag() {
         //arange
-        email = "#email@email.com";
+        String email = "#email@email.com";
         //act
-        boolean awnser = isValidEmail(email);
+        boolean awnser = val.isValidEmail(email);
         //assert
         assertEquals(false, awnser);
     }
@@ -98,11 +84,11 @@ public class ValidationTest {
      * 
      */
     @Test
-    public void testIsValidEmail(/*@non_null@*/ String email) {
+    public void testIsValidEmail() {
         //arange
-        email = "email@email.com";
+        String email = "email@email.com";
         //act
-        boolean awnser = isValidEmail(email);
+        boolean awnser = val.isValidEmail(email);
         //assert
         assertEquals(true, awnser);
     }
@@ -165,6 +151,5 @@ public class ValidationTest {
         //act
         
         //assert
-    }
-    
+    }   
 }
