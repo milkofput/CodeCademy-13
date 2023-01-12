@@ -77,6 +77,15 @@ public class CursusView extends View{
         Label percentageBehaaldVrouwen = new Label("Percentage voltooide cursussen vrouwen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Vrouw") + "%");
         layout.getChildren().addAll(percentageBehaaldMannen, percentageBehaaldVrouwen);
         
+        Button amtCert = new Button("Certificaten & aanbevolen");
+        amtCert.setOnAction((e) -> {
+            Stage amtCertWindow = amtCertStage(((Cursus) cursusTable.getSelectionModel().getSelectedItem()).getId());
+            amtCertWindow.setWidth(500);
+            amtCertWindow.setHeight(350);
+            amtCertWindow.show();
+        });
+        layout.getChildren().add(amtCert);
+        
         HBox cursusButtons = new HBox();
         
         //Error label
@@ -188,6 +197,29 @@ public class CursusView extends View{
 
         Scene editCursus = new Scene(layout);
         window.setScene(editCursus);
+        return window;
+    }
+    
+    public Stage amtCertStage(int cursusId) {
+        Stage window = new Stage();
+        VBox layout = new VBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        layout.setMinHeight(300);
+        layout.setMinWidth(600);
+        
+        Label amtCertLabel = new Label("Certificaten: " + sdb.hoeveelCertificatenPerCursus(cursusId));
+        Label aanbevolen = new Label("Aanbevolen cursussen:");
+        layout.getChildren().addAll(amtCertLabel, aanbevolen);
+        ArrayList<Cursus> aanbevolenCursus = sdb.aanbevolenCursussenBijCursus(cursusId);
+        if (!(aanbevolenCursus.isEmpty())) {
+            for (Cursus cursus : aanbevolenCursus) {
+                Label cursusLabel = new Label(cursus.toString());
+                layout.getChildren().add(cursusLabel);
+            }
+        }
+        
+        Scene amtCertScene = new Scene(layout);
+        window.setScene(amtCertScene);
         return window;
     }
         

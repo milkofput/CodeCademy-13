@@ -7,14 +7,18 @@ package com.groep13.codecademy.gui;
 
 import com.groep13.codecademy.database.BekijktDB;
 import com.groep13.codecademy.database.CursistDB;
+import com.groep13.codecademy.database.CursusDB;
 import com.groep13.codecademy.database.ModuleDB;
 import com.groep13.codecademy.database.StatistiekDB;
 import com.groep13.codecademy.database.WebcastDB;
 import com.groep13.codecademy.domain.Cursist;
+import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Webcast;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -38,6 +42,7 @@ import javafx.stage.Stage;
 public class CursistView extends View{
     
     private final CursistDB cdb = new CursistDB();
+    private final CursusDB cursusdb = new CursusDB();
     private final TableView cursistTable = new TableView();
     private final ObservableList<Cursist> cursist; 
     private final ModuleDB mdb = new ModuleDB();
@@ -127,6 +132,27 @@ public class CursistView extends View{
         voortgangWebcast.getChildren().addAll(webcastCursistLabel, webcastCursistField, webcastLabel, webcastField, viewVoortgangWebcast, voortgangWebcastOutput);      
         layout.getChildren().addAll(voortgangWebcastLabel, voortgangWebcast);
         
+        //View voortgang per module van cursus en cursist
+        HBox voortgangModCur = new HBox();
+        Label voortgangModCurLabel = new Label("View voortgang van een cursist in een cursus per module:");
+        Label modCurCursistLabel = new Label("Selecteer cursist: ");
+        ComboBox modCurCursistField = new ComboBox();
+        modCurCursistField.setItems(cursist);       
+        Label modCurLabel = new Label("Selecteer cursus: ");        
+        ComboBox modCurCursusField = new ComboBox();
+        modCurCursusField.setItems(FXCollections.observableArrayList(cursusdb.getAllCursussen()));            
+        Button viewVoortgang = new Button("View Voortgang");
+        viewVoortgang.setOnAction((e) -> {          
+            int cursistId = ((Cursist) modCurCursistField.getValue()).getId();
+            int cursusId = ((Cursus) modCurCursusField.getValue()).getId();            
+            Stage voortgangWindow = voortgangCursusPerModule(cursistId, cursusId);
+            voortgangWindow.setWidth(700);
+            voortgangWindow.setHeight(400);
+            voortgangWindow.show();
+        });       
+        voortgangModCur.getChildren().addAll(modCurCursistLabel, modCurCursistField, modCurLabel, modCurCursusField, viewVoortgang);      
+        layout.getChildren().addAll(voortgangModCurLabel, voortgangModCur);
+        
         //View certificaten behaald door cursist
         Label certificatenLabel = new Label("View behaalde certificaten van een cursist:");
         HBox certificatenBehaald = new HBox();
@@ -203,6 +229,24 @@ public class CursistView extends View{
     public void refreshCursistTable() {
         cursist.clear();
         cursist.addAll(cdb.getAllCursisten());
+    }
+    
+    public Stage voortgangCursusPerModule(int cursistId, int cursusId) {
+        HashMap<Integer, Double> voortgang = sdb.voortgangPerModuleVanCursusEnCursist(cursusId, cursistId);
+        
+        Stage window = new Stage();
+        HBox layout = new HBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        
+        for(Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
+            Label l = new Label("Module: " + mdb.getModuleById(entry.getKey()) + ", voortgang: " + entry.getValue() + "%");
+            layout.getChildren().add(l);
+        }
+        
+        Scene voortgangScene = new Scene(layout);
+        window.setScene(voortgangScene);
+        return window;
+        
     }
     
     public Stage createCursist() {
