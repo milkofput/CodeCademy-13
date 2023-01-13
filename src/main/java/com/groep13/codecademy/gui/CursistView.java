@@ -41,18 +41,24 @@ import javafx.stage.Stage;
  */
 public class CursistView extends View{
     
-    private final CursistDB cdb = new CursistDB();
-    private final CursusDB cursusdb = new CursusDB();
+    private final CursistDB cdb;
+    private final CursusDB cursusdb;
     private final TableView cursistTable = new TableView();
     private final ObservableList<Cursist> cursist; 
-    private final ModuleDB mdb = new ModuleDB();
-    private final BekijktDB bdb = new BekijktDB();
-    private final WebcastDB wdb = new WebcastDB();
-    private final StatistiekDB sdb = new StatistiekDB();
+    private final ModuleDB mdb;
+    private final BekijktDB bdb;
+    private final WebcastDB wdb;
+    private final StatistiekDB sdb;
 
-    public CursistView() {
-                  
-        cursist = FXCollections.observableArrayList(cdb.getAllCursisten());
+    public CursistView(CursistDB cdb, CursusDB cursusdb, ObservableList<Cursist> cursist, ModuleDB mdb, BekijktDB bdb, WebcastDB wdb, StatistiekDB sdb) {
+        this.cdb = cdb;
+        this.cursusdb = cursusdb;
+        this.cursist=cursist;
+        this.mdb = mdb;
+        this.bdb = bdb;
+        this.wdb = wdb;
+        this.sdb = sdb;
+
         TableColumn emailColumn = new TableColumn("EmailAdres");
         TableColumn naamColumn = new TableColumn("Naam");
         TableColumn datumColumn = new TableColumn("GeboorteDatum");

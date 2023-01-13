@@ -5,7 +5,14 @@
  */
 package com.groep13.codecademy.gui;
 
+import com.groep13.codecademy.database.*;
+import com.groep13.codecademy.domain.Certificaat;
+import com.groep13.codecademy.domain.Cursist;
+import com.groep13.codecademy.domain.Cursus;
+import com.groep13.codecademy.domain.Inschrijving;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -23,12 +30,27 @@ import javafx.scene.layout.BorderPane;
  * @author milko
  */
 public class GUI extends Application {
-    
-    private final TopThreeView topThreeView = new TopThreeView();
-    private final CertificaatView certificaatView = new CertificaatView();
-    private final InschrijvingView inschrijvingView = new InschrijvingView();
-    private final CursusView cursusView = new CursusView();
-    private final CursistView cursistView = new CursistView();
+
+    private final CertificaatDB certificaatdb = new CertificaatDB();
+    private final InschrijvingDB inschrijvingdb = new InschrijvingDB();
+    private final CursusDB cursusdb = new CursusDB();
+    private final CursistDB cursistdb = new CursistDB();
+    private final StatistiekDB statistiekdb = new StatistiekDB();
+    private final ModuleDB moduledb = new ModuleDB();
+    private final BekijktDB bekijktdb = new BekijktDB();
+    private final WebcastDB webcastdb = new WebcastDB();
+
+    private final ObservableList<Cursus> cursus = FXCollections.observableArrayList(cursusdb.getAllCursussen());
+    private final ObservableList<Cursist> cursist = FXCollections.observableArrayList(cursistdb.getAllCursisten());
+    private final ObservableList<Certificaat> certificaat = FXCollections.observableArrayList(certificaatdb.getAllCertificaten());;
+    private final ObservableList<Inschrijving> inschrijving = FXCollections.observableArrayList(inschrijvingdb.getAllInschrijvingen());;
+
+    private final TopThreeView topThreeView = new TopThreeView(statistiekdb);
+    private final CertificaatView certificaatView = new CertificaatView(certificaatdb,certificaat,inschrijvingdb,inschrijving);
+    private final InschrijvingView inschrijvingView = new InschrijvingView(inschrijvingdb,inschrijving,cursusdb,cursistdb,cursus,cursist);
+    private final CursusView cursusView = new CursusView(cursus,cursusdb,statistiekdb,moduledb);
+    private final CursistView cursistView = new CursistView(cursistdb,cursusdb,cursist,moduledb,bekijktdb,webcastdb,statistiekdb);
+
    
     @Override
     public void start(Stage stage) throws SQLException {

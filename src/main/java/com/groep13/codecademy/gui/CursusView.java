@@ -12,7 +12,6 @@ import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Niveau;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -39,14 +38,18 @@ import java.util.Map;
 public class CursusView extends View{
     
         
-    private final CursusDB cursusdb = new CursusDB();
+    private final CursusDB cursusdb;
     private final TableView cursusTable = new TableView();
     private final ObservableList<Cursus> cursus;   
-    private final StatistiekDB sdb = new StatistiekDB();
-    private final ModuleDB mdb = new ModuleDB();
+    private final StatistiekDB sdb;
+    private final ModuleDB mdb;
 
-    public CursusView() {       
-        cursus = FXCollections.observableArrayList(cursusdb.getAllCursussen());
+    public CursusView(ObservableList<Cursus> cursus, CursusDB cdb, StatistiekDB sdb, ModuleDB mdb) {
+        this.cursus=cursus;
+        this.cursusdb = cdb;
+        this.sdb = sdb;
+        this.mdb = mdb;
+
         TableColumn naamColumn = new TableColumn("Naam");
         TableColumn owColumn = new TableColumn("Onderwerp");
         TableColumn introColumn = new TableColumn("Introductie Tekst");

@@ -40,35 +40,24 @@ public class InschrijvingDB {
         }
         return allInschrijvingen;
     }
-    
-    //Zorg dat alle modules in bekijkt toegevoegd zijn! (werkt voor nu) (misschien insert overwrite?)
+
     public void addInschrijving(Inschrijving i) {
         String addInschrijving = String.format("INSERT INTO Inschrijving VALUES (%d,%d,\'%s\')",
                 i.getCursus().getId(),
                 i.getCursist().getId(),
                 i.getDatum().toString());
         DB.exec(addInschrijving);
-        //"Bekijkt toevoegpoging"
-        //bekijktdb.generateBekijktForInschrijving(i);
-        
-        
     }
-    
-    //Zorg dat modules in bekijkt ook geupdate worden! (werkt nog niet)
+
     public void updateInschrijving(Inschrijving oldI, Inschrijving newI) {
         String updateInschrijving = String.format("UPDATE Inschrijving SET "
             + "CursusID=%d,"
             + "CursistID=%d,"
-            + "Datum=\'%s\',"              
+            + "Datum=\'%s\'"
             + "WHERE ID=%d", newI.getCursus().getId(),newI.getCursist().getId(), newI.getDatum().toString(),oldI.getId());
         DB.exec(updateInschrijving);
-        
-        //bekijktdb.deleteBekijktForInschrijving(oldI);
-        //bekijktdb.generateBekijktForInschrijving(newI);
-        
     }
-    
-    //Zorg dat alle modules in bekijkt ook verwijderd worden! (werkt nog niet)
+
     public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
         //bekijktdb.deleteBekijktForInschrijving(i);

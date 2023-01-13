@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a5df20e-e755-4ff6-bd0e-f2a0f3a55514" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/database/ContentItemDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/database/ContentItemDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/database/ModuleDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/groep13/codecademy/database/ModuleDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/database/ContentItemDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/database/ContentItemDB.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/database/ModuleDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/groep13/codecademy/database/ModuleDB.class" afterDir="false" />
-    </list>
+    <list default="true" id="1a5df20e-e755-4ff6-bd0e-f2a0f3a55514" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,14 +29,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/milko/Desktop/codecademy/CodeCademy-13/groep13Codecademy&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/milko/Desktop/codecademy/CodeCademy-13",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.groep13.codecademy.Main" />
