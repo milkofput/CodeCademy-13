@@ -38,9 +38,9 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidEmailNotNull() {
+    public void testIsValidEmailNotEmpty() {
         //arange
-        String email = null;
+        String email = "";
         //act
         boolean awnser = val.isValidEmail(email);
         //assert
@@ -95,15 +95,15 @@ public class ValidationTest {
 
     /**
      * @desc checks if the postcode is valid returns true if this is the case
-     * @subcontract postcode is null{
+     * @subcontract postcode is empty{
      * @requires !postcode.isEmpty()
      * @signals (NullPointerExeption) !email.isEmpty() 
      * }
      */
     @Test
-    public void testIsValidPostcodeIsNull() {
+    public void testIsValidPostcodeIsEmpty() {
         //arange
-        String postcode = null;
+        String postcode = "";
         //act
         boolean awnser = val.isValidPostcode(postcode);
         //assert
@@ -217,7 +217,7 @@ public class ValidationTest {
         assertEquals(false, awnser);
     }
     /**
-     * @subcontract checks if the code gives an error when the imput is null{
+     * @subcontract checks if the code gives an error when the imput is empty{
      * @requires !url.isEmpty()
      * @signals (NullPointerExeption) url.isEmpty()
      * }
@@ -225,7 +225,7 @@ public class ValidationTest {
     @Test
     public void testIsValidURLIsEmpty() {
         //arange
-        String url = null;
+        String url = "";
         //act
         boolean awnser = val.isValidURL(url);
         //assert

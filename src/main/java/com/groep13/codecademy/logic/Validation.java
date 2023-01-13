@@ -20,7 +20,7 @@ public class Validation {
     }
 
     public boolean isValidPostcode(String postcode) {
-        return isValidInput(postcode, "^[1-9][0-9]{3}\\s[a-zA-Z]{2}$");
+        return isValidInput(postcode, "^[1-9][0-9]{3}\\s[A-Z]{2}$");
     }
 
     public boolean isValidURL(String url) {
@@ -45,7 +45,7 @@ public class Validation {
     }
 
     private boolean isValidInput(String input, String regex) {
-        if(input.isBlank()){
+        if(input.isBlank() || input.isEmpty()){
             return false;
         }
         return Pattern.compile(regex)
