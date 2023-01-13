@@ -45,6 +45,9 @@ public class Validation {
     }
 
     private boolean isValidInput(String input, String regex) {
+        if(input.isBlank()){
+            return false;
+        }
         return Pattern.compile(regex)
                 .matcher(input)
                 .matches();
