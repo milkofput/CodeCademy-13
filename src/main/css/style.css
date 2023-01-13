@@ -1,0 +1,19 @@
+.root{
+  -fx-background-color: blue;
+  -fx-text-fill: pink;
+}
+
+.label{
+  -fx-text-fill: purple;
+  -fx-font-size: 20px;
+}
+
+.button{
+  -fx-background-color: red;
+  -fx-text-fill: white;
+
+}
+
+#firstLabel{
+  -fx-text-fill: blue;
+}

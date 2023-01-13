@@ -10,6 +10,7 @@ import com.groep13.codecademy.domain.Certificaat;
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Inschrijving;
+import java.io.File;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -128,6 +129,11 @@ public class GUI extends Application {
 
         
         Scene mainScene = new Scene(mainLayout);
+        
+        File f = new File("style.css");
+        // tried this but does not really work:
+//        mainScene.getStylesheets().clear();
+//        mainScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));        
         stage.setScene(mainScene);
         stage.show();
 
