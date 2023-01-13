@@ -234,7 +234,7 @@ public class ValidationTest {
     /**
      * @subcontract returns true when the URL is valid{
      * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$") && !url.isEmpty()
-     * @signals (NullPointerExeption) url.isEmpty()
+     * @ensures \awnser returns true
      * }
      */
     @Test
@@ -249,15 +249,72 @@ public class ValidationTest {
 
     /**
      * @desc checks if the test has a valid date returns true if valid. otherwise false
-     * @subcontract date 
+     * @subcontract date is not negative{
+     * @requires day > 0 && month > 0 && year > 0
+     * @signals(IllegalArgumentExeption) day <= 0 || month <= 0 || year < 0
+     * }
      */
     @Test
-    public void testIsValidDate() {
+    public void testIsValidDateDayNotNegative() {
         //arange
-        
+        int day = -1;
+        int month = 12;
+        int Year = 2000;
         //act
-        
+        boolean awnser = val.isValidDate(Year, month, day);
         //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract day/month is not 0{
+     * @requires day > 0 && month > 0 && year > 0
+     * @signals(IllegalArgumentExeption) day <= 0 || month <= 0 || year < 0
+     * }
+     */
+    @Test
+    public void testIsValidDateDayNotNul() {
+        //arange
+        int day = 0;
+        int month = 12;
+        int Year = 2000;
+        //act
+        boolean awnser = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract day in month feb is not bigger than 27 days{
+     * @requires when month == 2 (and year not a leap year)--> !day > 27 
+     * @signals(IllegalArgumentExeption) day <= 0 || month <= 0 || year < 0
+     * }
+     */
+    @Test
+    public void testIsValidDateDayFebNotBiggerThan27() {
+        //arange
+        int day = 30;
+        int month = 02;
+        int Year = 2000;
+        //act
+        boolean awnser = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract day in month jan is not bigger than 31 days{
+     * @requires when month/2(double) != 0 --> !day >31
+     * @signals(IllegalArgumentExeption) when month/2(double) != 0 --> !day >31
+     * }
+     */
+    @Test
+    public void testIsValidDateDayJanNotBiggerThan31() {
+        //arange
+        int day = 31;
+        int month = 01;
+        int Year = 2000;
+        //act
+        boolean awnser = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(false, awnser);
     }
 
     /**
@@ -270,17 +327,5 @@ public class ValidationTest {
         //act
         
         //assert
-    }
-
-    /**
-     * @desc check if the test has a valid number
-     */
-    @Test
-    public void testIsValidCijfer() {
-        //arange
-        
-        //act
-        
-        //assert
-    }   
+    }  
 }
