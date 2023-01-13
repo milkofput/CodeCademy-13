@@ -47,9 +47,9 @@ public class ValidationTest {
         assertEquals(false, awnser);
     }
     /**
-     * @subcontract email doesn't have a @ or a .{ 
-     * @requires email.matches("@." )
-     * @signals (IllegalArgumentExeption) !email.matches("@") || !email.matches(".")
+     * @subcontract email doesn't have a @ and a .{ 
+     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
+     * @signals (IllegalArgumentExeption) !email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
      * }
      */
     @Test
@@ -63,8 +63,8 @@ public class ValidationTest {
     }
     /**
      * @subcontract email has forbidden icons{
-     * @requires !email.matches("[]{}!#$%€^&*()_+=/\|><?")
-     * @signals (IllegalArgumentExeption) email.matches("[]{}!#$%€^&*()_+=/\|><?")
+     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
+     * @signals (IllegalArgumentExeption) !email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
      * }
      */
     @Test
@@ -78,7 +78,7 @@ public class ValidationTest {
     }
     /**
      * @subcontract valid email{
-     * @requires email.matches(% + "@" + % + "." + %) && !email.isempty() && !email.matches("[]{}!#$%€^&*()_+=/\|><?")
+     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$") && !email.isempty())
      * @ensures \result = an email that isn't null and has a @ and a .
      * }
      * 
@@ -140,15 +140,65 @@ public class ValidationTest {
         assertEquals(false, awnser);
     }
     /**
+     * @subcontract postcode is not in capitals{
+     * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * @signals (IllegalArgumentExeption) !postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * }
+     */
+        @Test
+    public void testIsValidPostcodeNotInCapitals() {
+        //arange
+        String postcode = "1123gg";
+        //act
+        boolean awnser = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract postcode has more or les than two letters{
+     * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * @signals (IllegalArgumentExeption) !postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * }
+     */
+        @Test
+    public void testIsValidPostcodeMoreOrLessThanTwoLetters() {
+        //arange
+        String postcode = "112WQR";
+        //act
+        boolean awnser = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, awnser);
+    }
+    /**
+     * @subcontract postcode is valid{
+     * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$") && !postcode.isEmpty()
+     * @ensures \result a valid dutch postcode
+     * }
+     */
+        @Test
+    public void testIsValidPostcodeIsValid() {
+        //arange
+        String postcode = "1123WE";
+        //act
+        boolean awnser = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(true, awnser);
+    }
+    
+    /**
      * @desc checks if the URL is valid
+     * @subcontract URL begins with either an https//: or an http//:{
+     * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
+     * }
      */
     @Test
-    public void testIsValidURL() {
+    public void testIsValidURLBeginsCorectly() {
         //arange
-        
+        String url = "htttps//:asd.asd.asd";
         //act
-        
+        boolean awnser = val.isValidURL(url);
         //assert
+        assertEquals(false, awnser);
     }
 
     /**
