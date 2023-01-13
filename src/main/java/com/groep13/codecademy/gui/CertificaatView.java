@@ -31,13 +31,17 @@ import javafx.stage.Stage;
  */
 public class CertificaatView extends View{  
     
-    private final CertificaatDB cerdb = new CertificaatDB();
+    private final CertificaatDB cerdb;
     private final TableView certificaatTable = new TableView();
     private final ObservableList<Certificaat> certificaat;
-    private final InschrijvingDB idb = new InschrijvingDB();
+    private final ObservableList<Inschrijving> inschrijving;
+    private final InschrijvingDB idb;
 
-    public CertificaatView() {
-        certificaat = FXCollections.observableArrayList(cerdb.getAllCertificaten());
+    public CertificaatView(CertificaatDB cerdb, ObservableList<Certificaat> certificaat, InschrijvingDB idb, ObservableList<Inschrijving> inschrijving) {
+        this.cerdb=cerdb;
+        this.certificaat=certificaat;
+        this.idb=idb;
+        this.inschrijving=inschrijving;
         TableColumn cijferColumn = new TableColumn("Cijfer");
         TableColumn medewerkerColumn = new TableColumn("Medewerker");
         TableColumn certificaatColumn = new TableColumn("CertificaatNummer");
@@ -137,7 +141,7 @@ public class CertificaatView extends View{
         TextField medewerkerField = new TextField("NaamMedewerker");
         TextField certificaatField = new TextField("CertificaatNummer");
         ComboBox inschrijvingField = new ComboBox();
-        inschrijvingField.setItems(FXCollections.observableArrayList(idb.getAllInschrijvingen()));
+        inschrijvingField.setItems(inschrijving);
         Button create = new Button("Create");
 
         create.setOnAction((e) -> {
@@ -175,7 +179,7 @@ public class CertificaatView extends View{
         TextField certificaatField = new TextField(String.valueOf(c.getNummer()));
         Label inschrijvingFieldLabel = new Label("Current value: " + c.getInschrijving().toString());
         ComboBox inschrijvingField = new ComboBox();
-        inschrijvingField.setItems(FXCollections.observableArrayList(idb.getAllInschrijvingen()));
+        inschrijvingField.setItems(inschrijving);
         Button update = new Button("Update");
        
         

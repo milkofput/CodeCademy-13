@@ -20,8 +20,12 @@ import javafx.stage.Stage;
  */
 public class TopThreeView extends View{
     
-    private final StatistiekDB sdb = new StatistiekDB();
-    
+    private final StatistiekDB sdb;
+
+    public TopThreeView(StatistiekDB sdb) {
+        this.sdb = sdb;
+    }
+
     public Stage getScene() {
           
         Stage window = new Stage();

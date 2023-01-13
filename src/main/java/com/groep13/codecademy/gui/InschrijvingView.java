@@ -35,14 +35,21 @@ import javafx.stage.Stage;
  */
 public class InschrijvingView extends View{
       
-    private final InschrijvingDB idb = new InschrijvingDB();
+    private final InschrijvingDB idb;
     private final TableView inschrijvingTable = new TableView();
     private final ObservableList<Inschrijving> inschrijving;
-    private final CursusDB cdb = new CursusDB();
-    private final CursistDB cursistdb = new CursistDB();
+    private final ObservableList<Cursus> cursus;
+    private final ObservableList<Cursist> cursist;
+    private final CursusDB cdb;
+    private final CursistDB cursistdb;
 
-    public InschrijvingView() {
-        inschrijving = FXCollections.observableArrayList(idb.getAllInschrijvingen());
+    public InschrijvingView(InschrijvingDB idb, ObservableList<Inschrijving> inschrijving, CursusDB cdb, CursistDB cursistdb, ObservableList<Cursus> cursus, ObservableList<Cursist> cursist) {
+        this.idb=idb;
+        this.inschrijving=inschrijving;
+        this.cdb=cdb;
+        this.cursistdb=cursistdb;
+        this.cursus=cursus;
+        this.cursist=cursist;
         TableColumn cursusColumn = new TableColumn("CursusID");
         TableColumn cursistColumn = new TableColumn("CursistID");
         TableColumn datumColumn = new TableColumn("Datum");
@@ -144,13 +151,13 @@ public class InschrijvingView extends View{
         Label cursusLabel = new Label("Cursus:");
         layout.add(cursusLabel, 0, 1);
         ComboBox cursusField = new ComboBox();
-        cursusField.setItems(FXCollections.observableArrayList(cdb.getAllCursussen()));
+        cursusField.setItems(cursus);
         layout.add(cursusField, 1, 1);
         
         Label cursistLabel = new Label("Cursist:");
         layout.add(cursistLabel, 0, 2);
         ComboBox cursistField = new ComboBox();
-        cursistField.setItems(FXCollections.observableArrayList(cursistdb.getAllCursisten()));
+        cursistField.setItems(cursist);
         layout.add(cursistField, 1,2 );
         
         Label datumLabel = new Label("Datum (jjjj-mm-dd)");
@@ -202,13 +209,13 @@ public class InschrijvingView extends View{
         Label cursusLabel = new Label("Cursus (" + i.getCursus().toString() + "):");
         layout.add(cursusLabel, 0, 1);
         ComboBox cursusField = new ComboBox();
-        cursusField.setItems(FXCollections.observableArrayList(cdb.getAllCursussen()));
+        cursusField.setItems(cursus);
         layout.add(cursusField, 1, 1);
         
         Label cursistLabel = new Label("Cursist ("+ i.getCursist().toString() + "):");
         layout.add(cursistLabel, 0, 2);
         ComboBox cursistField = new ComboBox();
-        cursistField.setItems(FXCollections.observableArrayList(cursistdb.getAllCursisten()));
+        cursistField.setItems(cursist);
         layout.add(cursistField, 1,2 );
         
         Label datumLabel = new Label("Datum (" + i.getDatum().getYear() + "-" + i.getDatum().getMonthValue() + "-" + i.getDatum().getDayOfMonth() + ")");
