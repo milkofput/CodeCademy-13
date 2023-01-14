@@ -368,6 +368,55 @@ public class ValidationTest {
         //assert
         assertEquals(false, answer);
     }
+    /**
+     * @subcontract day not bigger than 30 days when month is subtractable by 2{
+     * @requires if(month/2.0 != 0)!day > 30
+     * @signals(IllegalArgumentExeption) day > 30
+     */
+    @Test
+    public void testIsValidDateDayNotBiggerThan30WhenMonthSubtractableWith2() {
+        //arrange
+        int day = 31;
+        int month = 04;
+        int Year = 2000;
+        //act
+        boolean answer = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(false, answer);
+    }
+    /**
+     * @subcontract month can noet be bigger than 12{
+     * @requires month <=12
+     * @signals(IllegalArgumentExeption) month > 12
+     */
+    @Test
+    public void testIsValidDateDayMoreThan12Months() {
+        //arrange
+        int day = 10;
+        int month = 14;
+        int Year = 2000;
+        //act
+        boolean answer = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(false, answer);
+    }
+    /**
+     * @subcontract month can noet be bigger than 12{
+     * @requires month <=12
+     * @signals(IllegalArgumentExeption) month > 12
+     */
+    @Test
+    public void testIsValidDateIsCorrect() {
+        //arrange
+        int day = 10;
+        int month = 10;
+        int Year = 2000;
+        //act
+        boolean answer = val.isValidDate(Year, month, day);
+        //assert
+        assertEquals(true, answer);
+    }
+    
     
     
     // tests for percentage validations
