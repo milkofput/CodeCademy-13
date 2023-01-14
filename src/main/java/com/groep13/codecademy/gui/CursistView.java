@@ -172,11 +172,7 @@ public class CursistView extends View{
         Button viewCertificaten = new Button("View Certificaten");
         viewCertificaten.setOnAction((e) -> {          
             int cursistId = ((Cursist) certificaatCursistField.getValue()).getId(); 
-            StringBuilder input = new StringBuilder();
-            input.append(sdb.certificatenVanCursist(cursistId).toString() + "");
-            input.deleteCharAt(0);
-            input.deleteCharAt(input.length()-1);
-            Stage view = viewCertificatenCursist(input.toString());
+            Stage view = viewCertificatenCursist(sdb.certificatenVanCursist(cursistId).toString() + "");
             view.setWidth(700);
             view.setHeight(400);
             view.show();
@@ -267,11 +263,12 @@ public class CursistView extends View{
         Stage window = new Stage();
         VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
-        if(input.isEmpty()){
+        String[] inputSplit = toStringListCleaner(input);
+        if(inputSplit.length == 0){
             Label label = new Label("de cursist heeft nog geen cursusen behaald");
             layout.getChildren().add(label);
         }else{
-            String[] inputSplit = input.split(", ");
+            
             for (int i = 0; i < inputSplit.length; i++) {
                 Label label = new Label(inputSplit[i]);
                 layout.getChildren().add(label);

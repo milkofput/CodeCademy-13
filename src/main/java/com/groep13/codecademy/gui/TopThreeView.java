@@ -37,27 +37,44 @@ public class TopThreeView extends View{
         layout.setMinWidth(600);
         
         HBox hbox = new HBox();
+        HBox button = new HBox();
+        VBox vboxWebcast = new VBox();
+        VBox vboxCursus = new VBox();
         
         //Top 3 webcasts
-        Label topThreeWebcasts = new Label("Top 3 webcasts: " + sdb.topDrieWebcasts());
-        layout.getChildren().addAll(topThreeWebcasts);
+        String[] inputSplitter = toStringListCleaner(sdb.topDrieWebcasts().toString());
+        Label topThreeWebcasts = new Label("Top 3 webcasts: ");
+        vboxWebcast.getChildren().addAll(topThreeWebcasts);
+        for (int i = 0; i < inputSplitter.length; i++) {
+            Label l = new Label( (i+1) + ". " + inputSplitter[i]);
+            vboxWebcast.getChildren().addAll(l);
+        }
+        hbox.getChildren().addAll(vboxWebcast);
+        
         
         //Top 3 cursus met meeste certificaat
-        Label topThreeCursus = new Label("Top 3 cursussen met meeste certificaten: " + sdb.topDrieCursussenMetMeesteCertificaten());
-        layout.getChildren().add(topThreeCursus);
+        String[] inputSplitter1 = toStringListCleaner(sdb.topDrieCursussenMetMeesteCertificaten().toString());
+        Label topThreeCursus = new Label("Top 3 cursussen met meeste certificaten: ");
+        vboxCursus.getChildren().addAll(topThreeCursus);
+        for (int i = 0; i < inputSplitter1.length; i++) {
+            Label l = new Label( (i+1) + ". " + inputSplitter1[i]);
+            vboxCursus.getChildren().addAll(l);
+        }
+        hbox.getChildren().addAll(vboxCursus);
              
         //Return
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
         });
-        hbox.getChildren().add(returnButton);           
+        button.getChildren().add(returnButton);           
               
         //Buttons 
         layout.setSpacing(5);
         layout.setPadding(new Insets(5,5,5,5));
         hbox.setSpacing(5);
         layout.getChildren().add(hbox);
+        layout.getChildren().add(button);
                        
         Scene topThreeScene = new Scene(layout);
         window.setScene(topThreeScene);

@@ -17,4 +17,16 @@ public abstract class View {
         stage.setTitle("Codecademy_ door: Nikki Stam 2145898, Milko Put 2210552, Jelle de Kok 2202704");
         stage.getIcons().add(new Image("https://seeklogo.com/images/C/codecademy-logo-2A19B928CF-seeklogo.com.png"));
     }
+    public String[] toStringListCleaner(String string){
+        StringBuilder input = new StringBuilder();
+        input.append(string);
+        input.deleteCharAt(0);
+        input.deleteCharAt(input.length()-1);
+        if(input.toString().isEmpty()){
+            String[] empty = {};
+            return empty;
+        }
+        String[] inputSplitter = input.toString().split(", ");
+        return inputSplitter;
+    }
 }
