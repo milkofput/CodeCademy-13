@@ -40,7 +40,7 @@ public class Validation {
         return (percentage >= 0 && percentage <= 100);
     }
 
-    public boolean isValidCijfer(int cijfer) {
+    public boolean isValidCijfer(double cijfer) {
         return (cijfer >= 1 && cijfer <= 10);
     }
 

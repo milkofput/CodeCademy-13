@@ -28,9 +28,11 @@ public class ValidationTest {
     @After
     public void tearDown() {
     }
+    
+    // tests for email validation
 
     /**
-     * @desc checks if the given email is valid returns true it that is the case
+     * @desc checks if the given email is valid returns true if that is the case
      * 
      * @subcontract email is null{
      * @requires !email.isEmpty 
@@ -39,28 +41,43 @@ public class ValidationTest {
      */
     @Test
     public void testIsValidEmailNotEmpty() {
-        //arange
+        //arrange
         String email = "";
         //act
-        boolean awnser = val.isValidEmail(email);
+        boolean answer = val.isValidEmail(email);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract email doesn't have a @ and a .{ 
+     * @subcontract email doesn't have a .{ 
      * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
      * @signals (IllegalArgumentExeption) !email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
      * }
      */
     @Test
-    public void testIsValidEmailmissesDot() {
-        //arange
-        String email = "email@emailDOTcom";
+    public void testIsValidEmailMissesDot() {
+        //arrange
+        String email = "email@emailcom";
         //act
-        boolean awnser = val.isValidEmail(email);
+        boolean answer = val.isValidEmail(email);
         //assert
-        assertEquals(false, awnser);
-    }
+        assertEquals(false, answer);
+    }    
+    /**
+     * @subcontract email doesn't have a @ { 
+     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
+     * @signals (IllegalArgumentExeption) !email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
+     * }
+     */
+    @Test
+    public void testIsValidEmailMissesAt() {
+        //arrange
+        String email = "email.com";
+        //act
+        boolean answer = val.isValidEmail(email);
+        //assert
+        assertEquals(false, answer);
+    }       
     /**
      * @subcontract email has forbidden icons{
      * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$")
@@ -69,30 +86,33 @@ public class ValidationTest {
      */
     @Test
     public void testIsValidEmailHasHashtag() {
-        //arange
+        //arrange
         String email = "#email@email.com";
         //act
-        boolean awnser = val.isValidEmail(email);
+        boolean answer = val.isValidEmail(email);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
      * @subcontract valid email{
-     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$") && !email.isempty())
+     * @requires email.matches("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+$") && !email.isEmpty())
      * @ensures \result = an email that isn't null and has a @ and a .
      * }
      * 
      */
     @Test
     public void testIsValidEmail() {
-        //arange
+        //arrange
         String email = "email@email.com";
         //act
-        boolean awnser = val.isValidEmail(email);
+        boolean answer = val.isValidEmail(email);
         //assert
-        assertEquals(true, awnser);
+        assertEquals(true, answer);
     }
 
+    
+    // tests for postcode validation
+    
     /**
      * @desc checks if the postcode is valid returns true if this is the case
      * @subcontract postcode is empty{
@@ -102,27 +122,42 @@ public class ValidationTest {
      */
     @Test
     public void testIsValidPostcodeIsEmpty() {
-        //arange
+        //arrange
         String postcode = "";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
      * @subcontract postcode isn't six digits{
-     * @requires postcode.length() == 7 (seven becouse of the space)
-     * @signals (IllegalArgumentExeption) postcode.length() != 6
+     * @requires postcode.length() == 7 (seven because of the space)
+     * @signals (IllegalArgumentExeption) postcode.length() > 7
      * }
      */
     @Test
-    public void testIsValidPostcodeIsNotSixDigits() {
-        //arange
-        String postcode = "12345 67";
+    public void testIsValidPostcodeTooManyDigits() {
+        //arrange
+        String postcode = "12345 AB";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
+    }
+    /**
+     * @subcontract postcode isn't six digits{
+     * @requires postcode.length() == 7 (seven because of the space)
+     * @signals (IllegalArgumentExeption) postcode.length() < 7
+     * }
+     */
+    @Test
+    public void testIsValidPostcodeTooLittleDigits() {
+        //arrange
+        String postcode = "123 AB";
+        //act
+        boolean answer = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, answer);
     }
     /**
      * @subcontract postcode starts with a zero{
@@ -132,12 +167,12 @@ public class ValidationTest {
      */
         @Test
     public void testIsValidPostcodeStartsWithZero() {
-        //arange
+        //arrange
         String postcode = "0123 GG";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
      * @subcontract postcode is not in capitals{
@@ -147,28 +182,43 @@ public class ValidationTest {
      */
         @Test
     public void testIsValidPostcodeNotInCapitals() {
-        //arange
+        //arrange
         String postcode = "1123 gg";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract postcode has more or les than two letters{
+     * @subcontract postcode has more or less than two letters{
      * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
      * @signals (IllegalArgumentExeption) !postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
      * }
      */
         @Test
-    public void testIsValidPostcodeMoreOrLessThanTwoLetters() {
-        //arange
-        String postcode = "112 WQR";
+    public void testIsValidPostcodeMoreThanTwoLetters() {
+        //arrange
+        String postcode = "1123 WQR";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
+    /**
+     * @subcontract postcode has more or less than two letters{
+     * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * @signals (IllegalArgumentExeption) !postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$")
+     * }
+     */
+        @Test
+    public void testIsValidPostcodeLessThanTwoLetters() {
+        //arrange
+        String postcode = "1123 R";
+        //act
+        boolean answer = val.isValidPostcode(postcode);
+        //assert
+        assertEquals(false, answer);
+    }   
     /**
      * @subcontract postcode is valid{
      * @requires postcode.matches("^[1-9][0-9]{3}[A-Z]{2}$") && !postcode.isEmpty()
@@ -177,75 +227,79 @@ public class ValidationTest {
      */
         @Test
     public void testIsValidPostcodeIsValid() {
-        //arange
+        //arrange
         String postcode = "1123 WE";
         //act
-        boolean awnser = val.isValidPostcode(postcode);
+        boolean answer = val.isValidPostcode(postcode);
         //assert
-        assertEquals(true, awnser);
+        assertEquals(true, answer);
     }
     
+    // tests for url validation
+    
     /**
-     * @desc checks if the URL is valid
-     * @subcontract URL begins with either an https//: or an http//:{
-     * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
-     * @signals (IllegalArgumentExeption) !url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
+     * @desc checks if the url is valid
+     * @subcontract url begins with either an https:// or an http://{
+     * @requires url.matches("^[https|http]://[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
+     * @signals (IllegalArgumentExeption) !url.matches("^[https|http]://[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
      * }
      */
     @Test
-    public void testIsValidURLBeginsCorectly() {
-        //arange
-        String url = "htttps//:asd.asd.asd";
+    public void testIsValidURLBeginsCorrectly() {
+        //arrange
+        String url = "htttps://asd.asd.asd";
         //act
-        boolean awnser = val.isValidURL(url);
+        boolean answer = val.isValidURL(url);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract checks if the URL has 3 dots with at least one letter in between.{
+     * @subcontract checks if the url has 3 dots with at least one letter in between.{
      * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
      * @signals (IllegalArgumentExeption) !url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
      * }
      */
     @Test
     public void testIsValidURLHasMultipleDots() {
-        //arange
-        String url = "https//:asd.asdDOTasd";
+        //arrange
+        String url = "https://asd.asdasd";
         //act
-        boolean awnser = val.isValidURL(url);
+        boolean answer = val.isValidURL(url);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract checks if the code gives an error when the imput is empty{
+     * @subcontract checks if the code gives an error when the input is empty{
      * @requires !url.isEmpty()
      * @signals (NullPointerExeption) url.isEmpty()
      * }
      */
     @Test
     public void testIsValidURLIsEmpty() {
-        //arange
+        //arrange
         String url = "";
         //act
-        boolean awnser = val.isValidURL(url);
+        boolean answer = val.isValidURL(url);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
      * @subcontract returns true when the URL is valid{
-     * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$") && !url.isEmpty()
-     * @ensures \awnser returns true
+     * @requires url.matches("^[https|http]://[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$") && !url.isEmpty()
+     * @ensures answer returns true
      * }
      */
     @Test
     public void testIsValidURLIsCorrect() {
-        //arange
+        //arrange
         String url = "https://codecademy.nederland.nl";
         //act
-        boolean awnser = val.isValidURL(url);
+        boolean answer = val.isValidURL(url);
         //assert
-        assertEquals(true, awnser);
+        assertEquals(true, answer);
     }
+    
+    // tests for date validation
 
     /**
      * @desc checks if the test has a valid date returns true if valid. otherwise false
@@ -255,15 +309,15 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidDateDayNotNegative() {
-        //arange
-        int day = -1;
+    public void testIsValidDateDayIsNegative() {
+        //arrange
+        int day = -10;
         int month = 12;
         int Year = 2000;
         //act
-        boolean awnser = val.isValidDate(Year, month, day);
+        boolean answer = val.isValidDate(Year, month, day);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
      * @subcontract day/month is not 0{
@@ -272,60 +326,144 @@ public class ValidationTest {
      * }
      */
     @Test
-    public void testIsValidDateDayNotNul() {
-        //arange
+    public void testIsValidDateNotContainsZero() {
+        //arrange
         int day = 0;
         int month = 12;
         int Year = 2000;
         //act
-        boolean awnser = val.isValidDate(Year, month, day);
+        boolean answer = val.isValidDate(Year, month, day);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract day in month feb is not bigger than 27 days{
-     * @requires when month == 2 (and year not a leap year)--> !day > 27 
+     * @subcontract day in month feb is not bigger than 28 days{
+     * @requires when month == 2 (and year not a leap year)--> !day > 28 
      * @signals(IllegalArgumentExeption) day <= 0 || month <= 0 || year < 0
-     * }
      */
     @Test
-    public void testIsValidDateDayFebNotBiggerThan27() {
-        //arange
+    public void testIsValidDateDayFebNotBiggerThan28() {
+        //arrange
         int day = 30;
         int month = 02;
         int Year = 2000;
         //act
-        boolean awnser = val.isValidDate(Year, month, day);
+        boolean answer = val.isValidDate(Year, month, day);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
     /**
-     * @subcontract day in month jan is not bigger than 31 days{
-     * @requires when month/2(double) != 0 --> !day >31
-     * @signals(IllegalArgumentExeption) when month/2(double) != 0 --> !day >31
-     * }
+     * @subcontract day not bigger than 31 days{
+     * @requires !day > 31
+     * @signals(IllegalArgumentExeption) day > 31
      */
     @Test
-    public void testIsValidDateDayJanNotBiggerThan31() {
-        //arange
-        int day = 31;
+    public void testIsValidDateDayNotBiggerThan31() {
+        //arrange
+        int day = 32;
         int month = 01;
         int Year = 2000;
         //act
-        boolean awnser = val.isValidDate(Year, month, day);
+        boolean answer = val.isValidDate(Year, month, day);
         //assert
-        assertEquals(false, awnser);
+        assertEquals(false, answer);
     }
+    
+    
+    // tests for percentage validations
 
     /**
-     * @desc check if the test has a valid percentage
+     * @desc check if the test has a valid percentage {
+     * @subcontract percentage not negative
+     * @requires percentage < 0
+     * @signals answer returns false
+     * }
      */
     @Test
-    public void testIsValidPercentage() {
-        //arange
-        
+    public void testIsValidPercentageNotNegative() {
+        //arrange
+        int percentage = -10;
         //act
-        
+        boolean answer = val.isValidPercentage(percentage);
         //assert
+        assertEquals(false, answer);
     }  
+    /**
+     * @subcontract percentage not too great
+     * @requires percentage > 100
+     * @signals answer returns false
+     */
+    @Test
+    public void testIsValidPercentageTooGreat() {
+        //arrange
+        int percentage = 102;
+        //act
+        boolean answer = val.isValidPercentage(percentage);
+        //assert
+        assertEquals(false, answer);
+    } 
+    /**
+     * @subcontract percentage not negative
+     * @requires percentage >= 0 && percentage <=100
+     * @signals answer returns true
+     */
+    @Test
+    public void testIsValidPercentageIsValid() {
+        //arrange
+        int percentage = 57;
+        //act
+        boolean answer = val.isValidPercentage(percentage);
+        //assert
+        assertEquals(true, answer);
+    } 
+    
+    // tests for cijfer validation
+    
+    /**
+     * @desc check if the test has a valid cijfer {
+     * @subcontract cijfer not too small
+     * @requires cijfer < 1
+     * @signals answer returns false
+     * }
+     */
+    @Test
+    public void testIsValidCijferNotTooSmall() {
+        //arrange
+        double cijfer = 0.2;
+        //act
+        boolean answer = val.isValidCijfer(cijfer);
+        //assert
+        assertEquals(false, answer);
+    }  
+    /**
+     * @subcontract cijfer not too great
+     * @requires cijfer > 10
+     * @signals answer returns false
+     */
+    @Test
+    public void testIsValidCijferTooGreat() {
+        //arrange
+        double cijfer = 11.4;
+        //act
+        boolean answer = val.isValidCijfer(cijfer);
+        //assert
+        assertEquals(false, answer);
+    } 
+    /**
+     * @subcontract cijfer not negative
+     * @requires cijfer >= 0 && cijfer <=100
+     * @signals answer returns true
+     */
+    @Test
+    public void testIsValidCijferIsValid() {
+        //arrange
+        double cijfer = 6.5;
+        //act
+        boolean answer = val.isValidCijfer(cijfer);
+        //assert
+        assertEquals(true, answer);
+    } 
+    
+    // **input validation kan ik niet testen omdat het private is**
+    
 }
