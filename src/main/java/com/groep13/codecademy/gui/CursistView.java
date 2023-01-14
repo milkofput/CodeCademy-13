@@ -33,6 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -170,8 +171,15 @@ public class CursistView extends View{
         
         Button viewCertificaten = new Button("View Certificaten");
         viewCertificaten.setOnAction((e) -> {          
-            int cursistId = ((Cursist) certificaatCursistField.getValue()).getId();            
-            certificatenOutput.setText(sdb.certificatenVanCursist(cursistId).toString() + "");
+            int cursistId = ((Cursist) certificaatCursistField.getValue()).getId(); 
+            StringBuilder input = new StringBuilder();
+            input.append(sdb.certificatenVanCursist(cursistId).toString() + "");
+            input.deleteCharAt(0);
+            input.deleteCharAt(input.length()-1);
+            Stage view = viewCertificatenCursist(input.toString());
+            view.setWidth(700);
+            view.setHeight(400);
+            view.show();
         });
         certificatenBehaald.getChildren().addAll(certificaatCursistLabel, certificaatCursistField, viewCertificaten);
         layout.getChildren().addAll(certificatenLabel, certificatenBehaald, certificatenOutput);
@@ -241,7 +249,7 @@ public class CursistView extends View{
         HashMap<Integer, Double> voortgang = sdb.voortgangPerModuleVanCursusEnCursist(cursusId, cursistId);
         
         Stage window = new Stage();
-        HBox layout = new HBox();             
+        VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
         
         for(Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
@@ -250,9 +258,31 @@ public class CursistView extends View{
         }
         
         Scene voortgangScene = new Scene(layout);
+        setTitle(window);
         window.setScene(voortgangScene);
         return window;
         
+    }
+    public Stage viewCertificatenCursist(String input){
+        Stage window = new Stage();
+        VBox layout = new VBox();             
+        layout.setPadding(new Insets(8,8,8,8));
+        if(input.isEmpty()){
+            Label label = new Label("de cursist heeft nog geen cursusen behaald");
+            layout.getChildren().add(label);
+        }else{
+            String[] inputSplit = input.split(", ");
+            for (int i = 0; i < inputSplit.length; i++) {
+                Label label = new Label(inputSplit[i]);
+                layout.getChildren().add(label);
+
+            }
+        }
+        Scene voortgangScene = new Scene(layout);
+        setTitle(window);
+        window.setScene(voortgangScene);
+        
+        return window;
     }
     
     public Stage createCursist() {

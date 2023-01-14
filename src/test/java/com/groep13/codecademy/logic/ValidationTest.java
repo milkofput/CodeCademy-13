@@ -262,7 +262,7 @@ public class ValidationTest {
     @Test
     public void testIsValidURLHasMultipleDots() {
         //arrange
-        String url = "https://asd.asdasd";
+        String url = "https://asd.asd.asd";
         //act
         boolean answer = val.isValidURL(url);
         //assert
