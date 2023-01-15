@@ -79,11 +79,14 @@ public class CursusView extends View{
         
         layout.getChildren().add(cursusTable);
         
+        // deze labels laten het percentage zien van het aantal cursisten dat de cursussen behaald heeft, gefilterd op geslacht
         Label percentageBehaaldMannen = new Label("Percentage voltooide cursussen mannen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Man") + "%");
         Label percentageBehaaldVrouwen = new Label("Percentage voltooide cursussen vrouwen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Vrouw") + "%");
         layout.getChildren().addAll(percentageBehaaldMannen, percentageBehaaldVrouwen);
         
-        // certificaten and aanbevolen cursussen button
+        // als de gebruiker een cursus selecteert en op deze knop drukt wordt de methode amtCertStage aangeroepen
+        // deze methode geeft een stage terug, deze krijgt de gebruiker te zien
+        // op deze stage zijn het aantal behaalde certificaten en de aanbevolen cursussen voor de cursus te zien
         Button amtCert = new Button("Certificaten & Aanbevolen Cursussen");
         amtCert.setOnAction((e) -> {
             try{
@@ -102,7 +105,10 @@ public class CursusView extends View{
         //Error label
         Label errorLabel = new Label("");
                
-        //Create
+        // CRUD buttons voor cursus
+        
+        // als de gebruiker op de create button drukt wordt de createCursist methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createCursus();
@@ -112,7 +118,7 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().addAll(create);
         
-        //Delete  
+        // als de gebruiker een cursus selecteert uit de tabel en op de delete button drukt wordt de cursus uit de cursus database verwijderd
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             try{
@@ -132,7 +138,8 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(delete);
         
-        //Update
+        // als de gebruiker een cursus selecteert uit de tabel en op de update button drukt wordt de editCursus methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             try{
@@ -146,7 +153,8 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(update);
         
-        //add modules
+        // als de gebruiker een cursus uit de tabel selecteert en op de add modules knop drukt wordt de addCursusModules methode aangeroepen
+        // deze geeft een stage terug en deze wordt getoond aan de gebruiker
         Button addModules = new Button("Add Modules");
         addModules.setOnAction((e) -> {
             try{
@@ -160,7 +168,8 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(addModules);
         
-        //delete modules
+        // als de gebruiker een cursus selecteert uit de tabel en op de delete modules knop drukt wordt de removeCursusModules methode aangeroepen
+        // deze geeft een stage terug en deze wordt getoond aan de gebruiker
         Button removeModules = new Button("Delete Modules");
         removeModules.setOnAction((e) -> {
             try{
@@ -174,7 +183,8 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(removeModules);
         
-        //voortgang per module
+        // als de gebruiker een cursus uit de tabel selecteert en op de voortgang per module knop drukt wordt de gemiddeldeCursusVoortgang methode aangeroepen
+        // deze geeft een stage terug en deze wordt getoond aan de gebruiker
         Button gemvoortgang = new Button("Voortgang per module");
         gemvoortgang.setOnAction((e) -> {
             try{
@@ -188,7 +198,7 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(gemvoortgang);
         
-        //Return
+        // return knop sluit de stage
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
@@ -212,6 +222,8 @@ public class CursusView extends View{
         cursus.addAll(cursusdb.getAllCursussen());
     }
     
+    // methode returnt een stage
+    // in deze stage kan de gebruiker de gemiddelde voortgang voor elke module van een cursus zien
     public Stage gemiddeldeCursusVoortgang(Cursus c) {
         Stage window = new Stage();
         HBox layout = new HBox();             
@@ -220,6 +232,7 @@ public class CursusView extends View{
         layout.setMinWidth(600);
         setTitle(window);
         VBox v = new VBox();
+        // gemiddeldeVoortgangPerModulePerCursus uit de statistieken database wordt aangeroepen
         HashMap<Integer,Double> voortgang = sdb.gemiddeldeVoortgangPerModulePerCursus(c);
         for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {  
             Label l = new Label(mdb.getModuleById(entry.getKey()).toString() + ": " + entry.getValue().toString() + "%");
@@ -237,6 +250,8 @@ public class CursusView extends View{
         return window;
     }
     
+    // methode return een stage
+    // in deze stage kan de gebruiker het aantal behaalde certificaten en de aanbevolen cursussen voor een cursus zien
     public Stage amtCertStage(int cursusId) {
         Stage window = new Stage();
         VBox layout = new VBox();             
@@ -245,6 +260,7 @@ public class CursusView extends View{
         layout.setMinWidth(600);
         setTitle(window);
 
+        // methodes uit de statistiek database worden aangeroepen
         Label amtCertLabel = new Label("Certificaten: " + sdb.hoeveelCertificatenPerCursus(cursusId));
         Label aanbevolen = new Label("Aanbevolen cursussen:");
         layout.getChildren().addAll(amtCertLabel, aanbevolen);
@@ -261,6 +277,7 @@ public class CursusView extends View{
         return window;
     }
         
+    // deze methode returnt een stage waarin de gebruiker input kan invullen en een nieuwe cursus kan aanmaken
     public Stage createCursus() {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
@@ -293,6 +310,7 @@ public class CursusView extends View{
         Button create = new Button("Create");
         layout.add(create, 0, 5);
 
+        // create button sluit de stage af, en maakt een nieuwe cursus in de cursus database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
             Cursus newC = new Cursus(
                 0,
@@ -313,6 +331,7 @@ public class CursusView extends View{
     
     }
     
+    // deze methode returnt een stage waarin de gebruiker modules kan toevoegen aan een cursus
     public Stage addCursusModules(Cursus c) {
         Stage window = new Stage();
         ScrollPane scroll = new ScrollPane();
@@ -345,6 +364,7 @@ public class CursusView extends View{
         return window;
     }
     
+    // deze methode returnt een stage waarin de gebruiker modules kan verwijderen uit een cursus
     public Stage removeCursusModules(Cursus c) {
         Stage window = new Stage();
         ScrollPane scroll = new ScrollPane();
@@ -377,6 +397,7 @@ public class CursusView extends View{
         return window;
     }
     
+    // methode returnt een stage waarop de gebruiker gegevens van een cursist kan wijzigen
     public Stage editCursus(Cursus c) {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
@@ -408,7 +429,7 @@ public class CursusView extends View{
         Button update = new Button("Update");
         layout.add(update, 0, 5);
                
-
+        // update button sluit de stage af, en maakt een nieuwe cursist aan en deze vervangt de oude cursist in de cursist database
         update.setOnAction((e) -> {
             Cursus newC = new Cursus(
                 0,
