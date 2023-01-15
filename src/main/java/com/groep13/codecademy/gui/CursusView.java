@@ -34,6 +34,10 @@ import java.util.Map;
 /**
  *
  * @author milko
+ * 
+ * deze klasse wordt vanuit de GUI klasse aangeroepen, en vorm het nieuwe scherm dat getoond wordt wanneer de gebruiker
+ * op de Cursussem button klikt die zich op het hoofdscherm bevindt
+ * 
  */
 public class CursusView extends View{
     

@@ -29,6 +29,10 @@ import javafx.stage.Stage;
 /**
  *
  * @author milko
+ * 
+ * deze klasse wordt vanuit de GUI klasse aangeroepen, en vorm het nieuwe scherm dat getoond wordt wanneer de gebruiker
+ * op de Certificaten button klikt die zich op het hoofdscherm bevindt
+ * 
  */
 public class CertificaatView extends View{  
     
@@ -77,7 +81,10 @@ public class CertificaatView extends View{
         //Error label
         Label errorLabel = new Label("");
                
-        //Create
+        // CRUD buttons voor certificaat
+        
+        // als de gebruiker op de create button drukt wordt de createCertificaat methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createCertificaat();
@@ -87,7 +94,7 @@ public class CertificaatView extends View{
         });
         buttons.getChildren().addAll(create);
         
-        //Delete  
+        // als de gebruiker een certificaat selecteert uit de tabel en op de delete button drukt wordt de certificaat uit de certificaat database verwijderd
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             try{
@@ -106,7 +113,8 @@ public class CertificaatView extends View{
         });
         buttons.getChildren().add(delete);
         
-        //Update
+        // als de gebruiker een certificaat selecteert uit de tabel en op de update button drukt wordt de editCertificaat methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             try{
@@ -120,16 +128,13 @@ public class CertificaatView extends View{
         });
         buttons.getChildren().add(update);
         
-        //Return
+        // return knop sluit de stage
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
         });
         buttons.getChildren().add(returnButton);           
-              
-        //Buttons 
-        layout.setSpacing(5);
-        layout.setPadding(new Insets(5,5,5,5));
+
         buttons.setSpacing(5);
         layout.getChildren().add(buttons);
                        
@@ -145,6 +150,7 @@ public class CertificaatView extends View{
         certificaat.addAll(cerdb.getAllCertificaten());
     }
     
+    // methode die een stage returnt waarin de gebruiker input kan invullen en een nieuw certificaat kan aanmaken
     public Stage createCertificaat() {
         Stage window = new Stage();
         VBox layout = new VBox();
@@ -162,6 +168,7 @@ public class CertificaatView extends View{
         inschrijvingField.setItems(inschrijving);
         Button create = new Button("Create");
 
+        // create button sluit de stage af, en maakt een nieuw certificaat in de certificaat database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
             Certificaat newC = new Certificaat(
                 0,
@@ -184,6 +191,7 @@ public class CertificaatView extends View{
     
     }
     
+    // methode returnt een stage waarop de gebruiker gegevens van een certificaat kan wijzigen 
     public Stage editCertificaat(Certificaat c) {
         Stage window = new Stage();
         VBox layout = new VBox();
@@ -201,7 +209,7 @@ public class CertificaatView extends View{
         inschrijvingField.setItems(inschrijving);
         Button update = new Button("Update");
        
-        
+        // update button sluit de stage af, en maakt een nieuw certificaat aan en deze vervangt het oude certificaat in de certificaat database
         update.setOnAction((e) -> {
             Certificaat newC = new Certificaat(
                 0,
@@ -215,8 +223,7 @@ public class CertificaatView extends View{
             certificaat.addAll(cerdb.getAllCertificaten());
             window.hide();
         });
-        
-        
+ 
         layout.getChildren().addAll(cijferField, medewerkerField, certificaatField, inschrijvingFieldLabel ,inschrijvingField,update);
 
         Scene editCertificaat = new Scene(layout);

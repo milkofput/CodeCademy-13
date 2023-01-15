@@ -32,6 +32,10 @@ import javafx.stage.Stage;
 /**
  *
  * @author milko
+ * 
+ * deze klasse wordt vanuit de GUI klasse aangeroepen, en vorm het nieuwe scherm dat getoond wordt wanneer de gebruiker
+ * op de Cursisten button klikt die zich op het hoofdscherm bevindt
+ * 
  */
 public class InschrijvingView extends View{
       
@@ -82,7 +86,10 @@ public class InschrijvingView extends View{
         //Error label
         Label errorLabel = new Label("");
                
-        //Create
+        // CRUD buttons van inschrijving
+        
+        // als de gebruiker op de create button drukt wordt de createInschrijving methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createInschrijving();
@@ -92,7 +99,7 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().addAll(create);
         
-        //Delete  
+        // als de gebruiker een inschrijving selecteert uit de tabel en op de delete button drukt wordt de inschrijving uit de inschrijving database verwijderd         
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             try{
@@ -111,7 +118,8 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().add(delete);
         
-        //Update
+        // als de gebruiker een inschrijving selecteert uit de tabel en op de update button drukt wordt de editInschrijving methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             try{
@@ -125,16 +133,13 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().add(update);
         
-        //Return
+        // return sluit de stage
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
         });
         buttons.getChildren().add(returnButton);           
-              
-        //Buttons 
-        layout.setSpacing(5);
-        layout.setPadding(new Insets(5,5,5,5));
+
         buttons.setSpacing(5);
         layout.getChildren().add(buttons);
                        
@@ -149,6 +154,7 @@ public class InschrijvingView extends View{
         inschrijving.addAll(idb.getAllInschrijvingen());
     }
     
+    // methode die een stage returnt waarin de gebruiker input kan invullen en een nieuwe inschrijving kan aanmaken
     public Stage createInschrijving() {
         Stage window = new Stage();
         GridPane layout = new GridPane();
@@ -156,10 +162,6 @@ public class InschrijvingView extends View{
         layout.setHgap(10);
         layout.setVgap(5);
         setTitle(window);
-
-        // dit doet volgens mij niks:
-        //layout.setMinHeight(300);
-        //layout.setMinWidth(900);
 
         Label inschrijvingLabel = new Label("Create Inschrijving:");
         layout.add(inschrijvingLabel, 0, 0);
@@ -188,6 +190,7 @@ public class InschrijvingView extends View{
         Button create = new Button("Create");
         layout.add(create, 0,4);
 
+        // create button sluit de stage af, en maakt een nieuwe inschrijving in de inschrijving database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
             Inschrijving newC = new Inschrijving(
                 0,
@@ -207,18 +210,15 @@ public class InschrijvingView extends View{
     
     }
     
+    // methode returnt een stage waarop de gebruiker gegevens van een inschrijving kan wijzigen 
     public Stage editInschrijving(Inschrijving i) {
+        
         Stage window = new Stage();
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
-        setTitle(window);
-       
-//        layout.setMinHeight(200);
-//        layout.setMinWidth(600);
-
-        
+        setTitle(window);       
         
         Label inschrijvingLabel = new Label("Create Inschrijving:");
         layout.add(inschrijvingLabel, 0, 0);
@@ -247,11 +247,10 @@ public class InschrijvingView extends View{
         Button update = new Button("Update");
         layout.add(update, 0,4);
         
-        
+        // update button sluit de stage af, en maakt een nieuwe inschrijving aan en deze vervangt de oude inschrijving in de inschrijving database
         update.setOnAction((e) -> {
             Inschrijving newC = new Inschrijving(
                 0,
-                //Integer.parseInt(cursusField.getText()),
                 (Cursus) cursusField.getValue(),
                 (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
