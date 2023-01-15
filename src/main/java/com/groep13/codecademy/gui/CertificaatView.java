@@ -32,12 +32,14 @@ import javafx.stage.Stage;
  */
 public class CertificaatView extends View{  
     
+    // aanmaken van alle nodige databases, een tabel met alle certificaat gegevens, en een lijst met alle certificaat objecten
     private final CertificaatDB cerdb;
     private final TableView certificaatTable = new TableView();
     private final ObservableList<Certificaat> certificaat;
     private final ObservableList<Inschrijving> inschrijving;
     private final InschrijvingDB idb;
 
+    // constructor methode van CertificaatView
     public CertificaatView(CertificaatDB cerdb, ObservableList<Certificaat> certificaat, InschrijvingDB idb, ObservableList<Inschrijving> inschrijving) {
         this.cerdb=cerdb;
         this.certificaat=certificaat;
@@ -52,10 +54,13 @@ public class CertificaatView extends View{
         certificaatColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("nummer")); 
         inschrijvingColumn.setCellValueFactory(new PropertyValueFactory<Certificaat,String>("inschrijving"));
         
+        // vullen van de TableView tabel met gegevens
         certificaatTable.setItems(certificaat);
         certificaatTable.getColumns().addAll(inschrijvingColumn, cijferColumn, medewerkerColumn, certificaatColumn);
     }
 
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de certificaten knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
@@ -134,6 +139,7 @@ public class CertificaatView extends View{
         
     }    
     
+    // methode die alle certificaat gegevens verwijderd en opnieuw de getAllCertificaten methode aanroept in de certificaten database
     public void refreshCertificaatTable() {
         certificaat.clear();
         certificaat.addAll(cerdb.getAllCertificaten());

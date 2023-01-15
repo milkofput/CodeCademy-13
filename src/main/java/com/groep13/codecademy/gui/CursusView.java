@@ -37,13 +37,14 @@ import java.util.Map;
  */
 public class CursusView extends View{
     
-        
+    //aanmaken van alle nodige databases, een tabel met alle cursus gegevens, en een lijst met alle cursus objecten    
     private final CursusDB cursusdb;
     private final TableView cursusTable = new TableView();
     private final ObservableList<Cursus> cursus;   
     private final StatistiekDB sdb;
     private final ModuleDB mdb;
 
+    // constructormethode van CursusView
     public CursusView(ObservableList<Cursus> cursus, CursusDB cdb, StatistiekDB sdb, ModuleDB mdb) {
         this.cursus=cursus;
         this.cursusdb = cdb;
@@ -59,11 +60,13 @@ public class CursusView extends View{
         introColumn.setCellValueFactory(new PropertyValueFactory<Cursus,String>("introductietekst"));
         niveauColumn.setCellValueFactory(new PropertyValueFactory<Cursus,String>("niveauaanduiding"));
         
+        // vullen van de TableView tabel met gegevens
         cursusTable.setItems(cursus);
         cursusTable.getColumns().addAll(naamColumn,introColumn,owColumn,niveauColumn);
     }
 
-    
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de cursussen knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
@@ -203,6 +206,7 @@ public class CursusView extends View{
         return window; 
     }
     
+    // methode die alle cursus gegevens verwijderd en opnieuw de getAllCursussen methode aanroept in de cursus database
     public void refreshCursusTable() {
         cursus.clear();
         cursus.addAll(cursusdb.getAllCursussen());
@@ -301,11 +305,8 @@ public class CursusView extends View{
             cursus.clear();
             cursus.addAll(cursusdb.getAllCursussen());
             window.hide();
-        });
-
-        //layout.getChildren().addAll(naamField,owField,introField,niveauField,create);       
+        });  
         
-
         Scene createCursus = new Scene(layout);
         window.setScene(createCursus);
         return window;

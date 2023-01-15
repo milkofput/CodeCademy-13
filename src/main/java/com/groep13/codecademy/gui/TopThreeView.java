@@ -20,12 +20,16 @@ import javafx.stage.Stage;
  */
 public class TopThreeView extends View{
     
+    //aanmaken van de statistiek database
     private final StatistiekDB sdb;
 
+    // constructor methode van TopThreeView
     public TopThreeView(StatistiekDB sdb) {
         this.sdb = sdb;
     }
 
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de top 3's knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() {
           
         Stage window = new Stage();

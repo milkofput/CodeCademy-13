@@ -35,6 +35,7 @@ import javafx.stage.Stage;
  */
 public class InschrijvingView extends View{
       
+    // aanmaken van alle nodige databases, een tabel met alle inschrijvings gegevens, en een lijst met alle inschrijving objecten
     private final InschrijvingDB idb;
     private final TableView inschrijvingTable = new TableView();
     private final ObservableList<Inschrijving> inschrijving;
@@ -43,6 +44,7 @@ public class InschrijvingView extends View{
     private final CursusDB cdb;
     private final CursistDB cursistdb;
 
+    // constructor methode van InschrijvingView
     public InschrijvingView(InschrijvingDB idb, ObservableList<Inschrijving> inschrijving, CursusDB cdb, CursistDB cursistdb, ObservableList<Cursus> cursus, ObservableList<Cursist> cursist) {
         this.idb=idb;
         this.inschrijving=inschrijving;
@@ -57,10 +59,13 @@ public class InschrijvingView extends View{
         cursistColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursist"));
         datumColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Datum")); 
         
+        // vullen van de TableView tabel met gegevens
         inschrijvingTable.setItems(inschrijving);
         inschrijvingTable.getColumns().addAll(cursusColumn, cursistColumn, datumColumn);
     }
         
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de inschrijvingen knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
@@ -138,6 +143,7 @@ public class InschrijvingView extends View{
         return window; 
     } 
     
+    // methode die alle inschrijvings gegevens verwijderd en opnieuw de getAllInschrijvingen methode aanroept in de inschrijvingen database
     public void refreshInschrijvingTable() {
         inschrijving.clear();
         inschrijving.addAll(idb.getAllInschrijvingen());
