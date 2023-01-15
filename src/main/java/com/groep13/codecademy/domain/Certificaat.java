@@ -12,12 +12,12 @@ package com.groep13.codecademy.domain;
 public class Certificaat {
     
     private int id;
-    private int cijfer;
+    private double cijfer;
     private String medewerker;
     private int nummer;
     private Inschrijving inschrijving;
 
-    public Certificaat(int id, int cijfer, String medewerker, int nummer, Inschrijving inschrijving) {
+    public Certificaat(int id, double cijfer, String medewerker, int nummer, Inschrijving inschrijving) {
         this.id = id;
         this.cijfer = cijfer;
         this.medewerker = medewerker;
@@ -29,7 +29,7 @@ public class Certificaat {
         return id;
     }
 
-    public int getCijfer() {
+    public double getCijfer() {
         return cijfer;
     }
 

@@ -150,7 +150,7 @@ public class CertificaatView extends View{
 
 
         TextField cijferField = new TextField("Cijfer");
-        TextField medewerkerField = new TextField("NaamMedewerker");
+        TextField medewerkerField = new TextField("Naam Medewerker");
         TextField certificaatField = new TextField("CertificaatNummer");
         ComboBox inschrijvingField = new ComboBox();
         inschrijvingField.setItems(inschrijving);
@@ -159,7 +159,7 @@ public class CertificaatView extends View{
         create.setOnAction((e) -> {
             Certificaat newC = new Certificaat(
                 0,
-                Integer.parseInt(cijferField.getText()),
+                Double.parseDouble(cijferField.getText()),
                 medewerkerField.getText(),
                 Integer.parseInt(certificaatField.getText()),
                 (Inschrijving) inschrijvingField.getValue()
@@ -199,7 +199,7 @@ public class CertificaatView extends View{
         update.setOnAction((e) -> {
             Certificaat newC = new Certificaat(
                 0,
-                Integer.parseInt(cijferField.getText()),
+                Double.parseDouble(cijferField.getText()),
                 medewerkerField.getText(),
                 Integer.parseInt(certificaatField.getText()),
                 (Inschrijving) inschrijvingField.getValue()
