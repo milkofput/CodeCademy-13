@@ -247,12 +247,18 @@ public class CursistView extends View{
         Stage window = new Stage();
         VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
-        
         for(Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
             Label l = new Label("Module: " + mdb.getModuleById(entry.getKey()) + ", voortgang: " + entry.getValue() + "%");
             layout.getChildren().add(l);
         }
-        
+        HBox button = new HBox();
+        //Return
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction((e) -> {
+            window.hide();
+        });
+        button.getChildren().add(returnButton); 
+        layout.getChildren().add(button);
         Scene voortgangScene = new Scene(layout);
         setTitle(window);
         window.setScene(voortgangScene);
@@ -275,6 +281,14 @@ public class CursistView extends View{
 
             }
         }
+        HBox button = new HBox();
+        //Return
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction((e) -> {
+            window.hide();
+        });
+        button.getChildren().add(returnButton); 
+        layout.getChildren().add(button);
         Scene voortgangScene = new Scene(layout);
         setTitle(window);
         window.setScene(voortgangScene);

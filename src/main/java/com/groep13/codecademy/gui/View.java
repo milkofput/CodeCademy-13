@@ -5,6 +5,7 @@
  */
 package com.groep13.codecademy.gui;
 
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
