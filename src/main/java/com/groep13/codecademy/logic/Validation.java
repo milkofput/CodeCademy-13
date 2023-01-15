@@ -24,7 +24,7 @@ public class Validation {
     }
 
     public boolean isValidURL(String url) {
-        return isValidInput(url, "^(http|https)://.+\\.[a-z]+$");
+        return isValidInput(url, "^(http|https)://[a-zA-Z0-9]+.[a-zA-Z0-9]+.[a-z]+$");
     }
 
     public boolean isValidDate(int year, int month, int day) {
