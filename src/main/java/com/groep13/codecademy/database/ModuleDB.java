@@ -14,11 +14,11 @@ public class ModuleDB {
     
     //Maakt voor elke record in de 'Module' tabel een module en retourneert deze in een ArrayList
     public ArrayList<Module> getAllModules() {
-        ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
-                " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
-                " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
-                " FROM Module JOIN ContentItem\n" +
-                "ON Module.ContentItemID = ContentItem.ID");
+        ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer,\n" +
+            "ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving, ContactPersoon.Naam AS NaamContactpersoon, ContactPersoon.Email AS EmailContactpersoon, Volgnummer, CursusID, ContentItemID\n" +
+            "FROM Module JOIN ContentItem\n" +
+            "ON Module.ContentItemID = ContentItem.ID\n" +
+            "JOIN ContactPersoon ON Module.ContactPersoon = ContactPersoon.ContactPersoonID;");
         ArrayList<Module> allModules = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -44,11 +44,12 @@ public class ModuleDB {
     
     //Retourneert een module uit de database met een bepaald id.
     public Module getModuleById(int id) {
-        ResultSet rs = DB.execWithRS(String.format("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
-                " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
-                " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
-                " FROM Module JOIN ContentItem\n" +
-                "ON Module.ContentItemID = ContentItem.ID WHERE ContentItem.ID = %d",id));
+        ResultSet rs = DB.execWithRS(String.format("SELECT ContentItem.ID, ContentItem.ContentItemNummer,\n" +
+            "ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving, ContactPersoon.Naam AS NaamContactpersoon, ContactPersoon.Email AS EmailContactpersoon, Volgnummer, CursusID, ContentItemID\n" +
+            "FROM Module JOIN ContentItem\n" +
+            "ON Module.ContentItemID = ContentItem.ID\n" +
+            "JOIN ContactPersoon ON Module.ContactPersoon = ContactPersoon.ContactPersoonID\n" +
+            "WHERE ContentItem.ID = %d;",id));
         try {
             while (rs.next()) {
                 return new Module(

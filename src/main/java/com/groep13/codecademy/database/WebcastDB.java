@@ -14,11 +14,12 @@ public class WebcastDB {
     
     //Maakt voor elke record in de 'Webcast' tabel een Webcast en retourneert deze in een ArrayList.
     public ArrayList<Webcast> getAllWebcasts() {
-        ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
-                " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Beschrijving, NaamSpreker," +
-                " Organisatie, Tijdsduur, URL" +
-                " FROM Webcast JOIN ContentItem\n" +
-                "ON Webcast.ContentItemID = ContentItem.ID");
+        ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer,\n" +
+            "ContentItem.PublicatieDatum, ContentItem.Status, Titel, Beschrijving, Spreker.NaamSpreker,\n" +
+            "Spreker.Organisatie, Tijdsduur, URL\n" +
+            "FROM Webcast JOIN ContentItem\n" +
+            "ON Webcast.ContentItemID = ContentItem.ID\n" +
+            "JOIN Spreker ON Spreker.SprekerID = Webcast.Spreker;");
         ArrayList<Webcast> allWebcasts = new ArrayList<>();
         try {
             while (rs.next()) {
