@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Cursist;
@@ -10,15 +5,13 @@ import com.groep13.codecademy.domain.Geslacht;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
- * @author milko
- * 
+ * CursistDB beheert de informatie uit de database voor gegevens uit de 'Cursist' tabel.
  */
 public class CursistDB {
+    
+    //Maakt voor elke record in de 'Cursist' tabel een Cursist en retourneert deze in een ArrayList.
     public ArrayList<Cursist> getAllCursisten() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Cursist");
         ArrayList<Cursist> allCursisten = new ArrayList<>();
@@ -43,6 +36,7 @@ public class CursistDB {
         return allCursisten;
     }
     
+    //Voegt een cursist toe aan de 'Cursist' tabel.
     public void addCursist(Cursist c) {
         String addCursist = String.format("INSERT INTO Cursist VALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')",
                 c.getEmailAdres(),
@@ -57,6 +51,7 @@ public class CursistDB {
         DB.exec(addCursist);
     }
     
+    //Past een cursist in de database aan.
     public void updateCursist(Cursist oldC, Cursist newC) {
         String updateCursist = String.format("UPDATE Cursist SET "
             + "EmailAdres=\'%s\',"
@@ -73,11 +68,13 @@ public class CursistDB {
         DB.exec(updateCursist);
     }
     
+    //Verwijdert een cursist in de database.
     public boolean deleteCursist(Cursist c) {
         String removeCursist = String.format("DELETE FROM Cursist WHERE ID=%d",c.getId());
         return DB.exec(removeCursist);
     }
     
+    //Retourneert een cursist uit de database met een bepaald id.
     public Cursist getCursistById(int id) {
         String SQL = String.format("SELECT * FROM Cursist WHERE id = %d", id);
         ResultSet rs = DB.execWithRS(SQL);

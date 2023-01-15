@@ -1,25 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Certificaat;
-import com.groep13.codecademy.domain.Inschrijving;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- *
- * @author nikki
+ * CertifaatDB beheert de informatie uit de database voor gegevens uit de 'Certificaat' tabel.
  */
 public class CertificaatDB {
     
     private final InschrijvingDB idb = new InschrijvingDB();
     
+    //Maakt voor elke record in de 'Certificaat' tabel een Certificaat en retourneert deze in een ArrayList.
     public ArrayList<Certificaat> getAllCertificaten() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Certificaat");
         ArrayList<Certificaat> allCertificaten = new ArrayList<>();
@@ -39,6 +33,7 @@ public class CertificaatDB {
         return allCertificaten;
     }
     
+    //Voegt een certificaat toe aan de 'Certificaat' tabel.
     public void addCertificaat(Certificaat c) {
         String addCertificaat = String.format(Locale.US, "INSERT INTO Certificaat VALUES (%.1f,\'%s\',%d,%d)",
                 c.getCijfer(),
@@ -48,6 +43,7 @@ public class CertificaatDB {
         DB.exec(addCertificaat);
     }
     
+    //Past een certificaat in de database aan.
     public void updateCertificaat(Certificaat oldC, Certificaat newC) {
         String updateCertificaat = String.format(Locale.US, "UPDATE Certificaat SET "
             + "Cijfer=%.1f,"
@@ -59,11 +55,13 @@ public class CertificaatDB {
         DB.exec(updateCertificaat);
     }
     
+    //Verwijdert een certificaat uit de database.
     public boolean deleteCertificaat(Certificaat c) {
         String removeCertificaat = String.format("DELETE FROM Certificaat WHERE ID=%d",c.getId());
         return DB.exec(removeCertificaat);
     }
     
+    //Retourneert een certificaat uit de database met een bepaald id.
     public Certificaat getCertificaatByID(int cid) {
         ResultSet rs = DB.execWithRS(String.format("SELECT * FROM Certificaat WHERE ID=%d", cid));
         try {

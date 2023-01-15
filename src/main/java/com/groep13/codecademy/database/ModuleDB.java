@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
-import com.groep13.codecademy.database.ContentItemDB;
-import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Status;
 import java.sql.ResultSet;
@@ -15,19 +8,17 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author nikki
+ * ModuleDB beheert de informatie uit de database voor gegevens uit de 'Module' tabel.
  */
 public class ModuleDB {
-
-    private final ContentItemDB cdb = new ContentItemDB();
+    
+    //Maakt voor elke record in de 'Module' tabel een module en retourneert deze in een ArrayList
     public ArrayList<Module> getAllModules() {
         ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
                 " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
                 " NaamContactpersoon, EmailContactpersoon, Volgnummer, CursusID, ContentItemID" +
                 " FROM Module JOIN ContentItem\n" +
                 "ON Module.ContentItemID = ContentItem.ID");
-        // pubdatum veranderd naar ci.pubdatum
         ArrayList<Module> allModules = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -51,6 +42,7 @@ public class ModuleDB {
         return allModules;
     }
     
+    //Retourneert een module uit de database met een bepaald id.
     public Module getModuleById(int id) {
         ResultSet rs = DB.execWithRS(String.format("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
                 " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving," +
@@ -78,7 +70,8 @@ public class ModuleDB {
         }
         return null;
     }
-
+    
+    //Retourneert alle modules die niet aan een cursus gekoppeld zijn in een ArrayList.
     public ArrayList<Module> getAllModulesWithoutCursus() {
         ArrayList<Module> allModules = getAllModules()
                 .stream()
@@ -87,6 +80,7 @@ public class ModuleDB {
         return allModules;
     }
     
+    //Retourneert alle modules die aan een bepaalde cursus gekoppeld zijn in een ArrayList.
     public ArrayList<Module> getCourseModules(int cId) {
         ArrayList<Module> allModules = getAllModules()
                 .stream()
@@ -95,31 +89,15 @@ public class ModuleDB {
         return allModules;
     }
     
+    //Leegt 'CursusID' in de database van een bepaalde module.
     public boolean moduleClearCursus(int moduleId) {
         String SQL = String.format("UPDATE Module SET CursusID = NULL WHERE ContentItemID = %d", moduleId);
         return DB.exec(SQL);
     }
     
+    //Wijzigt 'CursusID' in de database van een bepaalde module naar een het cursusid in de parameters.
     public boolean moduleSetCursus(int moduleId, int cId) {
         String SQL = String.format("UPDATE Module SET CursusID = %d WHERE ContentItemID = %d", cId, moduleId);
         return DB.exec(SQL);
     }
-    
-    
-    
-//    public void addModule(Module m) {
-//        int id = cdb.addContentItemAndReturnId(m);
-//        String addModule = String.format("INSERT INTO Module VALUES (\'%s\',%d,\'%s\',\'%s\',\'%s\',%d,%d,%d)",
-//                m.getTitel(),
-//                m.getVersie(),
-//                m.getBeschrijving(),
-//                m.getNaamcontactpersoon(),
-//                m.getEmailcontactpersoon(),
-//                m.getVolgnummer(),
-//                m.getCursusid(),
-//                id
-//                );
-//        DB.exec(addModule);
-//    }
-
 }

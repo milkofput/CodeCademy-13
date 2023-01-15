@@ -1,28 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
-import com.groep13.codecademy.domain.Cursist;
-import com.groep13.codecademy.domain.Geslacht;
-import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Inschrijving;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author nikki
+ * InschrijvingDB beheert de informatie uit de database voor gegevens uit de 'Inschrijving' tabel.
  */
 public class InschrijvingDB {
     
     private final CursistDB cursistdb = new CursistDB();
     private final CursusDB cursusdb = new CursusDB();
-    private final BekijktDB bekijktdb = new BekijktDB();
     
+    //Maakt voor elke record in de 'Inschrijving' tabel een Inschrijving en retourneert deze in een ArrayList.
     public ArrayList<Inschrijving> getAllInschrijvingen() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Inschrijving");
         ArrayList<Inschrijving> allInschrijvingen = new ArrayList<>();
@@ -40,7 +31,8 @@ public class InschrijvingDB {
         }
         return allInschrijvingen;
     }
-
+    
+    //Voegt een inschrijving toe aan de database.
     public void addInschrijving(Inschrijving i) {
         String addInschrijving = String.format("INSERT INTO Inschrijving VALUES (%d,%d,\'%s\')",
                 i.getCursus().getId(),
@@ -48,7 +40,8 @@ public class InschrijvingDB {
                 i.getDatum().toString());
         DB.exec(addInschrijving);
     }
-
+    
+    //Past een inschrijving aan in de database.
     public void updateInschrijving(Inschrijving oldI, Inschrijving newI) {
         String updateInschrijving = String.format("UPDATE Inschrijving SET "
             + "CursusID=%d,"
@@ -57,13 +50,14 @@ public class InschrijvingDB {
             + "WHERE ID=%d", newI.getCursus().getId(),newI.getCursist().getId(), newI.getDatum().toString(),oldI.getId());
         DB.exec(updateInschrijving);
     }
-
+    
+    //Verwijdert een inschrijving uit de database.
     public boolean deleteInschrijving(Inschrijving i) {
         String removeInschrijving = String.format("DELETE FROM Inschrijving WHERE ID=%d",i.getId());
-        //bekijktdb.deleteBekijktForInschrijving(i);
         return DB.exec(removeInschrijving);
     }
     
+    //Retourneert een inschrijving uit de database met een bepaald id.
     public Inschrijving getInschrijvingById(int id) {
         String SQL = String.format("SELECT * FROM Inschrijving WHERE id = %d", id);
         ResultSet rs = DB.execWithRS(SQL);

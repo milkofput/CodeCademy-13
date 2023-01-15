@@ -1,24 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
-import com.groep13.codecademy.domain.Cursist;
-import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Cursus;
-import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Niveau;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author nikki
+ * CursusDB beheert de informatie uit de database voor gegevens uit de 'Cursus' tabel.
  */
 public class CursusDB {
+    
+    //Maakt voor elke record in de 'Cursus' tabel een Cursus en retourneert deze in een ArrayList.
     public ArrayList<Cursus> getAllCursussen() {
         ResultSet rs = DB.execWithRS("SELECT * FROM Cursus");
         ArrayList<Cursus> allCursussen = new ArrayList<>();
@@ -38,6 +31,7 @@ public class CursusDB {
         return allCursussen;
     }
     
+    //Voegt een cursus toe aan de 'Cursus' tabel in de database.
     public boolean addCursus(Cursus c) {
         String addCursus = String.format("INSERT INTO Cursus VALUES (\'%s\',\'%s\',\'%s\',\'%s\')",
                 c.getNaam(),
@@ -47,6 +41,7 @@ public class CursusDB {
         return DB.exec(addCursus);
     }
     
+    //Past een cursus aan in de database.
     public boolean updateCursus(Cursus oldC, Cursus newC) {
         String updateCursus = String.format("UPDATE Cursus SET "
             + "CursusNaam=\'%s\',"
@@ -57,11 +52,13 @@ public class CursusDB {
         return DB.exec(updateCursus);
     }
     
+    //Verwijdert een cursus in de database.
     public boolean deleteCursus(Cursus c) {
         String removeCursus = String.format("DELETE FROM Cursus WHERE ID=%d",c.getId());
         return DB.exec(removeCursus);
     }
     
+    //Retourneert een cursus uit de database met een bepaald id.
     public Cursus getCursusById(int id) {
         String SQL = String.format("SELECT * FROM Cursus WHERE id = %d", id);
         ResultSet rs = DB.execWithRS(SQL);
@@ -76,6 +73,7 @@ public class CursusDB {
                 );
             }
         } catch (SQLException ex) {
+            System.out.println(ex);
         }
         return null;
     }

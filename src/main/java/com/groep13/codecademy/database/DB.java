@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 import java.sql.*;
 
 /**
- *
- * @author milko
+ * DB beheert de databaseverbinding en de uitvoer van query's in de database.
  */
 public class DB {
     private static String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Codecademy;integratedSecurity=true;encrypt=true;trustServerCertificate=true";
@@ -16,6 +10,7 @@ public class DB {
     private static Statement stmt = null;
     private static ResultSet rs = null;
     
+    //Voert de parameter uit als query in de database, en retourneert het resultaat daarvan als ResultSet.
     public static ResultSet execWithRS(String SQL) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -30,6 +25,7 @@ public class DB {
         return null;
     }   
     
+    //Voert de parameter uit als query in de database, en retourneert of de query succesvol was of niet als boolean.
     public static boolean exec(String SQL) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

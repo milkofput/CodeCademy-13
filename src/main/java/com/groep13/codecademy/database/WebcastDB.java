@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Webcast;
-import com.groep13.codecademy.database.ContentItemDB;
-import com.groep13.codecademy.domain.ContentItem;
 import com.groep13.codecademy.domain.Status;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,12 +8,11 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author nikki
+ * WebcastDB beheert de informatie uit de database voor gegevens uit de 'Webcast' tabel.
  */
 public class WebcastDB {
     
-    private final ContentItemDB cdb = new ContentItemDB();
+    //Maakt voor elke record in de 'Webcast' tabel een Webcast en retourneert deze in een ArrayList.
     public ArrayList<Webcast> getAllWebcasts() {
         ResultSet rs = DB.execWithRS("SELECT ContentItem.ID, ContentItem.ContentItemNummer," +
                 " ContentItem.PublicatieDatum, ContentItem.Status, Titel, Beschrijving, NaamSpreker," +
@@ -49,6 +41,7 @@ public class WebcastDB {
         return allWebcasts;
     }
     
+    //Retourneert een inschrijving uit de database met een bepaald id.
     public Webcast getWebcastById(int id) {
         ArrayList<Webcast> allWebcasts = getAllWebcasts()
                 .stream()

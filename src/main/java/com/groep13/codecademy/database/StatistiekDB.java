@@ -1,26 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.groep13.codecademy.database;
 
 import com.groep13.codecademy.domain.Certificaat;
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
-import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Module;
 import com.groep13.codecademy.domain.Webcast;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
- * @author milko
+ * StatistiekDB beheert de informatie uit de database die bestemd zijn voor de statistiekoverzichten uit de opdracht.
  */
 public class StatistiekDB {
     
@@ -30,6 +21,7 @@ public class StatistiekDB {
     private final BekijktDB bekijktdb = new BekijktDB();
     private final WebcastDB webcastdb = new WebcastDB();
     
+    //Retourneert als double het percentage van de inschrijvingen waar een certificaat voor is behaald voor het geslacht in de parameters.
     public double percentageBehaaldeCursussenPerGeslacht(String g) {
         String SQL = String.format("SELECT\n" +
             "	1.00 * (SELECT COUNT(*)\n" +
@@ -47,7 +39,7 @@ public class StatistiekDB {
                 return rs.getDouble("Percentage");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return 0;
     }
@@ -56,7 +48,8 @@ public class StatistiekDB {
         return 0;
     }
     
-    //HashMap<ContentItemID, GemiddeldeVoortgang>
+    //Retourneert de gemiddelde voortgang voor ingeschreven cursisten
+    //per module van een bepaalde cursus, als HashMap<ContentItemID, GemiddeldeVoortgang>
     public HashMap<Integer, Double> gemiddeldeVoortgangPerModulePerCursus(Cursus c) {
         HashMap<Integer, Double> voortgang = new HashMap<>();
         String SQL = String.format("SELECT Module.ContentItemID, SUM(Voortgang) / ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d)) AS GemVoortgang\n" +
@@ -69,29 +62,12 @@ public class StatistiekDB {
                 voortgang.put(rs.getInt("ContentItemID"),rs.getDouble("GemVoortgang"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return voortgang;
     }
     
-    public double gemiddeldeVoortgangPerCursusByID(int cID) {
-        String SQL = String.format("(SELECT SUM(Voortgang) /\n" +
-            "    ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d) * (SELECT Count(*) FROM Module WHERE Module.CursusID = %d))) AS GemVoortgang\n" +
-            "    FROM Cursus JOIN Module ON Module.CursusID = Cursus.ID\n" +
-            "    JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "    WHERE Cursus.ID=%d;", cID,cID,cID);
-        ResultSet rs = DB.execWithRS(SQL);
-        try {
-            while (rs.next()) {
-                return rs.getDouble("GemVoortgang");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
-    }
-    
-    // Hashmap als <ContentItemID, Percentage>
+    //Retourneert de voortgang per module van een cursist voor een cursus, als Hashmap <ContentItemID, Percentage>
     public HashMap<Integer, Double> voortgangPerModuleVanCursusEnCursist(int cursusID, int cursistID) {
         ArrayList<Module> cmodules = moduledb.getCourseModules(cursusID);
         HashMap<Integer, Double> voortgang = new HashMap<>();
@@ -101,6 +77,7 @@ public class StatistiekDB {
         return voortgang;
     }
     
+    //Retourneert alle certificaten die een bepaalde cursist bezit in een ArrayList.
     public ArrayList<Certificaat> certificatenVanCursist(int cursistID) {
         ArrayList<Certificaat> certificaten = new ArrayList<>();
         String SQL = String.format("SELECT Cursus.ID, Cursus.CursusNaam, Cursus.IntroductieTekst, Cursus.NiveauAanduiding, Cursus.Onderwerp\n" +
@@ -113,11 +90,12 @@ public class StatistiekDB {
                 certificaten.add(certdb.getCertificaatByID(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return certificaten;
     }
     
+    //Retourneert de top 3 webcasts die het meest bekeken zijn in een ArrayList.
     public ArrayList<Webcast> topDrieWebcasts() {
         ArrayList<Webcast> webcasts = new ArrayList<>();
         String SQL = String.format("SELECT TOP 3 Webcast.ContentItemID, COUNT(*) as Amt\n" +
@@ -129,11 +107,12 @@ public class StatistiekDB {
                 webcasts.add(webcastdb.getWebcastById(rs.getInt("ContentItemID")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return webcasts;
     }
     
+    //Retourneert de top 3 cursussen die het meeste certificaten hebben in een ArrayList.
     public ArrayList<Cursus> topDrieCursussenMetMeesteCertificaten() {
         ArrayList<Cursus> cursussen = new ArrayList<>();
         String SQL = String.format("SELECT TOP 3 Cursus.ID as CursusId, Cursus.CursusNaam, COUNT(*) as AmtCert\n" +
@@ -146,11 +125,12 @@ public class StatistiekDB {
                 cursussen.add(cursusdb.getCursusById(rs.getInt("CursusID")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return cursussen;
     }
     
+    //Retourneert een ArrayList met aanbevolen cursussen bij een bepaalde cursus.
     public ArrayList<Cursus> aanbevolenCursussenBijCursus(int cursusId) {
         ArrayList<Cursus> cursussen = new ArrayList<>();
         String SQL = String.format("SELECT *\n" +
@@ -162,11 +142,12 @@ public class StatistiekDB {
                 cursussen.add(cursusdb.getCursusById(rs.getInt("CursusID")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return cursussen;
     }
     
+    //Retourneert als int de hoeveelheid certificaten die zijn uitgegeven bij een bepaalde cursus.
     public int hoeveelCertificatenPerCursus(int cursusId) {
         String SQL = String.format("SELECT Cursus.ID AS CursusID, COUNT(*) AS AmtCert\n" +
             "FROM Certificaat JOIN Inschrijving ON Certificaat.InschrijvingID = Inschrijving.ID\n" +
@@ -179,7 +160,7 @@ public class StatistiekDB {
                 return rs.getInt("AmtCert");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StatistiekDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         return 0;
     }
