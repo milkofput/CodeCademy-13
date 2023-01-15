@@ -311,9 +311,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateDayIsNegative() {
         //arrange
-        int day = -10;
-        int month = 12;
-        int Year = 2000;
+        String day = "-10";
+        String month = "12";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -328,9 +328,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateNotContainsZero() {
         //arrange
-        int day = 0;
-        int month = 12;
-        int Year = 2000;
+        String day = "0";
+        String month = "12";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -344,9 +344,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateDayFebNotBiggerThan28() {
         //arrange
-        int day = 30;
-        int month = 02;
-        int Year = 2000;
+        String day = "30";
+        String month = "02";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -360,9 +360,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateDayNotBiggerThan31() {
         //arrange
-        int day = 32;
-        int month = 01;
-        int Year = 2000;
+        String day = "32";
+        String month = "01";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -376,9 +376,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateDayNotBiggerThan30WhenMonthSubtractableWith2() {
         //arrange
-        int day = 31;
-        int month = 04;
-        int Year = 2000;
+        String day = "31";
+        String month = "04";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -392,9 +392,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateDayMoreThan12Months() {
         //arrange
-        int day = 10;
-        int month = 14;
-        int Year = 2000;
+        String day = "10";
+        String month = "14";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -408,9 +408,9 @@ public class ValidationTest {
     @Test
     public void testIsValidDateIsCorrect() {
         //arrange
-        int day = 10;
-        int month = 10;
-        int Year = 2000;
+        String day = "10";
+        String month = "10";
+        String Year = "2000";
         //act
         boolean answer = val.isValidDate(Year, month, day);
         //assert
@@ -431,7 +431,7 @@ public class ValidationTest {
     @Test
     public void testIsValidPercentageNotNegative() {
         //arrange
-        int percentage = -10;
+        String percentage = "-10";
         //act
         boolean answer = val.isValidPercentage(percentage);
         //assert
@@ -445,7 +445,7 @@ public class ValidationTest {
     @Test
     public void testIsValidPercentageTooGreat() {
         //arrange
-        int percentage = 102;
+        String percentage = "102";
         //act
         boolean answer = val.isValidPercentage(percentage);
         //assert
@@ -459,7 +459,7 @@ public class ValidationTest {
     @Test
     public void testIsValidPercentageIsValid() {
         //arrange
-        int percentage = 57;
+        int percentage = "57";
         //act
         boolean answer = val.isValidPercentage(percentage);
         //assert
@@ -478,7 +478,7 @@ public class ValidationTest {
     @Test
     public void testIsValidCijferNotTooSmall() {
         //arrange
-        double cijfer = 0.2;
+        String cijfer = "0.2";
         //act
         boolean answer = val.isValidCijfer(cijfer);
         //assert
@@ -492,7 +492,7 @@ public class ValidationTest {
     @Test
     public void testIsValidCijferTooGreat() {
         //arrange
-        double cijfer = 11.4;
+        String cijfer = "11.4";
         //act
         boolean answer = val.isValidCijfer(cijfer);
         //assert
@@ -506,7 +506,7 @@ public class ValidationTest {
     @Test
     public void testIsValidCijferIsValid() {
         //arrange
-        double cijfer = 6.5;
+        String cijfer = "6.5";
         //act
         boolean answer = val.isValidCijfer(cijfer);
         //assert
