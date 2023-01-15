@@ -185,14 +185,10 @@ public class CursistView extends View{
         //Create
         Button create = new Button("Create");
         create.setOnAction((e) -> {
-            try{
                 Stage createWindow = createCursist();
                 createWindow.setWidth(700);
                 createWindow.setHeight(400);
                 createWindow.show();
-            }catch(Exception ex){
-                nothingSelected().show();
-            }
         });
         cursistButtons.getChildren().addAll(create);
         
