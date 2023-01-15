@@ -1,8 +1,13 @@
 USE [master]
 GO
-/****** Object:  Database [Codecademy]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Database [Codecademy]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE DATABASE [Codecademy]
  CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Codecademy', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLDEV2019\MSSQL\DATA\Codecademy.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Codecademy_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLDEV2019\MSSQL\DATA\Codecademy_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
 GO
 ALTER DATABASE [Codecademy] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -77,7 +82,7 @@ ALTER DATABASE [Codecademy] SET QUERY_STORE = OFF
 GO
 USE [Codecademy]
 GO
-/****** Object:  Table [dbo].[Aanbevolen]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Aanbevolen]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,7 +97,7 @@ CREATE TABLE [dbo].[Aanbevolen](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Bekijkt]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Bekijkt]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +114,7 @@ CREATE TABLE [dbo].[Bekijkt](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Certificaat]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Certificaat]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -126,14 +131,14 @@ CREATE TABLE [dbo].[Certificaat](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ContentItem]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[ContentItem]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ContentItem](
 	[ContentItemNummer] [int] NOT NULL,
-	[PublicatieDatum] [date] NULL,
+	[PublicatieDatum] [date] NOT NULL,
 	[Status] [nvarchar](50) NULL,
 	[ID] [int] IDENTITY(1,1) NOT NULL,
  CONSTRAINT [PK_ContentItem] PRIMARY KEY CLUSTERED 
@@ -142,7 +147,7 @@ CREATE TABLE [dbo].[ContentItem](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cursist]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Cursist]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -164,7 +169,7 @@ CREATE TABLE [dbo].[Cursist](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cursus]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Cursus]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +186,7 @@ CREATE TABLE [dbo].[Cursus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Inschrijving]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Inschrijving]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +202,7 @@ CREATE TABLE [dbo].[Inschrijving](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Module]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Module]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -217,7 +222,7 @@ CREATE TABLE [dbo].[Module](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Webcast]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Table [dbo].[Webcast]    Script Date: 15-1-2023 17:42:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +241,7 @@ CREATE TABLE [dbo].[Webcast](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Index [AK_Bekijkt]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_Bekijkt]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Bekijkt] ON [dbo].[Bekijkt]
 (
 	[Datum] ASC,
@@ -244,13 +249,13 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_Bekijkt] ON [dbo].[Bekijkt]
 	[ContentItemID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [AK_Certificaat]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_Certificaat]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Certificaat] ON [dbo].[Certificaat]
 (
 	[InschrijvingID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [AK_ContentItem]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_ContentItem]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_ContentItem] ON [dbo].[ContentItem]
 (
 	[ContentItemNummer] ASC
@@ -258,7 +263,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_ContentItem] ON [dbo].[ContentItem]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_Cursist]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_Cursist]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Cursist] ON [dbo].[Cursist]
 (
 	[EmailAdres] ASC
@@ -266,13 +271,13 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_Cursist] ON [dbo].[Cursist]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_CursusNaam]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_CursusNaam]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_CursusNaam] ON [dbo].[Cursus]
 (
 	[CursusNaam] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [AK_Inschrijving]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_Inschrijving]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Inschrijving] ON [dbo].[Inschrijving]
 (
 	[CursusID] ASC,
@@ -282,69 +287,69 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_Inschrijving] ON [dbo].[Inschrijving]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [AK_Module]    Script Date: 15-1-2023 13:35:16 ******/
+/****** Object:  Index [AK_Module]    Script Date: 15-1-2023 17:42:30 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [AK_Module] ON [dbo].[Module]
 (
 	[Titel] ASC,
 	[Versie] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Aanbevolen]  WITH CHECK ADD  CONSTRAINT [FK_Aanbevolen_Cursus] FOREIGN KEY([AanbevolenID])
+ALTER TABLE [dbo].[Aanbevolen]  WITH CHECK ADD  CONSTRAINT [FK_Cursus_Heeft_Aanbevolen_Cursus] FOREIGN KEY([AanbevolenID])
 REFERENCES [dbo].[Cursus] ([ID])
 GO
-ALTER TABLE [dbo].[Aanbevolen] CHECK CONSTRAINT [FK_Aanbevolen_Cursus]
+ALTER TABLE [dbo].[Aanbevolen] CHECK CONSTRAINT [FK_Cursus_Heeft_Aanbevolen_Cursus]
 GO
-ALTER TABLE [dbo].[Aanbevolen]  WITH CHECK ADD  CONSTRAINT [FK_Aanbevolen_Cursus1] FOREIGN KEY([AanbevolenBijId])
+ALTER TABLE [dbo].[Aanbevolen]  WITH CHECK ADD  CONSTRAINT [FK_Cursus_Wordt_Aanbevolen] FOREIGN KEY([AanbevolenBijId])
 REFERENCES [dbo].[Cursus] ([ID])
 GO
-ALTER TABLE [dbo].[Aanbevolen] CHECK CONSTRAINT [FK_Aanbevolen_Cursus1]
+ALTER TABLE [dbo].[Aanbevolen] CHECK CONSTRAINT [FK_Cursus_Wordt_Aanbevolen]
 GO
-ALTER TABLE [dbo].[Bekijkt]  WITH CHECK ADD  CONSTRAINT [FK_Bekijkt_ContentItem] FOREIGN KEY([ContentItemID])
+ALTER TABLE [dbo].[Bekijkt]  WITH CHECK ADD  CONSTRAINT [FK_ContentItem_Wordt_Bekeken] FOREIGN KEY([ContentItemID])
 REFERENCES [dbo].[ContentItem] ([ID])
 GO
-ALTER TABLE [dbo].[Bekijkt] CHECK CONSTRAINT [FK_Bekijkt_ContentItem]
+ALTER TABLE [dbo].[Bekijkt] CHECK CONSTRAINT [FK_ContentItem_Wordt_Bekeken]
 GO
-ALTER TABLE [dbo].[Bekijkt]  WITH CHECK ADD  CONSTRAINT [FK_Bekijkt_Cursist] FOREIGN KEY([CursistID])
+ALTER TABLE [dbo].[Bekijkt]  WITH CHECK ADD  CONSTRAINT [FK_Cursist_Bekijkt_ContentItem] FOREIGN KEY([CursistID])
 REFERENCES [dbo].[Cursist] ([ID])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[Bekijkt] CHECK CONSTRAINT [FK_Bekijkt_Cursist]
+ALTER TABLE [dbo].[Bekijkt] CHECK CONSTRAINT [FK_Cursist_Bekijkt_ContentItem]
 GO
-ALTER TABLE [dbo].[Certificaat]  WITH CHECK ADD  CONSTRAINT [FK_Certificaat_Inschrijving] FOREIGN KEY([InschrijvingID])
+ALTER TABLE [dbo].[Certificaat]  WITH CHECK ADD  CONSTRAINT [FK_InschrijvingHeeftCertificaat] FOREIGN KEY([InschrijvingID])
 REFERENCES [dbo].[Inschrijving] ([ID])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[Certificaat] CHECK CONSTRAINT [FK_Certificaat_Inschrijving]
+ALTER TABLE [dbo].[Certificaat] CHECK CONSTRAINT [FK_InschrijvingHeeftCertificaat]
 GO
-ALTER TABLE [dbo].[Inschrijving]  WITH CHECK ADD  CONSTRAINT [FK_Inschrijving_Cursist] FOREIGN KEY([CursistID])
+ALTER TABLE [dbo].[Inschrijving]  WITH CHECK ADD  CONSTRAINT [FK_Cursist_Heeft_Inschrijving] FOREIGN KEY([CursistID])
 REFERENCES [dbo].[Cursist] ([ID])
 ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
-ALTER TABLE [dbo].[Inschrijving] CHECK CONSTRAINT [FK_Inschrijving_Cursist]
+ALTER TABLE [dbo].[Inschrijving] CHECK CONSTRAINT [FK_Cursist_Heeft_Inschrijving]
 GO
-ALTER TABLE [dbo].[Inschrijving]  WITH CHECK ADD  CONSTRAINT [FK_Inschrijving_Cursus] FOREIGN KEY([CursusID])
+ALTER TABLE [dbo].[Inschrijving]  WITH CHECK ADD  CONSTRAINT [FK_Cursus_Heeft_Inschrijving] FOREIGN KEY([CursusID])
 REFERENCES [dbo].[Cursus] ([ID])
 ON UPDATE CASCADE
 GO
-ALTER TABLE [dbo].[Inschrijving] CHECK CONSTRAINT [FK_Inschrijving_Cursus]
+ALTER TABLE [dbo].[Inschrijving] CHECK CONSTRAINT [FK_Cursus_Heeft_Inschrijving]
 GO
-ALTER TABLE [dbo].[Module]  WITH CHECK ADD  CONSTRAINT [FK_Module_ContentItem] FOREIGN KEY([ContentItemID])
-REFERENCES [dbo].[ContentItem] ([ID])
-GO
-ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Module_ContentItem]
-GO
-ALTER TABLE [dbo].[Module]  WITH CHECK ADD  CONSTRAINT [FK_Module_Cursus] FOREIGN KEY([CursusID])
+ALTER TABLE [dbo].[Module]  WITH CHECK ADD  CONSTRAINT [FK_Cursus_Heeft_Module] FOREIGN KEY([CursusID])
 REFERENCES [dbo].[Cursus] ([ID])
 GO
-ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Module_Cursus]
+ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Cursus_Heeft_Module]
 GO
-ALTER TABLE [dbo].[Webcast]  WITH CHECK ADD  CONSTRAINT [FK_Webcast_ContentItem] FOREIGN KEY([ContentItemID])
+ALTER TABLE [dbo].[Module]  WITH CHECK ADD  CONSTRAINT [FK_Module_Is_ContentItem] FOREIGN KEY([ContentItemID])
 REFERENCES [dbo].[ContentItem] ([ID])
 GO
-ALTER TABLE [dbo].[Webcast] CHECK CONSTRAINT [FK_Webcast_ContentItem]
+ALTER TABLE [dbo].[Module] CHECK CONSTRAINT [FK_Module_Is_ContentItem]
+GO
+ALTER TABLE [dbo].[Webcast]  WITH CHECK ADD  CONSTRAINT [FK_Webcast_Is_ContentItem] FOREIGN KEY([ContentItemID])
+REFERENCES [dbo].[ContentItem] ([ID])
+GO
+ALTER TABLE [dbo].[Webcast] CHECK CONSTRAINT [FK_Webcast_Is_ContentItem]
 GO
 USE [master]
 GO
