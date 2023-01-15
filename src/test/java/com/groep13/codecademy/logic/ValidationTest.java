@@ -254,7 +254,7 @@ public class ValidationTest {
         assertEquals(false, answer);
     }
     /**
-     * @subcontract checks if the url has 3 dots with at least one letter in between.{
+     * @subcontract checks if the url has does not contain multiple dots after another{
      * @requires url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
      * @signals (IllegalArgumentExeption) !url.matches("^[https|http]//:[-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+[.][-a-zA-Z0-9#?!]+$")
      * }
@@ -262,7 +262,7 @@ public class ValidationTest {
     @Test
     public void testIsValidURLHasMultipleDots() {
         //arrange
-        String url = "https://asd.asd.asd";
+        String url = "https://asd..asd..asd";
         //act
         boolean answer = val.isValidURL(url);
         //assert

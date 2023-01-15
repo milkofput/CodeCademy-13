@@ -72,7 +72,7 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setSpacing(5);
         layout.setMinHeight(200);
-        layout.setMinWidth(600);
+        layout.setMinWidth(900);
         
         layout.getChildren().add(cursusTable);
         
@@ -80,7 +80,8 @@ public class CursusView extends View{
         Label percentageBehaaldVrouwen = new Label("Percentage voltooide cursussen vrouwen: " + sdb.percentageBehaaldeCursussenPerGeslacht("Vrouw") + "%");
         layout.getChildren().addAll(percentageBehaaldMannen, percentageBehaaldVrouwen);
         
-        Button amtCert = new Button("Certificaten & aanbevolen");
+        // certificaten and aanbevolen cursussen button
+        Button amtCert = new Button("Certificaten & Aanbevolen Cursussen");
         amtCert.setOnAction((e) -> {
             Stage amtCertWindow = amtCertStage(((Cursus) cursusTable.getSelectionModel().getSelectedItem()).getId());
             amtCertWindow.setWidth(500);
