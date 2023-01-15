@@ -302,6 +302,7 @@ public class CursistView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
+        setTitle(window);
 
         Label cursistLabel = new Label("Create Cursist:");
         layout.add(cursistLabel, 0, 0);
@@ -383,6 +384,7 @@ public class CursistView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
+        setTitle(window);
 
         Label cursistLabel = new Label("Update Cursist:");
         layout.add(cursistLabel, 0, 0);

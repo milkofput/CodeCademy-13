@@ -190,6 +190,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
+        setTitle(window);
+
         HashMap<Integer,Double> voortgang = sdb.gemiddeldeVoortgangPerModulePerCursus(c);
         for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
             HBox h = new HBox();
@@ -210,7 +212,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
-        
+        setTitle(window);
+
         Label amtCertLabel = new Label("Certificaten: " + sdb.hoeveelCertificatenPerCursus(cursusId));
         Label aanbevolen = new Label("Aanbevolen cursussen:");
         layout.getChildren().addAll(amtCertLabel, aanbevolen);
@@ -235,6 +238,7 @@ public class CursusView extends View{
         layout.setVgap(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
+        setTitle(window);
 
         Label cursusLabel = new Label("Create Cursus:");
         layout.add(cursusLabel, 0, 0);

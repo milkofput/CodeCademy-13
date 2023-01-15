@@ -141,6 +141,8 @@ public class InschrijvingView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
+        setTitle(window);
+
         // dit doet volgens mij niks:
         //layout.setMinHeight(300);
         //layout.setMinWidth(900);
@@ -197,7 +199,8 @@ public class InschrijvingView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
-        
+        setTitle(window);
+       
 //        layout.setMinHeight(200);
 //        layout.setMinWidth(600);
 
