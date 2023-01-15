@@ -1,0 +1,174 @@
+----BEKIJKTDB----
+getContentItemProgress:
+SELECT Voortgang
+FROM Bekijkt
+WHERE ContentItemID = ? AND CursistID = ?;
+
+----CERTIFICAATDB----
+getAllCertificaten:
+SELECT * FROM Certificaat;
+
+addCertificaat:
+INSERT INTO Certificaat VALUES (?,?,?,?);
+
+updateCertificaat:
+UPDATE Certificaat SET 
+Cijfer=?,
+NaamMedewerker=?,
+CertificaatNummer=?,  
+InschrijvingID=?,    
+WHERE ID=?;
+
+deleteCertificaat:
+DELETE FROM Certificaat WHERE ID=?;
+
+getCertificaatByID:
+SELECT * FROM Certificaat WHERE ID=?;
+
+----CURSISTDB----
+getAllCursisten:
+SELECT * FROM Cursist;
+
+addCursist:
+INSERT INTO Cursist VALUES (?,?,?,?,?,?,?,?,?);
+
+updateCursist:
+UPDATE Cursist SET 
+EmailAdres=?,
+Naam=?,
+GeboorteDatum=?,
+Geslacht=?,
+Straat=?,
+Huisnummer=?,
+Postcode=?,
+Woonplaats=?,
+Land=?             
+WHERE ID=?;
+
+deleteCursist:
+DELETE FROM Cursist WHERE ID=?;
+
+getCursistById:
+DELETE * Cursist WHERE ID=?;
+
+----CURSUSDB----
+getAllCursussen:
+SELECT * FROM Cursus;
+
+addCursus:
+INSERT INTO Cursus VALUES(?,?,?,?);
+
+updateCursus:
+UPDATE Cursus SET 
+CursusNaam=?,
+Onderwerp=?,
+IntroductieTekst=?,
+NiveauAanduiding=?              
+WHERE ID=?
+
+deleteCursus:
+DELETE FROM Cursus WHERE ID = ?;
+
+getCursusById:
+SELECT * FROM Cursus WHERE ID = ?;
+
+----INSCHRIJVINGDB----
+getAllInschrijvingen:
+SELECT * FROM Inschrijving;
+
+addInschrijving:
+INSERT INTO Inschrijving VALUES (?,?,?);
+
+updateInschrijving:
+UPDATE Inschrijving SET 
+CursusID=?,
+CursistID=?,
+Datum=?            
+WHERE ID=?;
+
+deleteInschrijving:
+DELETE FROM Inschrijving WHERE ID=?;
+
+getInschrijvingById:
+DELETE * Inschrijving WHERE ID=?;
+
+----MODULEDB----
+getAllModules:
+SELECT ContentItem.ID, ContentItem.ContentItemNummer,
+ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving, ContactPersoon.Naam AS NaamContactpersoon, ContactPersoon.Email AS EmailContactpersoon, Volgnummer, CursusID, ContentItemID
+FROM Module JOIN ContentItem
+ON Module.ContentItemID = ContentItem.ID
+JOIN ContactPersoon ON Module.ContactPersoon = ContactPersoon.ContactPersoonID;
+
+getModuleById:
+SELECT ContentItem.ID, ContentItem.ContentItemNummer,
+ContentItem.PublicatieDatum, ContentItem.Status, Titel, Versie, Beschrijving, ContactPersoon.Naam AS NaamContactpersoon, ContactPersoon.Email AS EmailContactpersoon, Volgnummer, CursusID, ContentItemID
+FROM Module JOIN ContentItem
+ON Module.ContentItemID = ContentItem.ID
+JOIN ContactPersoon ON Module.ContactPersoon = ContactPersoon.ContactPersoonID
+WHERE ContentItem.ID=?;
+
+moduleClearCursus:
+UPDATE Module SET CursusID = NULL WHERE ContentItemID = ?;
+
+moduleSetCursus:
+UPDATE Module SET CursusID = ? WHERE ContentItemID = ?;
+
+----STATISTIEKDB----
+percentageBehaaldeCursussenPerGeslacht:
+SELECT
+1.00 * (SELECT COUNT(*)
+FROM Cursist JOIN Inschrijving ON Cursist.ID = Inschrijving.CursistID
+JOIN Certificaat ON Inschrijving.ID = Certificaat.InschrijvingID
+WHERE Geslacht = ?)
+/ 
+(SELECT COUNT(*)
+FROM Cursist JOIN Inschrijving ON Cursist.ID = Inschrijving.CursistID
+WHERE Geslacht = ?)
+* 100 AS Percentage
+
+gemiddeldeVoortgangPerModulePerCursus:
+SELECT Module.ContentItemID, SUM(Voortgang) / ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=?)) AS GemVoortgang
+FROM Module JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID
+WHERE Module.CursusID = ? AND Bekijkt.CursistID IN (SELECT Inschrijving.CursistID FROM Inschrijving WHERE CursusID = ?)
+GROUP BY Module.ContentItemId;
+
+certificatenVanCursist:
+SELECT Cursus.ID, Cursus.CursusNaam, Cursus.IntroductieTekst, Cursus.NiveauAanduiding, Cursus.Onderwerp
+FROM Certificaat JOIN Inschrijving ON Certificaat.InschrijvingID = Inschrijving.ID
+JOIN Cursus on Inschrijving.CursusID = Cursus.ID
+WHERE CursistID = ?;
+
+topDrieWebcasts:
+SELECT TOP 3 Webcast.ContentItemID, COUNT(*) as Amt
+FROM Bekijkt JOIN Webcast ON Bekijkt.ContentItemID = Webcast.ContentItemID
+GROUP BY Webcast.ContentItemID
+
+topDrieCursussenMetMeesteCertificaten:
+SELECT TOP 3 Cursus.ID as CursusId, Cursus.CursusNaam, COUNT(*) as AmtCert
+FROM Certificaat JOIN Inschrijving ON Certificaat.InschrijvingID = Inschrijving.ID
+JOIN Cursus ON Cursus.ID = Inschrijving.CursusID
+GROUP BY Cursus.ID, Cursus.CursusNaam;
+
+aanbevolenCursussenBijCursus:
+SELECT *
+FROM Aanbevolen
+WHERE AanbevolenBijId = ?;
+
+hoeveelCertificatenPerCursus:
+SELECT Cursus.ID AS CursusID, COUNT(*) AS AmtCert
+FROM Certificaat JOIN Inschrijving ON Certificaat.InschrijvingID = Inschrijving.ID
+JOIN Cursus on Inschrijving.CursusID = Cursus.ID
+WHERE Cursus.ID = ?
+GROUP BY Cursus.ID;
+
+
+----WEBCASTDB----
+
+getAllWebcasts:
+SELECT ContentItem.ID, ContentItem.ContentItemNummer,
+ContentItem.PublicatieDatum, ContentItem.Status, Titel, Beschrijving, Spreker.NaamSpreker,
+Spreker.Organisatie, Tijdsduur, URL
+FROM Webcast JOIN ContentItem
+ON Webcast.ContentItemID = ContentItem.ID
+JOIN Spreker ON Spreker.SprekerID = Webcast.Spreker;
