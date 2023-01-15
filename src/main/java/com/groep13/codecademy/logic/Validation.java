@@ -34,7 +34,7 @@ public class Validation {
     public boolean isValidDate(String year, String month, String day) {
         try {
             LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-        } catch (DateTimeException e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
