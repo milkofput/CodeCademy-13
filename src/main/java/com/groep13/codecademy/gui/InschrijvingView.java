@@ -11,6 +11,7 @@ import com.groep13.codecademy.database.InschrijvingDB;
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Inschrijving;
+import com.groep13.codecademy.logic.Validation;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
@@ -32,9 +33,14 @@ import javafx.stage.Stage;
 /**
  *
  * @author milko
+ * 
+ * deze klasse wordt vanuit de GUI klasse aangeroepen, en vorm het nieuwe scherm dat getoond wordt wanneer de gebruiker
+ * op de Cursisten button klikt die zich op het hoofdscherm bevindt
+ * 
  */
 public class InschrijvingView extends View{
       
+    // aanmaken van alle nodige databases, een tabel met alle inschrijvings gegevens, en een lijst met alle inschrijving objecten
     private final InschrijvingDB idb;
     private final TableView inschrijvingTable = new TableView();
     private final ObservableList<Inschrijving> inschrijving;
@@ -42,7 +48,9 @@ public class InschrijvingView extends View{
     private final ObservableList<Cursist> cursist;
     private final CursusDB cdb;
     private final CursistDB cursistdb;
+    private final Validation val = new Validation();
 
+    // constructor methode van InschrijvingView
     public InschrijvingView(InschrijvingDB idb, ObservableList<Inschrijving> inschrijving, CursusDB cdb, CursistDB cursistdb, ObservableList<Cursus> cursus, ObservableList<Cursist> cursist) {
         this.idb=idb;
         this.inschrijving=inschrijving;
@@ -57,10 +65,13 @@ public class InschrijvingView extends View{
         cursistColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Cursist"));
         datumColumn.setCellValueFactory(new PropertyValueFactory<Inschrijving,String>("Datum")); 
         
+        // vullen van de TableView tabel met gegevens
         inschrijvingTable.setItems(inschrijving);
         inschrijvingTable.getColumns().addAll(cursusColumn, cursistColumn, datumColumn);
     }
         
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de inschrijvingen knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() throws SQLException {
           
         Stage window = new Stage();
@@ -77,7 +88,10 @@ public class InschrijvingView extends View{
         //Error label
         Label errorLabel = new Label("");
                
-        //Create
+        // CRUD buttons van inschrijving
+        
+        // als de gebruiker op de create button drukt wordt de createInschrijving methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button create = new Button("Create");
         create.setOnAction((e) -> {
             Stage createWindow = createInschrijving();
@@ -87,7 +101,7 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().addAll(create);
         
-        //Delete  
+        // als de gebruiker een inschrijving selecteert uit de tabel en op de delete button drukt wordt de inschrijving uit de inschrijving database verwijderd         
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
             try{
@@ -106,7 +120,8 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().add(delete);
         
-        //Update
+        // als de gebruiker een inschrijving selecteert uit de tabel en op de update button drukt wordt de editInschrijving methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             try{
@@ -120,16 +135,13 @@ public class InschrijvingView extends View{
         });
         buttons.getChildren().add(update);
         
-        //Return
+        // return sluit de stage
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
         });
         buttons.getChildren().add(returnButton);           
-              
-        //Buttons 
-        layout.setSpacing(5);
-        layout.setPadding(new Insets(5,5,5,5));
+
         buttons.setSpacing(5);
         layout.getChildren().add(buttons);
                        
@@ -138,11 +150,13 @@ public class InschrijvingView extends View{
         return window; 
     } 
     
+    // methode die alle inschrijvings gegevens verwijderd en opnieuw de getAllInschrijvingen methode aanroept in de inschrijvingen database
     public void refreshInschrijvingTable() {
         inschrijving.clear();
         inschrijving.addAll(idb.getAllInschrijvingen());
     }
     
+    // methode die een stage returnt waarin de gebruiker input kan invullen en een nieuwe inschrijving kan aanmaken
     public Stage createInschrijving() {
         Stage window = new Stage();
         GridPane layout = new GridPane();
@@ -150,10 +164,6 @@ public class InschrijvingView extends View{
         layout.setHgap(10);
         layout.setVgap(5);
         setTitle(window);
-
-        // dit doet volgens mij niks:
-        //layout.setMinHeight(300);
-        //layout.setMinWidth(900);
 
         Label inschrijvingLabel = new Label("Create Inschrijving:");
         layout.add(inschrijvingLabel, 0, 0);
@@ -182,7 +192,9 @@ public class InschrijvingView extends View{
         Button create = new Button("Create");
         layout.add(create, 0,4);
 
+        // create button sluit de stage af, en maakt een nieuwe inschrijving in de inschrijving database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
+            if (val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText())){
             Inschrijving newC = new Inschrijving(
                 0,
                 (Cursus) cursusField.getValue(),
@@ -193,6 +205,9 @@ public class InschrijvingView extends View{
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
 
         Scene createInschrijving = new Scene(layout);
@@ -201,18 +216,15 @@ public class InschrijvingView extends View{
     
     }
     
+    // methode returnt een stage waarop de gebruiker gegevens van een inschrijving kan wijzigen 
     public Stage editInschrijving(Inschrijving i) {
+        
         Stage window = new Stage();
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
-        setTitle(window);
-       
-//        layout.setMinHeight(200);
-//        layout.setMinWidth(600);
-
-        
+        setTitle(window);       
         
         Label inschrijvingLabel = new Label("Create Inschrijving:");
         layout.add(inschrijvingLabel, 0, 0);
@@ -241,11 +253,11 @@ public class InschrijvingView extends View{
         Button update = new Button("Update");
         layout.add(update, 0,4);
         
-        
+        // update button sluit de stage af, en maakt een nieuwe inschrijving aan en deze vervangt de oude inschrijving in de inschrijving database
         update.setOnAction((e) -> {
+            if (val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText())){
             Inschrijving newC = new Inschrijving(
                 0,
-                //Integer.parseInt(cursusField.getText()),
                 (Cursus) cursusField.getValue(),
                 (Cursist) cursistField.getValue(),
                 LocalDate.of(Integer.parseInt(jaarField.getText()),Integer.parseInt(maandField.getText()),Integer.parseInt(dagField.getText()))
@@ -254,6 +266,9 @@ public class InschrijvingView extends View{
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
         
 

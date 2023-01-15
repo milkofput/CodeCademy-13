@@ -15,6 +15,7 @@ import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Webcast;
+import com.groep13.codecademy.logic.Validation;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -39,18 +40,25 @@ import javafx.stage.Stage;
 /**
  *
  * @author milko
+ * 
+ * deze klasse wordt vanuit de GUI klasse aangeroepen, en vorm het nieuwe scherm dat getoond wordt wanneer de gebruiker
+ * op de Cursisten button klikt die zich op het hoofdscherm bevindt
+ * 
  */
 public class CursistView extends View{
     
+    // aanmaken van alle nodige databases, een tabel met alle cursist gegevens, en een lijst met alle cursist object, en een validation   
     private final CursistDB cdb;
     private final CursusDB cursusdb;
-    private final TableView cursistTable = new TableView();
+    private final TableView cursistTable = new TableView(); 
     private final ObservableList<Cursist> cursist; 
     private final ModuleDB mdb;
     private final BekijktDB bdb;
     private final WebcastDB wdb;
     private final StatistiekDB sdb;
+    private final Validation val = new Validation();
 
+    // constructor methode van de CursistView
     public CursistView(CursistDB cdb, CursusDB cursusdb, ObservableList<Cursist> cursist, ModuleDB mdb, BekijktDB bdb, WebcastDB wdb, StatistiekDB sdb) {
         this.cdb = cdb;
         this.cursusdb = cursusdb;
@@ -79,12 +87,16 @@ public class CursistView extends View{
         woonplaatsColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("woonplaats"));
         landColumn.setCellValueFactory(new PropertyValueFactory<Cursist,String>("land"));
         
+        // vullen van de TableView tabel met gegevens
         cursistTable.setItems(cursist);
         cursistTable.getColumns().addAll(emailColumn,naamColumn,datumColumn,geslachtColumn,straatColumn,huisnummerColumn,postcodeColumn,woonplaatsColumn,landColumn);
     }
     
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de cursisten knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() throws SQLException {
           
+        // aanmaken van stage en layout
         Stage window = new Stage();
         setTitle(window);
         VBox layout = new VBox();
@@ -93,14 +105,14 @@ public class CursistView extends View{
         layout.setMinHeight(200);
         layout.setMinWidth(1000);
         
-        //initCursistTable();
+        // tabel met cursist gegevens wordt toegevoegd aan de layout
         layout.getChildren().add(cursistTable);
-        HBox cursistButtons = new HBox();
         
-        //Error label
+        // error label
         Label errorLabel = new Label("");
                
-        //View voortgang in een module
+        // view voortgang in een module
+        // gebruiker kan een cursist en een module kiezen in een combobox       
         HBox voortgangModule = new HBox();
         Label voortgangModuleLabel = new Label("View voortgang van een cursist in een module:");
         Label cursistLabel = new Label("Selecteer cursist: ");
@@ -111,16 +123,20 @@ public class CursistView extends View{
         moduleField.setItems(FXCollections.observableArrayList(mdb.getAllModules()));
         Label voortgangModuleOutput = new Label();              
         Button viewVoortgangModule = new Button("View Voortgang");
+        // als de gebruiker op de view voortgang button drukt wordt de methode getContentItemProgress aangeroepen in de bekijkt database
+        // deze methode krijgt een module ID en een cursist ID mee en geeft een percentage terug
+        // dit percentage komt op het scherm
         viewVoortgangModule.setOnAction((e) -> {          
             int moduleId = ((com.groep13.codecademy.domain.Module) moduleField.getValue()).getId();
-            int cursistId = ((Cursist) cursistField.getValue()).getId();
-            
+            int cursistId = ((Cursist) cursistField.getValue()).getId();           
             voortgangModuleOutput.setText(bdb.getContentItemProgress(moduleId, cursistId) + "%");
-        });       
-        voortgangModule.getChildren().addAll(cursistLabel, cursistField, cursusLabel, moduleField, viewVoortgangModule, voortgangModuleOutput);      
+        });      
+        voortgangModule.getChildren().addAll(cursistLabel, cursistField, cursusLabel, moduleField, viewVoortgangModule, voortgangModuleOutput);  
+        // voortgang in een module wordt toegevoegd aan de layout
         layout.getChildren().addAll(voortgangModuleLabel, voortgangModule);
                       
-        //View voortgang in een webcast
+        // view voortgang in een webcast
+        // de gebruiker kan een cursist en een webcast kiezen in een combobox       
         HBox voortgangWebcast = new HBox();
         Label voortgangWebcastLabel = new Label("View voortgang van een cursist in een webcast:");
         Label webcastCursistLabel = new Label("Selecteer cursist: ");
@@ -129,7 +145,10 @@ public class CursistView extends View{
         Label webcastLabel = new Label("Selecteer webcast: ");        
         ComboBox webcastField = new ComboBox();
         webcastField.setItems(FXCollections.observableArrayList(wdb.getAllWebcasts()));
-        Label voortgangWebcastOutput = new Label();              
+        Label voortgangWebcastOutput = new Label();   
+        // als de gebruiker op de view voortgang button drukt wordt de methode getContentItemProgress aangeroepen in de bekijkt database
+        // deze methode krijgt een webcast ID en een cursist ID mee en geeft een percentage terug
+        // dit percentage komt op het scherm
         Button viewVoortgangWebcast = new Button("View Voortgang");
         viewVoortgangWebcast.setOnAction((e) -> {          
             int webcastId = ((Webcast) webcastField.getValue()).getId();
@@ -137,9 +156,11 @@ public class CursistView extends View{
             voortgangWebcastOutput.setText(bdb.getContentItemProgress(webcastId, cursistId) + "%");
         });       
         voortgangWebcast.getChildren().addAll(webcastCursistLabel, webcastCursistField, webcastLabel, webcastField, viewVoortgangWebcast, voortgangWebcastOutput);      
+        // voortgang in een webcast wordt toegevoegd aan de layout
         layout.getChildren().addAll(voortgangWebcastLabel, voortgangWebcast);
         
-        //View voortgang per module van cursus en cursist
+        // view voortgang per module van cursus en cursist
+        // de gebruiker kan een cursist en een cursus kiezen in een combobox
         HBox voortgangModCur = new HBox();
         Label voortgangModCurLabel = new Label("View voortgang van een cursist in een cursus per module:");
         Label modCurCursistLabel = new Label("Selecteer cursist: ");
@@ -147,7 +168,10 @@ public class CursistView extends View{
         modCurCursistField.setItems(cursist);       
         Label modCurLabel = new Label("Selecteer cursus: ");        
         ComboBox modCurCursusField = new ComboBox();
-        modCurCursusField.setItems(FXCollections.observableArrayList(cursusdb.getAllCursussen()));            
+        modCurCursusField.setItems(FXCollections.observableArrayList(cursusdb.getAllCursussen()));   
+        // als de gebruiker op de view voortgang button drukt wordt de methode voortgangCursusPerModule aangeroepen
+        // deze methode krijgt een cursist ID en een cursus ID mee en geeft een stage terug
+        // deze stage wordt vervolgens getoont aan de gebruiker
         Button viewVoortgang = new Button("View Voortgang");
         viewVoortgang.setOnAction((e) -> {          
             int cursistId = ((Cursist) modCurCursistField.getValue()).getId();
@@ -157,18 +181,22 @@ public class CursistView extends View{
             voortgangWindow.setHeight(400);
             voortgangWindow.show();
         });       
-        voortgangModCur.getChildren().addAll(modCurCursistLabel, modCurCursistField, modCurLabel, modCurCursusField, viewVoortgang);      
+        voortgangModCur.getChildren().addAll(modCurCursistLabel, modCurCursistField, modCurLabel, modCurCursusField, viewVoortgang);  
+        // view voortgang per module wordt toegevoegd aan de layout
         layout.getChildren().addAll(voortgangModCurLabel, voortgangModCur);
         
-        //View certificaten behaald door cursist
+        // view certificaten behaald door cursist
+        // gebruiker kan een cursist selecteren in een combobox
         Label certificatenLabel = new Label("View behaalde certificaten van een cursist:");
         HBox certificatenBehaald = new HBox();
         Label certificaatCursistLabel = new Label("Selecteer cursist: ");
         ComboBox certificaatCursistField = new ComboBox();
-        certificaatCursistField.setItems(cursist); 
-        
+        certificaatCursistField.setItems(cursist);        
         Label certificatenOutput = new Label();
-        
+        // als de gebruiker op de view certificaten knop drukt wordt de methode certificatenVanCursist uit de statistiek database aangeroepen
+        // deze methode krijgt het cursist ID mee en geeft een input string terug
+        // vervolgens wordt de methode viewCertificatenCursist aangeroepen, deze krijgt de input string mee
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button viewCertificaten = new Button("View Certificaten");
         viewCertificaten.setOnAction((e) -> {          
             int cursistId = ((Cursist) certificaatCursistField.getValue()).getId(); 
@@ -178,11 +206,15 @@ public class CursistView extends View{
             view.show();
         });
         certificatenBehaald.getChildren().addAll(certificaatCursistLabel, certificaatCursistField, viewCertificaten);
+        // view certificaten wordt aan de layout toegevoegd
         layout.getChildren().addAll(certificatenLabel, certificatenBehaald, certificatenOutput);
         
         
+        // CRUD buttons krijgen een horizontale box
+        HBox cursistButtons = new HBox();
         
-        //Create
+        // als de gebruiker op de create button drukt wordt de createCursist methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button create = new Button("Create");
         create.setOnAction((e) -> {
                 Stage createWindow = createCursist();
@@ -190,7 +222,6 @@ public class CursistView extends View{
                 createWindow.setHeight(400);
                 createWindow.show();
         });
-        cursistButtons.getChildren().addAll(create);
         
         //Delete  
         Button delete = new Button("Delete");
@@ -209,9 +240,9 @@ public class CursistView extends View{
                 nothingSelected().show();
             }
         });
-        cursistButtons.getChildren().add(delete);
         
-        //Update
+        // als de gebruiker op de update button drukt wordt de editCursist methode aangeroepen
+        // deze methode geeft een stage terug en deze wordt getoond aan de gebruiker
         Button update = new Button("Update");
         update.setOnAction((e) -> {
             try{
@@ -222,33 +253,32 @@ public class CursistView extends View{
             }catch(Exception ex){
                 nothingSelected().show();
             }
-        });
-        cursistButtons.getChildren().add(update);       
+        });     
         
-        //Return
+        // als de gebruiker op de return button klikt sluit de stage
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
         });
-        cursistButtons.getChildren().add(returnButton);           
-              
-        //Buttons 
-        layout.setSpacing(5);
-        layout.setPadding(new Insets(5,5,5,5));
+        
+        // CRUD buttons en return button worden toegevoegd aan layout
+        cursistButtons.getChildren().addAll(create, delete, update, returnButton);           
         cursistButtons.setSpacing(5);
         layout.getChildren().add(cursistButtons);
                        
+        // layout wordt omgezet in scene, en deze wordt gereturnt naar de GUI klasse
         Scene cursistScene = new Scene(layout);
         window.setScene(cursistScene);
         return window; 
     }
-
-    
+   
+    // methode die alle cursist gegevens verwijderd en opnieuw de getAllCursisten methode aanroept in de cursist database
     public void refreshCursistTable() {
         cursist.clear();
         cursist.addAll(cdb.getAllCursisten());
     }
     
+    // methode returnt een stage waarop de voortgang van alle modules te zien is
     public Stage voortgangCursusPerModule(int cursistId, int cursusId) {
         HashMap<Integer, Double> voortgang = sdb.voortgangPerModuleVanCursusEnCursist(cursusId, cursistId);
         
@@ -261,7 +291,8 @@ public class CursistView extends View{
             layout.getChildren().addAll(l, label);
         }
         HBox button = new HBox();
-        //Return
+        
+        // return button, stage wordt gesloten
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
@@ -274,13 +305,15 @@ public class CursistView extends View{
         return window;
         
     }
+    
+    // methode returnt een stage waarop alle certificaten te zien zijn die een cursist behaald heeft
     public Stage viewCertificatenCursist(String input){
         Stage window = new Stage();
         VBox layout = new VBox();             
         layout.setPadding(new Insets(8,8,8,8));
         String[] inputSplit = toStringListCleaner(input);
         if(inputSplit.length == 0){
-            Label label = new Label("de cursist heeft nog geen cursusen behaald");
+            Label label = new Label("De cursist heeft nog geen cursussen behaald");
             layout.getChildren().add(label);
         }else{
             for (int i = 0; i < inputSplit.length; i++) {
@@ -300,7 +333,7 @@ public class CursistView extends View{
             
         }
         HBox button = new HBox();
-        //Return
+        // return button sluit stage af
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
@@ -314,6 +347,7 @@ public class CursistView extends View{
         return window;
     }
     
+    // methode returnt een stage waarop de gebruiker input kan invullen om een nieuwe cursist aan te maken
     public Stage createCursist() {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
@@ -370,8 +404,13 @@ public class CursistView extends View{
         Button create = new Button("Create");
         layout.add(create,0,8);
 
+        // create button sluit de stage af, en maakt een nieuwe cursist in de cursist database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
-            Cursist newC = new Cursist(
+            
+            if (    val.isValidEmail(emailField.getText()) && 
+                    val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText()) &&
+                    val.isValidPostcode(postcodeField.getText()) ){
+                Cursist newC = new Cursist(
                 0,
                 emailField.getText(),
                 naamField.getText(),
@@ -387,6 +426,10 @@ public class CursistView extends View{
             cursist.clear();
             cursist.addAll(cdb.getAllCursisten());
             window.hide();
+            } else {
+                inputError().show();
+            }
+      
         });
 
 
@@ -396,6 +439,7 @@ public class CursistView extends View{
     
     }   
     
+    // methode returnt een stage waarop de gebruiker gegevens van een cursist kan wijzigen
     public Stage editCursist(Cursist c) {
         Stage window = new Stage();
         GridPane layout = new GridPane();             
@@ -452,8 +496,11 @@ public class CursistView extends View{
         Button update = new Button("Update");
         layout.add(update,0,8);
                 
-
+        // update button sluit de stage af, en maakt een nieuwe cursist aan en deze vervangt de oude cursist in de cursist database 
         update.setOnAction((e) -> {
+            if (    val.isValidEmail(emailField.getText()) && 
+                    val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText()) &&
+                    val.isValidPostcode(postcodeField.getText()) ){
             Cursist newC = new Cursist(
                 0,
                 emailField.getText(),
@@ -470,6 +517,9 @@ public class CursistView extends View{
             cursist.clear();
             cursist.addAll(cdb.getAllCursisten());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
 
         Scene editCursist = new Scene(layout);
@@ -477,6 +527,5 @@ public class CursistView extends View{
         return window;
 
     }
-    
-       
+           
 }

@@ -20,12 +20,16 @@ import javafx.stage.Stage;
  */
 public class TopThreeView extends View{
     
+    //aanmaken van de statistiek database
     private final StatistiekDB sdb;
 
+    // constructor methode van TopThreeView
     public TopThreeView(StatistiekDB sdb) {
         this.sdb = sdb;
     }
 
+    // methode die een nieuwe stage returnt naar de GUI klasse, wanneer de gebruiker op de top 3's knop drukt
+    // de gebruiker krijgt deze stage te zien
     public Stage getScene() {
           
         Stage window = new Stage();
@@ -62,7 +66,7 @@ public class TopThreeView extends View{
         }
         hbox.getChildren().addAll(vboxCursus);
              
-        //Return
+        //Return button sluit stage af
         Button returnButton = new Button("Return");
         returnButton.setOnAction((e) -> {
             window.hide();
@@ -70,8 +74,6 @@ public class TopThreeView extends View{
         button.getChildren().add(returnButton);           
               
         //Buttons 
-        layout.setSpacing(5);
-        layout.setPadding(new Insets(5,5,5,5));
         hbox.setSpacing(5);
         layout.getChildren().add(hbox);
         layout.getChildren().add(button);

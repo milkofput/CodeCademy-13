@@ -29,9 +29,13 @@ import javafx.scene.layout.BorderPane;
 /**
  *
  * @author milko
+ * 
+ * Deze klasse wordt vanuit de Main klasse aangeroepen, en vormt het hoofdscherm dat de gebruiker als eerst te zien krijgt
+ * 
  */
 public class GUI extends Application {
-
+    
+    // aanmaken van alle nodige databases
     private final CertificaatDB certificaatdb = new CertificaatDB();
     private final InschrijvingDB inschrijvingdb = new InschrijvingDB();
     private final CursusDB cursusdb = new CursusDB();
@@ -41,42 +45,51 @@ public class GUI extends Application {
     private final BekijktDB bekijktdb = new BekijktDB();
     private final WebcastDB webcastdb = new WebcastDB();
 
+    // aanmaken van de lijsten waarin alle cursussen, cursisten, certificaten en inschrijvingen staan
     private final ObservableList<Cursus> cursus = FXCollections.observableArrayList(cursusdb.getAllCursussen());
     private final ObservableList<Cursist> cursist = FXCollections.observableArrayList(cursistdb.getAllCursisten());
     private final ObservableList<Certificaat> certificaat = FXCollections.observableArrayList(certificaatdb.getAllCertificaten());;
     private final ObservableList<Inschrijving> inschrijving = FXCollections.observableArrayList(inschrijvingdb.getAllInschrijvingen());;
 
+    // aanmaken van alle nodige views
     private final TopThreeView topThreeView = new TopThreeView(statistiekdb);
     private final CertificaatView certificaatView = new CertificaatView(certificaatdb,certificaat,inschrijvingdb,inschrijving);
     private final InschrijvingView inschrijvingView = new InschrijvingView(inschrijvingdb,inschrijving,cursusdb,cursistdb,cursus,cursist);
     private final CursusView cursusView = new CursusView(cursus,cursusdb,statistiekdb,moduledb);
     private final CursistView cursistView = new CursistView(cursistdb,cursusdb,cursist,moduledb,bekijktdb,webcastdb,statistiekdb);
 
-   
+    // methode die aangeroepen wordt wanneer vanuit main de GUI klasse aangeroepen wordt, deze methode maakt het hoofdscherm van de applicatie
     @Override
     public void start(Stage stage) throws SQLException {
-        //title bar
+        
+        // aanroep methode om titelbalk vorm te geven
         setTitle(stage);
         
+        // er wordt een layout aangemaakt
         BorderPane mainLayout = new BorderPane();       
         mainLayout.setMinHeight(300);
         mainLayout.setMinWidth(650);
         
-        Label firstLabel = new Label("Main menu");
+        // de navigatie buttons worden aangemaakt
         Button cursistButton = new Button("Cursisten");
         Button cursusButton = new Button("Cursussen");
         Button inschrijvingButton = new Button("Inschrijvingen");
         Button certificaatButton = new Button("Certificaten");
         Button topThreeButton = new Button("Top 3's");
         
+        // de navigatie buttons worden in een horizontale box geplaatst
         HBox nav = new HBox();
         nav.getChildren().addAll(cursistButton, cursusButton, inschrijvingButton, certificaatButton, topThreeButton);
         nav.setAlignment(Pos.CENTER);
               
-        mainLayout.setTop(firstLabel);
+        // buttons worden toegevoegd aan de layout
         mainLayout.setCenter(nav);
                
-        // BUTTON ACTIONS
+        // acties van de buttons:
+        
+        // actie van de Cursisten button: er wordt een CursistView object gemaakt, de getScene methode van CursistView wordt aangeroepen,
+        // deze geeft een stage terug, en deze wordt vervolgens getoont, 
+        // waardoor de gebruiker een nieuw scherm te zien krijgt met de cursist gegevens
         cursistButton.setOnAction((e) -> {
             Stage window;
             try {
@@ -88,6 +101,9 @@ public class GUI extends Application {
             }          
         });
         
+        // actie van de Cursussen button: er wordt een CursusView object gemaakt, en de getScene methode van CursusView wordt aangeroepen,
+        // deze geeft een stage terug, en deze wordt vervolgens getoont, 
+        // waardoor de gebruiker een nieuw scherm te zien krijgt met de cursus gegevens
         cursusButton.setOnAction((e) -> {
             Stage window;
             try {
@@ -99,6 +115,10 @@ public class GUI extends Application {
             }          
         });
         
+        // actie van de Inschrijvingen button: er wordt een InschrijvingView object gemaakt, 
+        // en de getScene methode van InschrijvingView wordt aangeroepen,
+        // deze geeft een stage terug, en deze wordt vervolgens getoont, 
+        // waardoor de gebruiker een nieuw scherm te zien krijgt met de gegevens van de inschrijvingen
         inschrijvingButton.setOnAction((e) -> {
             Stage window;
             try {
@@ -110,6 +130,10 @@ public class GUI extends Application {
             }          
         });
         
+        // actie van de Certificaten button: er wordt een CertificaatView object gemaakt, 
+        // en de getScene methode van CertificaatView wordt aangeroepen,
+        // deze geeft een stage terug, en deze wordt vervolgens getoont, 
+        // waardoor de gebruiker een nieuw scherm te zien krijgt met de certificaat gegevens
         certificaatButton.setOnAction((e) -> {
             Stage window;
             try {
@@ -121,25 +145,26 @@ public class GUI extends Application {
             }          
         });
         
+        // actie van de Top 3's button: er wordt een TopThreeView object gemaakt,
+        // en de getScene methode van TopThreeView wordt aangroepen,
+        // deze geeft een stage terug, en deze wordt vervolgens getoont, 
+        // waardoor de gebruiker een nieuw scherm te zien krijg met de top 3 gegevens
         topThreeButton.setOnAction((e) -> {
             Stage window;
             window = topThreeView.getScene();
             window.show();        
         });
 
-        
-        Scene mainScene = new Scene(mainLayout);
-        
-        File f = new File("style.css");
-        // tried this but does not really work:
-//        mainScene.getStylesheets().clear();
-//        mainScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));        
+        // de layout wordt geplaatst in een scene, de scene wordt geplaatst in een stage, en deze stage wordt getoond
+        Scene mainScene = new Scene(mainLayout);    
         stage.setScene(mainScene);
         stage.show();
 
     }
     
+    // methode die de titelbalk vormt, wordt aangeroepen vanuit start
     public void setTitle(Stage stage){
+        // stage krijgt een titel en een icoontje in de titelbalk
         stage.setTitle("Codecademy_ door: Nikki Stam 2145898, Milko Put 2210552, Jelle de Kok 2202704");
         stage.getIcons().add(new Image("https://seeklogo.com/images/C/codecademy-logo-2A19B928CF-seeklogo.com.png"));
     }
