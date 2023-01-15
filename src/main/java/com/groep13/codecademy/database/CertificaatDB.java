@@ -10,6 +10,7 @@ import com.groep13.codecademy.domain.Inschrijving;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  *
@@ -39,7 +40,7 @@ public class CertificaatDB {
     }
     
     public void addCertificaat(Certificaat c) {
-        String addCertificaat = String.format("INSERT INTO Certificaat VALUES (%.1f,\'%s\',%d,%d)",
+        String addCertificaat = String.format(Locale.US, "INSERT INTO Certificaat VALUES (%.1f,\'%s\',%d,%d)",
                 c.getCijfer(),
                 c.getMedewerker(),
                 c.getNummer(),
@@ -48,12 +49,13 @@ public class CertificaatDB {
     }
     
     public void updateCertificaat(Certificaat oldC, Certificaat newC) {
-        String updateCertificaat = String.format("UPDATE Certificaat SET "
+        String updateCertificaat = String.format(Locale.US, "UPDATE Certificaat SET "
             + "Cijfer=%.1f,"
             + "NaamMedewerker=\'%s\',"
             + "CertificaatNummer=%d,"  
-            + "InschrijvingID=%d',"     
+            + "InschrijvingID=%d"     
             + "WHERE ID=%d", newC.getCijfer(), newC.getMedewerker(), newC.getNummer(), newC.getInschrijving().getId(), oldC.getId());
+        System.out.println(updateCertificaat);
         DB.exec(updateCertificaat);
     }
     
