@@ -15,6 +15,7 @@ import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Geslacht;
 import com.groep13.codecademy.domain.Webcast;
+import com.groep13.codecademy.logic.Validation;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ import javafx.stage.Stage;
  */
 public class CursistView extends View{
     
-    // aanmaken van alle nodige databases, een tabel met alle cursist gegevens, en een lijst met alle cursist object    
+    // aanmaken van alle nodige databases, een tabel met alle cursist gegevens, en een lijst met alle cursist object, en een validation   
     private final CursistDB cdb;
     private final CursusDB cursusdb;
     private final TableView cursistTable = new TableView(); 
@@ -55,6 +56,7 @@ public class CursistView extends View{
     private final BekijktDB bdb;
     private final WebcastDB wdb;
     private final StatistiekDB sdb;
+    private final Validation val = new Validation();
 
     // constructor methode van de CursistView
     public CursistView(CursistDB cdb, CursusDB cursusdb, ObservableList<Cursist> cursist, ModuleDB mdb, BekijktDB bdb, WebcastDB wdb, StatistiekDB sdb) {
@@ -404,6 +406,9 @@ public class CursistView extends View{
 
         // create button sluit de stage af, en maakt een nieuwe cursist in de cursist database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
+            
+            if ( isValidEmail(emailField.getText()))
+            
             Cursist newC = new Cursist(
                 0,
                 emailField.getText(),
