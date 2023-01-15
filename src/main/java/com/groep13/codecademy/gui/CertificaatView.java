@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -84,25 +85,33 @@ public class CertificaatView extends View{
         //Delete  
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
-            Certificaat c = (Certificaat) certificaatTable.getSelectionModel().getSelectedItem();
-            boolean deleted = cerdb.deleteCertificaat(c);
-            if (!deleted) {
-                errorLabel.setText("Deletion failed, possible FK constraint");
-            }   else    {
-                errorLabel.setText("");
+            try{
+                Certificaat c = (Certificaat) certificaatTable.getSelectionModel().getSelectedItem();
+                boolean deleted = cerdb.deleteCertificaat(c);
+                if (!deleted) {
+                    errorLabel.setText("Deletion failed, possible FK constraint");
+                }   else    {
+                    errorLabel.setText("");
+                }
+                certificaat.clear();
+                certificaat.addAll(cerdb.getAllCertificaten());
+            }catch(Exception ex){
+                nothingSelected().show();
             }
-            certificaat.clear();
-            certificaat.addAll(cerdb.getAllCertificaten());
         });
         buttons.getChildren().add(delete);
         
         //Update
         Button update = new Button("Update");
         update.setOnAction((e) -> {
-            Stage deleteWindow = editCertificaat((Certificaat)certificaatTable.getSelectionModel().getSelectedItem());
-            deleteWindow.setWidth(500);
-            deleteWindow.setHeight(350);
-            deleteWindow.show();
+            try{
+                Stage deleteWindow = editCertificaat((Certificaat)certificaatTable.getSelectionModel().getSelectedItem());
+                deleteWindow.setWidth(500);
+                deleteWindow.setHeight(350);
+                deleteWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         buttons.getChildren().add(update);
         
@@ -122,6 +131,7 @@ public class CertificaatView extends View{
         Scene certificaatScene = new Scene(layout);
         window.setScene(certificaatScene);
         return window; 
+        
     }    
     
     public void refreshCertificaatTable() {

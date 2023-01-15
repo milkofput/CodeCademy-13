@@ -5,9 +5,13 @@
  */
 package com.groep13.codecademy.gui;
 
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -29,5 +33,26 @@ public abstract class View {
         }
         String[] inputSplitter = input.toString().split(", ");
         return inputSplitter;
+    }
+    public Stage nothingSelected(){
+        VBox errorBox = new VBox();
+            Label message = new Label("nothing selected");
+            errorBox.getChildren().addAll(message);
+            Stage errorWindow = new Stage();
+            VBox errorLayout = new VBox();             
+            errorLayout.setPadding(new Insets(8,8,8,8));
+            errorLayout.setMinHeight(300);
+            errorLayout.setMinWidth(600);
+            setTitle(errorWindow);
+            //Return
+            Button returnButton = new Button("Return");
+            returnButton.setOnAction((e) -> {
+                errorWindow.hide();
+            });
+            errorBox.getChildren().add(returnButton);
+            errorLayout.getChildren().add(errorBox);
+            Scene errorScene = new Scene(errorLayout);
+            errorWindow.setScene(errorScene);
+            return errorWindow;
     }
 }

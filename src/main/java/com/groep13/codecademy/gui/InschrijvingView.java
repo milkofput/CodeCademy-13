@@ -90,6 +90,7 @@ public class InschrijvingView extends View{
         //Delete  
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
+            try{
             Inschrijving c = (Inschrijving) inschrijvingTable.getSelectionModel().getSelectedItem();
             boolean deleted = idb.deleteInschrijving(c);
             if (!deleted) {
@@ -99,16 +100,23 @@ public class InschrijvingView extends View{
             }
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         buttons.getChildren().add(delete);
         
         //Update
         Button update = new Button("Update");
         update.setOnAction((e) -> {
+            try{
             Stage deleteWindow = editInschrijving((Inschrijving)inschrijvingTable.getSelectionModel().getSelectedItem());
             deleteWindow.setWidth(750);
             deleteWindow.setHeight(200);
             deleteWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         buttons.getChildren().add(update);
         

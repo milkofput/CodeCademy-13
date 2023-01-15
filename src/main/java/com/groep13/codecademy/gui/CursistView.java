@@ -185,35 +185,47 @@ public class CursistView extends View{
         //Create
         Button create = new Button("Create");
         create.setOnAction((e) -> {
-            Stage createWindow = createCursist();
-            createWindow.setWidth(700);
-            createWindow.setHeight(400);
-            createWindow.show();
+            try{
+                Stage createWindow = createCursist();
+                createWindow.setWidth(700);
+                createWindow.setHeight(400);
+                createWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         cursistButtons.getChildren().addAll(create);
         
         //Delete  
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
-            Cursist c = (Cursist) cursistTable.getSelectionModel().getSelectedItem();
-            boolean deleted = cdb.deleteCursist(c);
-            if (!deleted) {
-                errorLabel.setText("Deletion failed, possible FK constraint");
-            }   else    {
-                errorLabel.setText("");
+            try{
+                Cursist c = (Cursist) cursistTable.getSelectionModel().getSelectedItem();
+                boolean deleted = cdb.deleteCursist(c);
+                if (!deleted) {
+                    errorLabel.setText("Deletion failed, possible FK constraint");
+                }   else    {
+                    errorLabel.setText("");
+                }
+                cursist.clear();
+                cursist.addAll(cdb.getAllCursisten());
+            }catch(Exception ex){
+                nothingSelected().show();
             }
-            cursist.clear();
-            cursist.addAll(cdb.getAllCursisten());
         });
         cursistButtons.getChildren().add(delete);
         
         //Update
         Button update = new Button("Update");
         update.setOnAction((e) -> {
+            try{
             Stage deleteWindow = editCursist((Cursist)cursistTable.getSelectionModel().getSelectedItem());
             deleteWindow.setWidth(700);
             deleteWindow.setHeight(400);
             deleteWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         cursistButtons.getChildren().add(update);       
         

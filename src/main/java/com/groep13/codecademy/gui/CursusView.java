@@ -83,10 +83,14 @@ public class CursusView extends View{
         // certificaten and aanbevolen cursussen button
         Button amtCert = new Button("Certificaten & Aanbevolen Cursussen");
         amtCert.setOnAction((e) -> {
-            Stage amtCertWindow = amtCertStage(((Cursus) cursusTable.getSelectionModel().getSelectedItem()).getId());
-            amtCertWindow.setWidth(500);
-            amtCertWindow.setHeight(350);
-            amtCertWindow.show();
+            try{
+                Stage amtCertWindow = amtCertStage(((Cursus) cursusTable.getSelectionModel().getSelectedItem()).getId());
+                amtCertWindow.setWidth(500);
+                amtCertWindow.setHeight(350);
+                amtCertWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         layout.getChildren().add(amtCert);
         
@@ -108,6 +112,7 @@ public class CursusView extends View{
         //Delete  
         Button delete = new Button("Delete");
         delete.setOnAction((e) -> {
+            try{
             Cursus c = (Cursus) cursusTable.getSelectionModel().getSelectedItem();
             boolean deleted = cursusdb.deleteCursus(c);
             if (!deleted) {
@@ -118,46 +123,65 @@ public class CursusView extends View{
             System.out.println(deleted);
             cursus.clear();
             cursus.addAll(cursusdb.getAllCursussen());
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         cursusButtons.getChildren().add(delete);
         
         //Update
         Button update = new Button("Update");
         update.setOnAction((e) -> {
+            try{
             Stage updateWindow = editCursus((Cursus)cursusTable.getSelectionModel().getSelectedItem());
             updateWindow.setWidth(500);
             updateWindow.setHeight(350);
             updateWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show(); // doesn't work?
+            }
         });
         cursusButtons.getChildren().add(update);
         
         //add modules
         Button addModules = new Button("Add Modules");
         addModules.setOnAction((e) -> {
+            try{
             Stage addModulesWindow = addCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
             addModulesWindow.setWidth(500);
             addModulesWindow.setHeight(350);
             addModulesWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show(); // doesn't work?
+            }
         });
         cursusButtons.getChildren().add(addModules);
         
-        //Update
-        Button removeModules = new Button("Update Modules");
+        //delete modules
+        Button removeModules = new Button("Delete Modules");
         removeModules.setOnAction((e) -> {
-            Stage removeModulesWindow = removeCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
-            removeModulesWindow.setWidth(500);
-            removeModulesWindow.setHeight(350);
-            removeModulesWindow.show();
+            try{
+                Stage removeModulesWindow = removeCursusModules((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+                removeModulesWindow.setWidth(500);
+                removeModulesWindow.setHeight(350);
+                removeModulesWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         cursusButtons.getChildren().add(removeModules);
         
         //Update
         Button gemvoortgang = new Button("Voortgang per module");
         gemvoortgang.setOnAction((e) -> {
-            Stage voortgangModulesWindow = gemiddeldeCursusVoortgang((Cursus)cursusTable.getSelectionModel().getSelectedItem());
-            voortgangModulesWindow.setWidth(500);
-            voortgangModulesWindow.setHeight(350);
-            voortgangModulesWindow.show();
+            try{
+                Stage voortgangModulesWindow = gemiddeldeCursusVoortgang((Cursus)cursusTable.getSelectionModel().getSelectedItem());
+                voortgangModulesWindow.setWidth(500);
+                voortgangModulesWindow.setHeight(350);
+                voortgangModulesWindow.show();
+            }catch(Exception ex){
+                nothingSelected().show();
+            }
         });
         cursusButtons.getChildren().add(gemvoortgang);
         
@@ -293,7 +317,7 @@ public class CursusView extends View{
         layout.setMinHeight(300);
         layout.setMinWidth(600);
         setTitle(window);
-        try{
+        
         VBox pm = new VBox();
         Label possibleModules = new Label("Beschikbare modules voor de cursus " + c.getNaam() + ": ");
         ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
@@ -310,12 +334,6 @@ public class CursusView extends View{
             pm.getChildren().add(h);
         }      
         layout.getChildren().add(pm);
-        }catch(Exception  e){
-            VBox error = new VBox();
-            Label message = new Label("no cursus selected");
-            error.getChildren().addAll(message);
-            layout.getChildren().addAll(error);
-        }
         
         scroll.setContent(layout);
         Scene editCursusModules = new Scene(scroll);
@@ -331,7 +349,7 @@ public class CursusView extends View{
         layout.setMinHeight(300);
         layout.setMinWidth(600);
         setTitle(window);
-        try{
+        
         VBox cm = new VBox();
         Label courseModules = new Label("Modules in de cursus " + c.getNaam() + ": ");
         ArrayList<Module> courseModulesList = mdb.getCourseModules(c.getId());
@@ -348,12 +366,6 @@ public class CursusView extends View{
             cm.getChildren().add(h);
         }
         layout.getChildren().add(cm);
-        }catch(Exception  e){
-            VBox error = new VBox();
-            Label message = new Label("no cursus selected");
-            error.getChildren().addAll(message);
-            layout.getChildren().addAll(error);
-        }
         
         scroll.setContent(layout);
         Scene editCursusModules = new Scene(scroll);
@@ -370,7 +382,6 @@ public class CursusView extends View{
         layout.setMinHeight(300);
         layout.setMinWidth(600);
         setTitle(window);
-        try{
         Label cursusLabel = new Label("Update Cursus:");
         layout.add(cursusLabel, 0, 0);
         Label naamLabel = new Label("Naam");
@@ -407,13 +418,6 @@ public class CursusView extends View{
             cursus.addAll(cursusdb.getAllCursussen());
             window.hide();
         });
-
-        }catch(Exception  e){
-            VBox error = new VBox();
-            Label message = new Label("no cursus selected");
-            error.getChildren().addAll(message);
-            layout.getChildren().addAll(error);
-        }
         Scene editCursus = new Scene(layout);
         window.setScene(editCursus);
         return window;
