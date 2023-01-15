@@ -171,7 +171,7 @@ public class CursusView extends View{
         });
         cursusButtons.getChildren().add(removeModules);
         
-        //Update
+        //voortgang per module
         Button gemvoortgang = new Button("Voortgang per module");
         gemvoortgang.setOnAction((e) -> {
             try{
@@ -215,16 +215,19 @@ public class CursusView extends View{
         layout.setMinHeight(300);
         layout.setMinWidth(600);
         setTitle(window);
-
+        VBox v = new VBox();
         HashMap<Integer,Double> voortgang = sdb.gemiddeldeVoortgangPerModulePerCursus(c);
-        for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
-            HBox h = new HBox();
-            Label module = new Label(mdb.getModuleById(entry.getKey()).toString());
-            Label voortganglabel = new Label(entry.getValue().toString() + "%");
-            h.getChildren().addAll(module,voortganglabel);
-            layout.getChildren().add(h);
+        for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {  
+            Label l = new Label(mdb.getModuleById(entry.getKey()).toString() + ": " + entry.getValue().toString() + "%");
+            v.getChildren().add(l);
         }
-
+        //Return
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction((e) -> {
+            window.hide();
+        });
+        v.getChildren().add(returnButton); 
+        layout.getChildren().add(v);
         Scene editCursus = new Scene(layout);
         window.setScene(editCursus);
         return window;
