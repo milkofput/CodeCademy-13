@@ -26,7 +26,7 @@ public class CertificaatDB {
             while (rs.next()) {
                 allCertificaten.add(new Certificaat(
                         rs.getInt("ID"),
-                        rs.getInt("Cijfer"),
+                        rs.getDouble("Cijfer"),
                         rs.getString("NaamMedewerker"),
                         rs.getInt("CertificaatNummer"),
                         idb.getInschrijvingById(rs.getInt("InschrijvingID"))                             
@@ -39,7 +39,7 @@ public class CertificaatDB {
     }
     
     public void addCertificaat(Certificaat c) {
-        String addCertificaat = String.format("INSERT INTO Certificaat VALUES (%d,\'%s\',%d,%d)",
+        String addCertificaat = String.format("INSERT INTO Certificaat VALUES (%.1f,\'%s\',%d,%d)",
                 c.getCijfer(),
                 c.getMedewerker(),
                 c.getNummer(),
@@ -49,7 +49,7 @@ public class CertificaatDB {
     
     public void updateCertificaat(Certificaat oldC, Certificaat newC) {
         String updateCertificaat = String.format("UPDATE Certificaat SET "
-            + "Cijfer=%d,"
+            + "Cijfer=%.1f,"
             + "NaamMedewerker=\'%s\',"
             + "CertificaatNummer=%d,"  
             + "InschrijvingID=%d',"     
@@ -68,7 +68,7 @@ public class CertificaatDB {
             while (rs.next()) {
                 return (new Certificaat(
                         rs.getInt("ID"),
-                        rs.getInt("Cijfer"),
+                        rs.getDouble("Cijfer"),
                         rs.getString("NaamMedewerker"),
                         rs.getInt("CertificaatNummer"),
                         idb.getInschrijvingById(rs.getInt("InschrijvingID"))                             
