@@ -67,4 +67,26 @@ public abstract class View {
             errorWindow.setScene(errorScene);
             return errorWindow;
     }
+    
+    public Stage inputError(){
+        VBox errorBox = new VBox();
+            Label message = new Label("Input velden zijn niet allemaal correct ingevult");
+            errorBox.getChildren().addAll(message);
+            Stage errorWindow = new Stage();
+            VBox errorLayout = new VBox();             
+            errorLayout.setPadding(new Insets(8,8,8,8));
+            errorLayout.setMinHeight(300);
+            errorLayout.setMinWidth(600);
+            setTitle(errorWindow);
+            //Return
+            Button returnButton = new Button("Return");
+            returnButton.setOnAction((e) -> {
+                errorWindow.hide();
+            });
+            errorBox.getChildren().add(returnButton);
+            errorLayout.getChildren().add(errorBox);
+            Scene errorScene = new Scene(errorLayout);
+            errorWindow.setScene(errorScene);
+            return errorWindow;
+    }
 }

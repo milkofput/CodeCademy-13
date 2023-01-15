@@ -407,9 +407,10 @@ public class CursistView extends View{
         // create button sluit de stage af, en maakt een nieuwe cursist in de cursist database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
             
-            if ( isValidEmail(emailField.getText()))
-            
-            Cursist newC = new Cursist(
+            if (    val.isValidEmail(emailField.getText()) && 
+                    val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText()) &&
+                    val.isValidPostcode(postcodeField.getText()) ){
+                Cursist newC = new Cursist(
                 0,
                 emailField.getText(),
                 naamField.getText(),
@@ -425,6 +426,10 @@ public class CursistView extends View{
             cursist.clear();
             cursist.addAll(cdb.getAllCursisten());
             window.hide();
+            } else {
+                inputError().show();
+            }
+      
         });
 
 
@@ -493,6 +498,9 @@ public class CursistView extends View{
                 
         // update button sluit de stage af, en maakt een nieuwe cursist aan en deze vervangt de oude cursist in de cursist database 
         update.setOnAction((e) -> {
+            if (    val.isValidEmail(emailField.getText()) && 
+                    val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText()) &&
+                    val.isValidPostcode(postcodeField.getText()) ){
             Cursist newC = new Cursist(
                 0,
                 emailField.getText(),
@@ -509,6 +517,9 @@ public class CursistView extends View{
             cursist.clear();
             cursist.addAll(cdb.getAllCursisten());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
 
         Scene editCursist = new Scene(layout);

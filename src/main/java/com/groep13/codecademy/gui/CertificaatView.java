@@ -9,6 +9,7 @@ import com.groep13.codecademy.database.CertificaatDB;
 import com.groep13.codecademy.database.InschrijvingDB;
 import com.groep13.codecademy.domain.Certificaat;
 import com.groep13.codecademy.domain.Inschrijving;
+import com.groep13.codecademy.logic.Validation;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,6 +43,7 @@ public class CertificaatView extends View{
     private final ObservableList<Certificaat> certificaat;
     private final ObservableList<Inschrijving> inschrijving;
     private final InschrijvingDB idb;
+    private final Validation val = new Validation();
 
     // constructor methode van CertificaatView
     public CertificaatView(CertificaatDB cerdb, ObservableList<Certificaat> certificaat, InschrijvingDB idb, ObservableList<Inschrijving> inschrijving) {
@@ -170,6 +172,7 @@ public class CertificaatView extends View{
 
         // create button sluit de stage af, en maakt een nieuw certificaat in de certificaat database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
+            if (val.isValidCijfer(cijferField.getText())){
             Certificaat newC = new Certificaat(
                 0,
                 Double.parseDouble(cijferField.getText()),
@@ -181,6 +184,9 @@ public class CertificaatView extends View{
             certificaat.clear();
             certificaat.addAll(cerdb.getAllCertificaten());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
 
         layout.getChildren().addAll(cijferField, medewerkerField, certificaatField, inschrijvingField ,create);
@@ -211,6 +217,7 @@ public class CertificaatView extends View{
        
         // update button sluit de stage af, en maakt een nieuw certificaat aan en deze vervangt het oude certificaat in de certificaat database
         update.setOnAction((e) -> {
+            if (val.isValidCijfer(cijferField.getText())){
             Certificaat newC = new Certificaat(
                 0,
                 Double.parseDouble(cijferField.getText()),
@@ -222,6 +229,9 @@ public class CertificaatView extends View{
             certificaat.clear();
             certificaat.addAll(cerdb.getAllCertificaten());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
  
         layout.getChildren().addAll(cijferField, medewerkerField, certificaatField, inschrijvingFieldLabel ,inschrijvingField,update);

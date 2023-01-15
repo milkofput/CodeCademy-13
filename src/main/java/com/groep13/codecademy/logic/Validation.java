@@ -31,9 +31,9 @@ public class Validation {
     }
 
     // returns true if input matches
-    public boolean isValidDate(int year, int month, int day) {
+    public boolean isValidDate(String year, String month, String day) {
         try {
-            LocalDate.of(year, month, day);
+            LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
         } catch (DateTimeException e) {
             return false;
         }
@@ -41,13 +41,13 @@ public class Validation {
     }
 
     // returns true if input matches
-    public boolean isValidPercentage(int percentage) {
-        return (percentage >= 0 && percentage <= 100);
+    public boolean isValidPercentage(String percentage) {
+        return (Integer.parseInt(percentage) >= 0 && Integer.parseInt(percentage) <= 100);
     }
 
     // returns true if input matches
-    public boolean isValidCijfer(double cijfer) {
-        return (cijfer >= 1 && cijfer <= 10);
+    public boolean isValidCijfer(String cijfer) {
+        return (Double.parseDouble(cijfer) >= 1 && Double.parseDouble(cijfer) <= 10);
     }
 
     // returns true if input matches

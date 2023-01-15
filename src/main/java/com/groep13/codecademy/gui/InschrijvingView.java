@@ -11,6 +11,7 @@ import com.groep13.codecademy.database.InschrijvingDB;
 import com.groep13.codecademy.domain.Cursist;
 import com.groep13.codecademy.domain.Cursus;
 import com.groep13.codecademy.domain.Inschrijving;
+import com.groep13.codecademy.logic.Validation;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
@@ -47,6 +48,7 @@ public class InschrijvingView extends View{
     private final ObservableList<Cursist> cursist;
     private final CursusDB cdb;
     private final CursistDB cursistdb;
+    private final Validation val = new Validation();
 
     // constructor methode van InschrijvingView
     public InschrijvingView(InschrijvingDB idb, ObservableList<Inschrijving> inschrijving, CursusDB cdb, CursistDB cursistdb, ObservableList<Cursus> cursus, ObservableList<Cursist> cursist) {
@@ -192,6 +194,7 @@ public class InschrijvingView extends View{
 
         // create button sluit de stage af, en maakt een nieuwe inschrijving in de inschrijving database aan met de gegevens uit de input velden
         create.setOnAction((e) -> {
+            if (val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText())){
             Inschrijving newC = new Inschrijving(
                 0,
                 (Cursus) cursusField.getValue(),
@@ -202,6 +205,9 @@ public class InschrijvingView extends View{
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
 
         Scene createInschrijving = new Scene(layout);
@@ -249,6 +255,7 @@ public class InschrijvingView extends View{
         
         // update button sluit de stage af, en maakt een nieuwe inschrijving aan en deze vervangt de oude inschrijving in de inschrijving database
         update.setOnAction((e) -> {
+            if (val.isValidDate(jaarField.getText(),maandField.getText(),dagField.getText())){
             Inschrijving newC = new Inschrijving(
                 0,
                 (Cursus) cursusField.getValue(),
@@ -259,6 +266,9 @@ public class InschrijvingView extends View{
             inschrijving.clear();
             inschrijving.addAll(idb.getAllInschrijvingen());
             window.hide();
+            } else {
+                inputError().show();
+            }
         });
         
 
