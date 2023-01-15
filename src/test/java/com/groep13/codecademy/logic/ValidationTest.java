@@ -459,7 +459,7 @@ public class ValidationTest {
     @Test
     public void testIsValidPercentageIsValid() {
         //arrange
-        int percentage = "57";
+        String percentage = "57";
         //act
         boolean answer = val.isValidPercentage(percentage);
         //assert

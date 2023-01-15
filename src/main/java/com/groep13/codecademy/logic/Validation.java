@@ -47,7 +47,11 @@ public class Validation {
 
     // returns true if input matches
     public boolean isValidCijfer(String cijfer) {
-        return (Double.parseDouble(cijfer) >= 1 && Double.parseDouble(cijfer) <= 10);
+        try {
+            return (Double.parseDouble(cijfer) >= 1 && Double.parseDouble(cijfer) <= 10);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     // returns true if input matches
