@@ -61,8 +61,8 @@ public class StatistiekDB {
         HashMap<Integer, Double> voortgang = new HashMap<>();
         String SQL = String.format("SELECT Module.ContentItemID, SUM(Voortgang) / ((SELECT COUNT(*) FROM Inschrijving WHERE Inschrijving.CursusID=%d)) AS GemVoortgang\n" +
             "FROM Module JOIN Bekijkt ON Bekijkt.ContentItemID = Module.ContentItemID\n" +
-            "WHERE Module.CursusID = %d\n" +
-            "GROUP BY Module.ContentItemId;", c.getId(),c.getId());
+            "WHERE Module.CursusID = %d AND Bekijkt.CursistID IN (SELECT Inschrijving.CursistID FROM Inschrijving WHERE CursusID = %d)\n" +
+            "GROUP BY Module.ContentItemId;", c.getId(),c.getId(),c.getId());
         ResultSet rs = DB.execWithRS(SQL);
         try {
             while (rs.next()) {
