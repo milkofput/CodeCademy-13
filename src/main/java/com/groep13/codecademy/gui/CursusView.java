@@ -190,6 +190,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
+        setTitle(window);
+
         HashMap<Integer,Double> voortgang = sdb.gemiddeldeVoortgangPerModulePerCursus(c);
         for (Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
             HBox h = new HBox();
@@ -210,7 +212,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
-        
+        setTitle(window);
+
         Label amtCertLabel = new Label("Certificaten: " + sdb.hoeveelCertificatenPerCursus(cursusId));
         Label aanbevolen = new Label("Aanbevolen cursussen:");
         layout.getChildren().addAll(amtCertLabel, aanbevolen);
@@ -235,6 +238,7 @@ public class CursusView extends View{
         layout.setVgap(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
+        setTitle(window);
 
         Label cursusLabel = new Label("Create Cursus:");
         layout.add(cursusLabel, 0, 0);
@@ -288,7 +292,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
-
+        setTitle(window);
+        try{
         VBox pm = new VBox();
         Label possibleModules = new Label("Beschikbare modules voor de cursus " + c.getNaam() + ": ");
         ArrayList<Module> possibleModulesList = mdb.getAllModulesWithoutCursus();
@@ -305,6 +310,12 @@ public class CursusView extends View{
             pm.getChildren().add(h);
         }      
         layout.getChildren().add(pm);
+        }catch(Exception  e){
+            VBox error = new VBox();
+            Label message = new Label("no cursus selected");
+            error.getChildren().addAll(message);
+            layout.getChildren().addAll(error);
+        }
         
         scroll.setContent(layout);
         Scene editCursusModules = new Scene(scroll);
@@ -319,7 +330,8 @@ public class CursusView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setMinHeight(300);
         layout.setMinWidth(600);
-        
+        setTitle(window);
+        try{
         VBox cm = new VBox();
         Label courseModules = new Label("Modules in de cursus " + c.getNaam() + ": ");
         ArrayList<Module> courseModulesList = mdb.getCourseModules(c.getId());
@@ -336,6 +348,12 @@ public class CursusView extends View{
             cm.getChildren().add(h);
         }
         layout.getChildren().add(cm);
+        }catch(Exception  e){
+            VBox error = new VBox();
+            Label message = new Label("no cursus selected");
+            error.getChildren().addAll(message);
+            layout.getChildren().addAll(error);
+        }
         
         scroll.setContent(layout);
         Scene editCursusModules = new Scene(scroll);
@@ -351,7 +369,8 @@ public class CursusView extends View{
         layout.setVgap(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
-
+        setTitle(window);
+        try{
         Label cursusLabel = new Label("Update Cursus:");
         layout.add(cursusLabel, 0, 0);
         Label naamLabel = new Label("Naam");
@@ -389,8 +408,12 @@ public class CursusView extends View{
             window.hide();
         });
 
-        //layout.getChildren().addAll(naamField,owField,introField,niveauField,update);
-
+        }catch(Exception  e){
+            VBox error = new VBox();
+            Label message = new Label("no cursus selected");
+            error.getChildren().addAll(message);
+            layout.getChildren().addAll(error);
+        }
         Scene editCursus = new Scene(layout);
         window.setScene(editCursus);
         return window;

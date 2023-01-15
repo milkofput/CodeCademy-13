@@ -249,7 +249,8 @@ public class CursistView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         for(Map.Entry<Integer, Double> entry : voortgang.entrySet()) {
             Label l = new Label("Module: " + mdb.getModuleById(entry.getKey()) + ", voortgang: " + entry.getValue() + "%");
-            layout.getChildren().add(l);
+            Label label = new Label("-----------------------------------------");
+            layout.getChildren().addAll(l, label);
         }
         HBox button = new HBox();
         //Return
@@ -274,12 +275,21 @@ public class CursistView extends View{
             Label label = new Label("de cursist heeft nog geen cursusen behaald");
             layout.getChildren().add(label);
         }else{
-            
             for (int i = 0; i < inputSplit.length; i++) {
+                //the if with the e int makes a line every 4 labels
+                double e =4.0; 
+                if(i/e == 1){
+                   Label label = new Label("-----------------------------------------");
+                   layout.getChildren().addAll(label);
+                   e = e + 4;
+                }
                 Label label = new Label(inputSplit[i]);
+                
                 layout.getChildren().add(label);
-
             }
+            Label label = new Label("-----------------------------------------");
+            layout.getChildren().add(label);
+            
         }
         HBox button = new HBox();
         //Return
@@ -302,6 +312,7 @@ public class CursistView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
+        setTitle(window);
 
         Label cursistLabel = new Label("Create Cursist:");
         layout.add(cursistLabel, 0, 0);
@@ -383,6 +394,7 @@ public class CursistView extends View{
         layout.setPadding(new Insets(8,8,8,8));
         layout.setHgap(10);
         layout.setVgap(5);
+        setTitle(window);
 
         Label cursistLabel = new Label("Update Cursist:");
         layout.add(cursistLabel, 0, 0);

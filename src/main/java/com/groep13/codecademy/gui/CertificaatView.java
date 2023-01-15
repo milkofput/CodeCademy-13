@@ -136,6 +136,8 @@ public class CertificaatView extends View{
         layout.setSpacing(5);
         layout.setMinHeight(300);
         layout.setMinWidth(600);
+        setTitle(window);
+
 
         TextField cijferField = new TextField("Cijfer");
         TextField medewerkerField = new TextField("Naam Medewerker");
@@ -173,6 +175,7 @@ public class CertificaatView extends View{
         layout.setSpacing(5);
         layout.setMinHeight(200);
         layout.setMinWidth(600);
+        setTitle(window);
         
         TextField cijferField = new TextField(String.valueOf(c.getCijfer()));
         TextField medewerkerField = new TextField(c.getMedewerker());
